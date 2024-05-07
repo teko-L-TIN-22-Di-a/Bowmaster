@@ -7,3 +7,12 @@ Falls die Zeit reicht, kann die Steuerung noch mit 2D Verschiebung der Spielfigu
 Die Gegner werden als Bild auf den Bildschirm gezeichnet und für die Treffer Berechnung als Rechteck dargestellt.
 Das Spiel kann auch mit einer Mehrspieler Funktion erweitert werden, im ersten Schritt lokal und im letzten Schritt als Online Variante.
 Hier kann ein weiterer Spieler entweder als Gegner oder als Mitspieler agieren.
+
+Ziele:
+- poiont and click Steuerung
+- Bezwingbare, bewegte Gegner mit Trefferboxen
+
+Optional:
+- 2D Bewegungen für Spieler
+- Mehrspieler komponente
+- Online Komponente
