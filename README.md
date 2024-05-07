@@ -9,7 +9,7 @@ Das Spiel kann auch mit einer Mehrspieler Funktion erweitert werden, im ersten S
 Hier kann ein weiterer Spieler entweder als Gegner oder als Mitspieler agieren.
 
 Ziele:
-- poiont and click Steuerung
+- Point and Click Steuerung
 - Bezwingbare, bewegte Gegner mit Trefferboxen
 
 Optional:
