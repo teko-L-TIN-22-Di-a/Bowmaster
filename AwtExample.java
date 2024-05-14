@@ -6,7 +6,7 @@ public class AwtExample extends Frame {
     Button btn = new Button("Button");
     btn.setBounds(50, 50, 50, 50);
     add(btn);
-    setSize(150, 150);
+    setSize(300, 300);
     setTitle("This is my First AWT example");
     setLayout(new FlowLayout());
     setVisible(true);
