@@ -9,5 +9,7 @@ class Display:
         self.surface = pygame.display.set_mode(size.xy)
         pygame.display.set_caption('Bowmaster')
 
-    def update(self, image: pygame.Surface):
-        self.surface.blit(image, (0,0))
+    def update(self, images: list[tuple[pygame.Surface, pygame.Vector2]]):
+        self.surface.fill("green")
+        for image in images:
+            self.surface.blit(image[0], image[1])
