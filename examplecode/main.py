@@ -1,6 +1,6 @@
 import pygame
 from bow import Bow
-from display import Display
+from examplecode.display import Display
 pygame.init
 
 display_size = pygame.Vector2(600, 500)
