@@ -19,9 +19,9 @@ import javax.swing.Timer;
 public class Renderer extends JFrame{
     private List<Component> components = new ArrayList<>();
 
-    private static final int CANVAS_WIDTH = 1980;
-    private static final int CANVAS_HEIGHT = 1080;
-    private static final int UPDATE_PERIOD = 60; //Miliseconds
+    private static final int CANVAS_WIDTH = Constants.CANVAS_WIDTH;
+    private static final int CANVAS_HEIGHT = Constants.CANVAS_HEIGHT;
+    private static final int UPDATE_PERIOD = Constants.UPDATE_PERIOD; //Miliseconds
     
     private class Canvas extends JPanel {
         BufferedImage onScreenImage = new BufferedImage(CANVAS_WIDTH, CANVAS_HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -36,15 +36,16 @@ public class Renderer extends JFrame{
 
         @Override
         public void paintComponent(Graphics g) {
+            super.paintComponent(g);
             offScreen.setColor(Color.orange);
             offScreen.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            for (Component component : components) {
-                //component.draw(offScreen);
-                offScreen.drawImage(component.image, component.orientation.x, component.orientation.y, null);
             
+            for (Component component : components) {
+                component.update();
+                offScreen.drawImage(component.image, component.position.x, component.position.y, null);
+            }
             onScreen.drawImage(offScreenImage, 0, 0, null);
             g.drawImage(onScreenImage, 0, 0, null);
-            }
         }
     }
 
@@ -64,14 +65,6 @@ public class Renderer extends JFrame{
         ActionListener updateTask = evt -> canvas.repaint();
 
         new Timer(UPDATE_PERIOD, updateTask).start();
-    }
-
-    public int getHeight() {
-        return CANVAS_HEIGHT;
-    }
-
-    public int getWidth() {
-        return CANVAS_WIDTH;
     }
 
     public static void main(String[] args) {

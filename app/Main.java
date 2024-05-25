@@ -6,6 +6,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import app.src.Component;
+import app.src.Constants;
+import app.src.Monster;
 import app.src.Component.Orientation;
 import app.src.Renderer;
 import app.src.Vector3D;
@@ -16,22 +18,26 @@ public class Main {
         
         BufferedImage characterImage = loadImage("character.png");
         Vector3D characterPosition = new Vector3D(
-            bobRoss.getWidth()/2,
-            bobRoss.getHeight()
+            Constants.CANVAS_WIDTH/2,
+            Constants.CANVAS_HEIGHT
             );
         Component character = new Component(characterImage, characterPosition);
-        character.setOrientation(Orientation.CB);
-        
+        character.setOrientation(Orientation.BOTTOM_CENTER);
+
+        BufferedImage monsterImage = loadImage("Gobclops.png");
+        Vector3D monsterPosition = new Vector3D(Constants.CANVAS_WIDTH/2, 0, 1);
+        Monster monster = new Monster(monsterImage, monsterPosition, 1);
+        monster.setOrientation(Orientation.TOP_CENTER);
+
+        bobRoss.addComponent(monster);
         bobRoss.addComponent(character);
         bobRoss.render();
     }
+    
     public static BufferedImage loadImage(String path) {
         BufferedImage image = null;
         try {
-            image = ImageIO.read(
-                Main.class.getResourceAsStream(path)
-
-            );
+            image = ImageIO.read(Main.class.getResourceAsStream(path));
             System.out.println("image loaded");
         } catch (IOException e) {
             e.printStackTrace();
