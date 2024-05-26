@@ -2,7 +2,6 @@ package app.src;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,6 +9,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +19,8 @@ import javax.swing.Timer;
 
 public class Renderer extends JFrame{
     private List<Component> components = new ArrayList<>();
+    private Controller controller = new Controller();
+    
 
     private static final int CANVAS_WIDTH = Constants.CANVAS_WIDTH;
     private static final int CANVAS_HEIGHT = Constants.CANVAS_HEIGHT;
@@ -39,6 +42,10 @@ public class Renderer extends JFrame{
             super.paintComponent(g);
             offScreen.setColor(Color.orange);
             offScreen.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            controller.update();
+            Vector3D mousePosition = controller.getMousePos();
+            offScreen.setColor(Color.RED);
+            offScreen.drawLine(mousePosition.x, mousePosition.y, CANVAS_WIDTH/2, CANVAS_HEIGHT/2 );
             
             for (Component component : components) {
                 component.update();
@@ -56,6 +63,12 @@ public class Renderer extends JFrame{
     public void render() {
         Canvas canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+        canvas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                System.out.println("Shot!");
+            }
+        });
         this.setContentPane(canvas);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
