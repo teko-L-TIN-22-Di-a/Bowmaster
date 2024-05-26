@@ -25,7 +25,7 @@ public class Main {
         character.setOrientation(Orientation.BOTTOM_CENTER);
 
         BufferedImage monsterImage = loadImage("Gobclops.png");
-        Vector3D monsterPosition = new Vector3D(Constants.CANVAS_WIDTH/2, 0, 1);
+        Vector3D monsterPosition = new Vector3D(Constants.CANVAS_WIDTH/2, monsterImage.getHeight()/2, 1);
         Monster monster = new Monster(monsterImage, monsterPosition, 1);
         monster.setOrientation(Orientation.TOP_CENTER);
 

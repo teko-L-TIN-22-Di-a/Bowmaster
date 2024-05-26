@@ -27,12 +27,13 @@ public class Monster extends Component {
         }
         scale();
 
+        double distanceScaler = 0.6;
         Vector3D movementY = new Vector3D(0, (int)
-        (position.z*(0.75*Constants.CANVAS_HEIGHT)/(Constants.MAX_DISTANCE))
+        ((position.z*distanceScaler*Constants.CANVAS_HEIGHT)/(Constants.MAX_DISTANCE*Constants.UPDATE_PERIOD))
         );
         updatePosition(movementY);
-        if (this.position.y >= 0.7*Constants.CANVAS_HEIGHT) {
-            this.position.y = (int) (0.7*Constants.CANVAS_HEIGHT);
+        if (this.position.y >= distanceScaler*Constants.CANVAS_HEIGHT) {
+            this.position.y = (int) (distanceScaler*Constants.CANVAS_HEIGHT);
         }
     }
 
