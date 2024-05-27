@@ -5,10 +5,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import app.src.Component;
+import app.src.drawableComponent;
+import app.src.Constants.Orientation;
 import app.src.Constants;
 import app.src.Monster;
-import app.src.Component.Orientation;
 import app.src.Renderer;
 import app.src.Vector3D;
 
@@ -20,14 +20,14 @@ public class Main {
         Vector3D characterPosition = new Vector3D(
             Constants.CANVAS_WIDTH/2,
             Constants.CANVAS_HEIGHT
-            );
-        Component character = new Component(characterImage, characterPosition);
+        );
+        drawableComponent character = new drawableComponent(characterImage, characterPosition);
         character.setOrientation(Orientation.BOTTOM_CENTER);
 
         BufferedImage monsterImage = loadImage("Gobclops.png");
-        Vector3D monsterPosition = new Vector3D(Constants.CANVAS_WIDTH/2, monsterImage.getHeight()/2, 1);
+        Vector3D monsterPosition = new Vector3D(Constants.CANVAS_WIDTH/2, 0, 1);
         Monster monster = new Monster(monsterImage, monsterPosition, 1);
-        monster.setOrientation(Orientation.TOP_CENTER);
+        monster.rect.setOrientation(Orientation.TOP_LEFT);
 
         bobRoss.addComponent(monster);
         bobRoss.addComponent(character);

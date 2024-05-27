@@ -1,23 +1,33 @@
 package app.src;
 
-import java.awt.image.BufferedImage;
+import app.src.Constants.Orientation;
 
-public class Component {
-    public BufferedImage image;
+public class Rectangle {
     public Vector3D position, topLeft, bottomLeft, topRight, bottomRight, center, centerTop, centerBottom, centerLeft, centerRight;
+    public Orientation orientation;
+    public int width, height;
 
-    public Component(BufferedImage image, Vector3D position) {
-        this.image = image;
-        setPosition(position);
+    public Rectangle(Vector3D position, int width, int height) {
+        this.width = width;
+        this.height = height;
         setOrientation(Orientation.CENTER);
+        setPosition(position);
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public void setPosition(Vector3D newPosition) {
 
-        int rightX = newPosition.x - image.getWidth();
-        int bottomY = newPosition.y - image.getHeight();
-        int centerX = newPosition.x - image.getWidth()/2;
-        int centerY = newPosition.y - image.getHeight()/2;
+        int rightX = newPosition.x - width;
+        int bottomY = newPosition.y - height;
+        int centerX = newPosition.x - width/2;
+        int centerY = newPosition.y - height/2;
+        
+        Orientation old_orientation = this.orientation;
+        setOrientation(Orientation.CENTER);
 
         this.topLeft = newPosition;
         this.bottomLeft = new Vector3D(newPosition.x, bottomY, newPosition.z);
@@ -29,6 +39,7 @@ public class Component {
         this.centerLeft = new Vector3D(newPosition.x, centerY, newPosition.z);
         this.centerRight = new Vector3D(rightX, centerY, newPosition.z);
 
+        setOrientation(old_orientation);
     }
 
     public void updatePosition(Vector3D movement) {
@@ -48,46 +59,43 @@ public class Component {
         //Override in subclasses
     }
 
-    public enum Orientation {
-        CENTER,
-        TOP_CENTER,
-        TOP_RIGHT,
-        TOP_LEFT,
-        BOTTOM_CENTER,
-        BOTTOMO_RIGHT,
-        BOTTOM_LEFT,
-        RIGHT_CENTER,
-        LEFT_CENTER;
-    }
-
     public void setOrientation(Orientation orientation) {
         switch (orientation) {
             case CENTER:
                 this.position = this.center;
+                this.orientation = Orientation.CENTER;
                 break;
             case TOP_RIGHT:
                 this.position = this.topRight;
+                this.orientation = Orientation.TOP_RIGHT;
                 break;
-            case BOTTOMO_RIGHT:
+            case BOTTOM_RIGHT:
                 this.position = this.bottomRight;
+                this.orientation = Orientation.BOTTOM_RIGHT;
                 break;
             case TOP_LEFT:
                 this.position = this.topLeft;
+                this.orientation = Orientation.TOP_LEFT;
                 break;
             case BOTTOM_LEFT:
                 this.position = this.bottomLeft;
+                this.orientation = Orientation.BOTTOM_LEFT;
                 break;
             case TOP_CENTER:
                 this.position = this.centerTop;
+                this.orientation = Orientation.TOP_CENTER;
                 break;
             case BOTTOM_CENTER:
                 this.position = this.centerBottom;
+                this.orientation = Orientation.BOTTOM_CENTER;
                 break;
             case LEFT_CENTER:
                 this.position = this.centerLeft;
+                this.orientation = Orientation.LEFT_CENTER;
                 break;
             case RIGHT_CENTER:
                 this.position = this.centerRight;
+                this.orientation = Orientation.RIGHT_CENTER;
                 break;
         }
     }

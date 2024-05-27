@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class Renderer extends JFrame{
-    private List<Component> components = new ArrayList<>();
+    private List<drawableComponent> components = new ArrayList<>();
     private Controller controller = new Controller();
     
 
@@ -47,16 +47,46 @@ public class Renderer extends JFrame{
             offScreen.setColor(Color.RED);
             offScreen.drawLine(mousePosition.x, mousePosition.y, CANVAS_WIDTH/2, CANVAS_HEIGHT/2 );
             
-            for (Component component : components) {
+            for (drawableComponent component : components) {
                 component.update();
-                offScreen.drawImage(component.image, component.position.x, component.position.y, null);
+                offScreen.drawImage(component.image, component.rect.position.x, component.rect.position.y, null);
+                offScreen.drawLine(
+                    component.rect.bottomLeft.x,
+                    component.rect.bottomLeft.y,
+                    component.rect.topRight.x,
+                    component.rect.topRight.y
+                );
+                offScreen.drawLine(
+                    component.rect.topLeft.x,
+                    component.rect.topLeft.y,
+                    component.rect.bottomRight.x,
+                    component.rect.bottomRight.y
+                );
+                offScreen.drawLine(
+                    component.rect.centerLeft.x,
+                    component.rect.centerLeft.y,
+                    component.rect.centerRight.x,
+                    component.rect.centerRight.y
+                );
+                offScreen.drawLine(
+                    component.rect.centerTop.x,
+                    component.rect.centerTop.y,
+                    component.rect.centerBottom.x,
+                    component.rect.centerBottom.y
+                );
+                offScreen.drawLine(
+                    component.rect.position.x,
+                    component.rect.position.y,
+                    component.rect.center.x,
+                    component.rect.center.y
+                );
             }
             onScreen.drawImage(offScreenImage, 0, 0, null);
             g.drawImage(onScreenImage, 0, 0, null);
         }
     }
 
-    public void addComponent(Component component) {
+    public void addComponent(drawableComponent component) {
         components.add(component);
     }
     

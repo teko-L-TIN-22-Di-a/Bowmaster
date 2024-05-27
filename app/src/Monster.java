@@ -3,7 +3,7 @@ package app.src;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public class Monster extends Component {
+public class Monster extends drawableComponent {
 
     public int speed;
     private Vector3D originalSize;
@@ -18,8 +18,8 @@ public class Monster extends Component {
 
     @Override
     public void update() {
-        if (position.z + speed >= Constants.MAX_DISTANCE) {
-            position.z = Constants.MAX_DISTANCE;
+        if (rect.position.z + speed >= Constants.MAX_DISTANCE) {
+            rect.position.z = Constants.MAX_DISTANCE;
         }
         else {
             Vector3D movementZ = new Vector3D(0, 0, speed);
@@ -29,19 +29,20 @@ public class Monster extends Component {
 
         double distanceScaler = 0.6;
         Vector3D movementY = new Vector3D(0, (int)
-        ((position.z*distanceScaler*Constants.CANVAS_HEIGHT)/(Constants.MAX_DISTANCE*Constants.UPDATE_PERIOD))
+        ((rect.position.z*distanceScaler*Constants.CANVAS_HEIGHT)/(Constants.MAX_DISTANCE*Constants.UPDATE_PERIOD))
         );
         updatePosition(movementY);
-        if (this.position.y >= distanceScaler*Constants.CANVAS_HEIGHT) {
-            this.position.y = (int) (distanceScaler*Constants.CANVAS_HEIGHT);
+        if (rect.position.y >= distanceScaler*Constants.CANVAS_HEIGHT) {
+            rect.position.y = (int) (distanceScaler*Constants.CANVAS_HEIGHT);
         }
     }
 
     public void scale() {
-        setOrientation(Orientation.TOP_LEFT);
-        double factor = (double) position.z * ((double) 1 / (double) Constants.MAX_DISTANCE);
+
+        double factor = (double) rect.position.z * ((double) 1 / (double) Constants.MAX_DISTANCE);
         int newWidth = (int) (originalSize.x * factor);
         int newHeight = (int) (originalSize.y * factor);
+
         BufferedImage newImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
         
         Graphics2D g2d = newImage.createGraphics();
@@ -49,7 +50,21 @@ public class Monster extends Component {
         g2d.dispose();
         
         this.image = newImage;
-        setPosition(position);
-        setOrientation(Orientation.CENTER);
+        int scaleDifferenceX = rect.topLeft.x - rect.position.x;
+        int xCorrection = 0;
+        if (scaleDifferenceX == rect.width) {
+            xCorrection = scaleDifferenceX - newWidth;
+        }
+        else if (scaleDifferenceX == rect.width/2) {
+            xCorrection = scaleDifferenceX + newWidth/2;
+        }
+
+        Vector3D newPosition = new Vector3D(
+            rect.position.x + xCorrection,
+            rect.position.y - (int) ((rect.position.y - rect.topLeft.y) * factor),
+            rect.position.z
+        );
+        rect.setSize(newWidth, newHeight);
+        setPosition(newPosition);
     }
 }
