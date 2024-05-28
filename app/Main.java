@@ -16,6 +16,7 @@ public class Main {
     public static void main(String[] args) {
         Renderer bobRoss = new Renderer();
         
+        //create Player Component
         BufferedImage characterImage = loadImage("character.png");
         Vector3D characterPosition = new Vector3D(
             Constants.CANVAS_WIDTH/2,
@@ -24,17 +25,20 @@ public class Main {
         drawableComponent character = new drawableComponent(characterImage, characterPosition);
         character.setOrientation(Orientation.BOTTOM_CENTER);
 
+        //create Monster Component
         BufferedImage monsterImage = loadImage("Gobclops.png");
         Vector3D monsterPosition = new Vector3D(Constants.CANVAS_WIDTH/2, 0, 1);
         Monster monster = new Monster(monsterImage, monsterPosition, 1);
         monster.rect.setOrientation(Orientation.TOP_LEFT);
 
+        //add Components to renderer and start rendering
         bobRoss.addComponent(monster);
         bobRoss.addComponent(character);
         bobRoss.render();
     }
     
     public static BufferedImage loadImage(String path) {
+        //load Image from path
         BufferedImage image = null;
         try {
             image = ImageIO.read(Main.class.getResourceAsStream(path));

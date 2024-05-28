@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 public class Controller extends JPanel{
-
+    // handles Player input
     public final MouseHandler handler;
     private Vector3D mousePosition;
 
