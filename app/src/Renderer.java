@@ -50,7 +50,7 @@ public class Renderer extends JFrame{
             for (drawableComponent component : components) {
                 component.update();
                 offScreen.drawImage(component.image, component.rect.position.x, component.rect.position.y, null);
-                /*
+                
                 offScreen.drawLine(
                     component.rect.bottomLeft.x,
                     component.rect.bottomLeft.y,
@@ -81,7 +81,6 @@ public class Renderer extends JFrame{
                     component.rect.center.x,
                     component.rect.center.y
                 );
-                */
             }
             onScreen.drawImage(offScreenImage, 0, 0, null);
             g.drawImage(onScreenImage, 0, 0, null);
