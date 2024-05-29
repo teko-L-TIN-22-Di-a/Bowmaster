@@ -9,7 +9,39 @@ public class Button extends Component{
 
     private Textfield _label;
     private String _text;
-    
+    private Runnable _buttonAction;
+
+    public void setAction(Runnable action) {
+        _buttonAction = action;
+    }
+
+    public void action() {
+        if (_buttonAction != null) {
+            _buttonAction.run();
+        }
+    }
+
+    public void fill(Color color) {
+        Graphics g = getImage().getGraphics();
+        g.setColor(color);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.dispose();
+    }
+
+    public void updateLabel(String text) {
+        if (text != "") {
+            _text = text;
+        }
+        _label = new Textfield(getLocation(), _text);
+        int labelWidth = _label.getWidth();
+        int labelHeight = _label.getHeight();
+        Graphics g = getImage().getGraphics();
+        int drawPosX = (getWidth() - labelWidth)/2;
+        int drawPosY = (getHeight() - labelHeight)/2;
+        g.drawImage(_label.getImage(), drawPosX, drawPosY, null);
+        g.dispose();
+    }
+
     public Button(Point location, int width, int height) {
         super(location, width, height);
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -36,26 +68,5 @@ public class Button extends Component{
         setImage(image);
         fill(color);
         updateLabel(text);
-    }
-
-    public void fill(Color color) {
-        Graphics g = getImage().getGraphics();
-        g.setColor(color);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        g.dispose();
-    }
-
-    public void updateLabel(String text) {
-        if (text != "") {
-            _text = text;
-        }
-        _label = new Textfield(getLocation(), _text);
-        int labelWidth = _label.getWidth();
-        int labelHeight = _label.getHeight();
-        Graphics g = getImage().getGraphics();
-        int drawPosX = (getWidth() - labelWidth)/2;
-        int drawPosY = (getHeight() - labelHeight)/2;
-        g.drawImage(_label.getImage(), drawPosX, drawPosY, null);
-        g.dispose();
     }
 }

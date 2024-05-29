@@ -24,7 +24,7 @@ public class Main {
     private Point buttonPosition = new Point(100, 100);
     private Button button = new Button(buttonPosition, 200, 50, "This Button", Color.GREEN);
     private Point textPosition = new Point(100, 300);
-    private Textfield text = new Textfield(textPosition, "textfiel 1");
+    private Textfield text = new Textfield(textPosition, "textfield 1");
 
     private class DrawCanvas extends JPanel {
         BufferedImage onScreenImage = new BufferedImage(CANVAS_WIDTH, CANVAS_HEIGHT, BufferedImage.TYPE_INT_RGB);
