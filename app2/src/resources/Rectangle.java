@@ -1,19 +1,19 @@
-package app2.src;
+package app2.src.resources;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import app2.src.StaticValues.Corners;
+import app2.src.resources.StaticValues.Corners;
 
 public class Rectangle {
     private int _width, _height;
     private Point _position, _topLeft, _topRight, _bottomLeft, _bottomRight;
 
     public Rectangle(int width, int height, int x, int y) {
-        setSize(width, height);
         Point position = new Point(x, y);
         setPosition(position);
+        setSize(width, height);
         setCorners();
     }
 
@@ -89,10 +89,12 @@ public class Rectangle {
     public void setSize(int width, int height) {
         _width = width;
         _height = height;
+        setCorners();
     }
 
     public void setPosition(Point newPosition) {
         _position = newPosition;
+        setCorners();
     }
 
     public int getWidth() {

@@ -1,4 +1,4 @@
-package app2.src;
+package app2.src.resources;
 
 public class StaticValues {
     public enum Corners {

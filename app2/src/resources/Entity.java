@@ -1,4 +1,4 @@
-package app2.src;
+package app2.src.resources;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
