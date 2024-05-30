@@ -3,8 +3,6 @@ package app2.src.resources;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import app2.src.utils.Loader;
-
 public class Entity {
     private BufferedImage _image;
     public Rectangle rect;
@@ -17,6 +15,10 @@ public class Entity {
         rect = new Rectangle(_image.getWidth(), _image.getHeight(), x, y);
         _drawPosition = new Point(rect.getCorner(null));
         setHealth(health);
+    }
+
+    public BufferedImage getImage() {
+        return _image;
     }
 
     public Point getDrawPosition() {

@@ -12,8 +12,8 @@ public class Component {
     public Rectangle rect;
     private BufferedImage _image;
 
-    public Component(Point location, int width, int height) {
-        _location = location;
+    public Component(int x, int y, int width, int height) {
+        _location = new Point(x, y);
         _width = width;
         _height = height;
         rect = new Rectangle(width, height, _location.x, _location.y);

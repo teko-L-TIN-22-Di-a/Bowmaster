@@ -32,7 +32,7 @@ public class Button extends Component{
         if (text != "") {
             _text = text;
         }
-        _label = new Textfield(getLocation(), _text);
+        _label = new Textfield(getLocation().x, getLocation().y, _text);
         int labelWidth = _label.getWidth();
         int labelHeight = _label.getHeight();
         Graphics g = getImage().getGraphics();
@@ -42,31 +42,58 @@ public class Button extends Component{
         g.dispose();
     }
 
-    public Button(Point location, int width, int height) {
-        super(location, width, height);
+    public void actionCheck(Point mousePosition) {
+        if (
+            mousePosition.x >= getLocation().x &&
+            mousePosition.x <= getLocation().x + getWidth() &&
+            mousePosition.y >= getLocation().y &&
+            mousePosition.y <= getLocation().y + getHeight()
+        ) {
+            action();
+        }
+    }
+
+    private void setUpStandardButton(int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         setImage(image);
     }
 
-    public Button(Point location, int width, int height, String text) {
-        super(location, width, height);
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        setImage(image);
+    public Button(int x, int y, int width, int height) {
+        super(x, y, width, height);
+        setUpStandardButton(width, height);
+    }
+
+    public Button(int x, int y, int width, int height, String text) {
+        super(x, y, width, height);
+        setUpStandardButton(width, height);
         updateLabel(text);
     }
 
-    public Button(Point location, int width, int height, Color color) {
-        super(location, width, height);
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        setImage(image);
+    public Button(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height);
+        setUpStandardButton(width, height);
         fill(color);
     }
 
-    public Button(Point location, int width, int height, String text, Color color) {
-        super(location, width, height);
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        setImage(image);
+    public Button(int x, int y, int width, int height, String text, Color color) {
+        super(x, y, width, height);
+        setUpStandardButton(width, height);
         fill(color);
+        updateLabel(text);
+    }
+
+    public Button(int x, int y, BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        super(x, y, width, height);
+        setImage(image);
+    }
+
+    public Button(int x, int y, BufferedImage image, String text) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        super(x, y, width, height);
+        setImage(image);
         updateLabel(text);
     }
 }

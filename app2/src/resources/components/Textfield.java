@@ -3,15 +3,14 @@ package app2.src.resources.components;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public class Textfield extends Component{
 
     private String _text;
 
-    public Textfield(Point location, String text) {
-        super(location, 1, 1);
+    public Textfield(int x, int y, String text) {
+        super(x, y, 1, 1);
         _text = text;
         BufferedImage image = _createImage();
         setImage(image);
