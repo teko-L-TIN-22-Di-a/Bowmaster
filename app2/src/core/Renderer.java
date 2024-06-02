@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import javax.swing.Timer;
 
 import app2.src.resources.Entity;
 import app2.src.resources.StaticValues;
+import app2.src.resources.components.Button;
 import app2.src.resources.components.Component;
 import app2.src.scenes.Scene;
 
@@ -22,9 +24,20 @@ public class Renderer extends JFrame{
     private Scene _activeScene, _previouScene;
     private List<Component> _components;
     private List<Entity> _entities;
+    public Canvas canvas = new Canvas();
 
     public void setScene(Scene newScene) {
         _activeScene = newScene;
+    }
+
+    public List<Button> getButtons() {
+        List<Button> buttonList = new ArrayList<Button>();
+        for (Component c : _components) {
+            if (c instanceof Button) {
+                buttonList.add((Button) c);
+            }
+        }
+        return buttonList;
     }
 
     public void startActiveScene() {
@@ -59,6 +72,15 @@ public class Renderer extends JFrame{
             
             for (Component component: _components) {
                 offScreen.drawImage(component.getImage(), component.getLocation().x, component.getLocation().y, null);
+                int x1 = component.rect.getX();
+                int x2 = x1 + component.rect.getWidth();
+                int y1 = component.rect.getY();
+                int y2 = y1 + component.rect.getHeight();
+                offScreen.setColor(Color.red);
+                offScreen.drawLine(x1, y1, x1, y2);
+                offScreen.drawLine(x1, y1, x2, y1);
+                offScreen.drawLine(x2, y2, x2, y1);
+                offScreen.drawLine(x2, y2, x1, y2);
             }
 
             for (Entity entity: _entities) {
@@ -71,7 +93,6 @@ public class Renderer extends JFrame{
     }
 
     public Renderer() {
-        Canvas canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT));
         this.setContentPane(canvas);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

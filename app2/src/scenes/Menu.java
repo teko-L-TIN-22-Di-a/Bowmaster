@@ -1,9 +1,8 @@
 package app2.src.scenes;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
+import java.awt.Point;
 
-import app2.src.resources.Loader;
 import app2.src.resources.StaticValues;
 import app2.src.resources.components.Button;
 import app2.src.resources.components.Component;
@@ -23,9 +22,10 @@ public class Menu extends Scene {
         exit.setAction(() -> {
             System.out.println("exit");
         });
-        bg = new Component(0, 0, width, height);
-        BufferedImage bgimage = Loader.loadImage("assets/Hunters House.jpg");
-        bg.setImage(bgimage);
+        bg = new Component("assets/Hunters House.jpg", 0, 0);
+        Point newLocation = new Point(bg.getWidth()/2, bg.getHeight()/2);
+        bg.setLocation(newLocation);
+        registerComponent(bg);
         registerComponent(start);
         registerComponent(exit);
     }

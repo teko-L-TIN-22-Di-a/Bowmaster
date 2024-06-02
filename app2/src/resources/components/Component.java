@@ -3,6 +3,7 @@ package app2.src.resources.components;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import app2.src.resources.Loader;
 import app2.src.resources.Rectangle;
 
 public class Component {
@@ -11,13 +12,6 @@ public class Component {
     private int _width, _height;
     public Rectangle rect;
     private BufferedImage _image;
-
-    public Component(int x, int y, int width, int height) {
-        _location = new Point(x, y);
-        _width = width;
-        _height = height;
-        rect = new Rectangle(width, height, _location.x, _location.y);
-    }
 
     public BufferedImage getImage() {
         return _image;
@@ -32,8 +26,8 @@ public class Component {
     }
 
     public void setLocation(Point newLocation) {
-        _location = newLocation;
-        rect.setPosition(newLocation);
+        _location = new Point(newLocation.x - _width/2, newLocation.y - _height/2);
+        rect.setPosition(_location);
     }
 
     public int getWidth() {
@@ -48,5 +42,22 @@ public class Component {
         _width = width;
         _height = height;
         rect.setSize(_width, _height);
+    }
+
+    //Constructors
+    public Component(int x, int y, int width, int height) {
+        _width = width;
+        _height = height;
+        _location = new Point(x - _width/2, y - _height/2);
+        rect = new Rectangle(_width, _height, _location.x, _location.y);
+    }
+
+    public Component(String imagePath, int x, int y) {
+        BufferedImage image = Loader.loadImage(imagePath);
+        setImage(image);
+        _width = _image.getWidth();
+        _height = _image.getHeight();
+        _location = new Point(x - _width/2, y - _height/2);
+        rect = new Rectangle(_width, _height, _location.x, _location.y);
     }
 }
