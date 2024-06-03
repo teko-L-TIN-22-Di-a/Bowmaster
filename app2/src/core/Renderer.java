@@ -5,17 +5,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import app2.src.resources.Entity;
 import app2.src.resources.StaticValues;
+import app2.src.resources.StaticValues.Corners;
 import app2.src.resources.components.Button;
 import app2.src.resources.components.Component;
 import app2.src.scenes.Scene;
@@ -52,7 +51,7 @@ public class Renderer extends JFrame{
         _components = _activeScene.getComponents();
     }
 
-    private class Canvas extends JPanel {
+    public class Canvas extends JPanel {
         int width = StaticValues.CANVAS_WIDTH;
         int height = StaticValues.CANVAS_HEIGHT;
         BufferedImage onScreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -72,10 +71,10 @@ public class Renderer extends JFrame{
             
             for (Component component: _components) {
                 offScreen.drawImage(component.getImage(), component.getLocation().x, component.getLocation().y, null);
-                int x1 = component.rect.getX();
-                int x2 = x1 + component.rect.getWidth();
-                int y1 = component.rect.getY();
-                int y2 = y1 + component.rect.getHeight();
+                int x1 = component.rect.getCorner(Corners.TOP_LEFT).x;
+                int x2 = component.rect.getCorner(Corners.BOTTOM_RIGHT).x;
+                int y1 = component.rect.getCorner(Corners.TOP_LEFT).y;
+                int y2 = component.rect.getCorner(Corners.BOTTOM_RIGHT).y;
                 offScreen.setColor(Color.red);
                 offScreen.drawLine(x1, y1, x1, y2);
                 offScreen.drawLine(x1, y1, x2, y1);
@@ -99,15 +98,5 @@ public class Renderer extends JFrame{
         this.pack();
         this.setTitle(StaticValues.GAMENAME);
         this.setVisible(true);
-    }
-    
-    public void start() {
-        startActiveScene();
-
-        ActionListener updateTask = evt -> {
-            this.repaint();
-        };
-
-        new Timer(60, updateTask).start();
     }
 }

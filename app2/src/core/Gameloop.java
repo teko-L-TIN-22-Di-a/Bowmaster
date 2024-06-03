@@ -1,11 +1,9 @@
 package app2.src.core;
 
-import java.awt.Point;
 import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import app2.src.resources.components.Button;
 import app2.src.scenes.Menu;
 
 public class Gameloop {
@@ -20,16 +18,12 @@ public class Gameloop {
     public void start() {
         bobRoss.setScene(menu);
         bobRoss.startActiveScene();
-        bobRoss.canvas.addMouseListener(null);
+        controller.setupListeners(bobRoss.canvas);
+        controller.setButtonList(menu.getButtons());
 
-        ActionListener updateTask = evt -> {
-            Point mousePosition = controller.getMousePos();
-            for (Button b:bobRoss.getButtons()) {
-                if (b.rect.collidePoint(mousePosition)) {
-                    b.action();
-                };
-            }
+        ActionListener updateTask = updateEvent -> {
             bobRoss.repaint();
+            controller.update();
         };
 
         new Timer(60, updateTask).start();

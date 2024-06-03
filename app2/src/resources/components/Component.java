@@ -27,7 +27,7 @@ public class Component {
 
     public void setLocation(Point newLocation) {
         _location = new Point(newLocation.x - _width/2, newLocation.y - _height/2);
-        rect.setPosition(_location);
+        rect.setPosition(newLocation);
     }
 
     public int getWidth() {
@@ -42,6 +42,7 @@ public class Component {
         _width = width;
         _height = height;
         rect.setSize(_width, _height);
+        setLocation(_location);
     }
 
     //Constructors
@@ -49,7 +50,7 @@ public class Component {
         _width = width;
         _height = height;
         _location = new Point(x - _width/2, y - _height/2);
-        rect = new Rectangle(_width, _height, _location.x, _location.y);
+        rect = new Rectangle(_width, _height, x, y);
     }
 
     public Component(String imagePath, int x, int y) {
@@ -58,6 +59,6 @@ public class Component {
         _width = _image.getWidth();
         _height = _image.getHeight();
         _location = new Point(x - _width/2, y - _height/2);
-        rect = new Rectangle(_width, _height, _location.x, _location.y);
+        rect = new Rectangle(_width, _height, x, y);
     }
 }

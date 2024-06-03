@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app2.src.resources.Entity;
+import app2.src.resources.components.Button;
 import app2.src.resources.components.Component;
 
 public class Scene {
@@ -26,6 +27,16 @@ public class Scene {
 
     public List<Component> getComponents() {
         return components;
+    }
+
+    public List<Button> getButtons() {
+        List<Button> _buttonList = new ArrayList<>();
+        for (Component c:getComponents()) {
+            if (c instanceof Button) {
+                _buttonList.add((Button) c);
+            }
+        }
+        return _buttonList;
     }
 
     public void registerEntity(Entity entity) {
