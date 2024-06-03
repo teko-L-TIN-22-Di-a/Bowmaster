@@ -20,7 +20,7 @@ public class Menu extends Scene {
         });
         exit = new Button(width/2, height/2 + 100, 100, 50, "EXIT", Color.GRAY);
         exit.setAction(() -> {
-            System.out.println("exit");
+            System.exit(0);
         });
         bg = new Component("assets/Hunters House.jpg", 0, 0);
         Point newLocation = new Point(bg.getWidth()/2, bg.getHeight()/2);

@@ -33,17 +33,13 @@ public class Controller extends JPanel{
     }
 
     public void update() {
-        int x = tracker.getLocation().x - 9;
-        int y = tracker.getLocation().y - 31;
-        _mousePosition = new Point(x, y);
+        _mousePosition = tracker.getLocation();
     }
-
 
     private class MouseHandler extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            System.out.println(getMousePos());
             for (Button b:_buttonlist) {
                 b.actionCheck(_mousePosition);
             };
@@ -56,7 +52,7 @@ public class Controller extends JPanel{
 
         @Override
         public void mouseMoved(final MouseEvent e) {
-            _location = e.getLocationOnScreen();
+            _location = e.getPoint();
             if (_location == null) {
                 _location = new Point(0, 0);
             }
