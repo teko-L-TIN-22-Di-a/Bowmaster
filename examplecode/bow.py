@@ -10,7 +10,7 @@ class Bow:
 
     def __init__(self, base: pygame.Vector2) -> None:
         self.base = base
-        self.surface = pygame.image.load("Bow1.png")
+        self.surface = pygame.image.load("examplecode/Bow1.png")
         self.aimpoint = pygame.Vector2(pygame.mouse.get_pos())
         self.rect = self.surface.get_rect()
         self.size = pygame.Vector2(self.rect.size)
