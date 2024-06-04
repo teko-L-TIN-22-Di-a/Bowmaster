@@ -113,6 +113,14 @@ public class Rectangle {
         return _position.x;
     }
 
+    public void updateX(int value) {
+        _position.x += value;
+    }
+
+    public void updateY(int value) {
+        _position.y += value;
+    }
+
     public int getY() {
         return _position.y;
     }

@@ -9,7 +9,7 @@ public class Entity {
     private BufferedImage _image;
     public Rectangle rect;
     private Point _drawPosition;
-    private int _health;
+    private int _health, _distance, _speed;
 
     public Entity(String imagePath, int x, int y, int health) {
         _drawPosition = new Point(x, y);
@@ -19,12 +19,41 @@ public class Entity {
         setHealth(health);
     }
 
+    public void update() {
+        // to overide per entity
+    }
+
     public BufferedImage getImage() {
         return _image;
     }
 
+    public void setImage(BufferedImage newImage) {
+        _image = newImage;
+    }
+
     public Point getDrawPosition() {
         return _drawPosition;
+    }
+
+    public int getSpeed() {
+        return _speed;
+    }
+
+    public int getDistance() {
+        return _distance;
+    }
+
+    public void setDistance(int value) {
+        _distance = value;
+    }
+
+    public void updateDistance() {
+        int newDistance = getDistance() - getSpeed();
+        setDistance(newDistance);
+    }
+
+    public void setHealth(int value) {
+        _health = value;
     }
 
     public void death() {
@@ -37,9 +66,4 @@ public class Entity {
             death();
         }
     }
-
-    public void setHealth(int value) {
-        _health = value;
-    }
 }
-
