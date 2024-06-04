@@ -16,7 +16,7 @@ public class Menu extends Scene {
         int height = StaticValues.CANVAS_HEIGHT;
         start = new Button(width/2, height/2 - 100, 100, 50, "START", Color.GRAY);
         start.setAction(() -> {
-            System.out.println("start");
+            System.out.println("start");;
         });
         exit = new Button(width/2, height/2 + 100, 100, 50, "EXIT", Color.GRAY);
         exit.setAction(() -> {
