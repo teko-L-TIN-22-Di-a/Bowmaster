@@ -83,16 +83,18 @@ public class Button extends Component{
     }
 
     public Button(int x, int y, BufferedImage image) {
+        super(x, y, 1, 1);
         int width = image.getWidth();
         int height = image.getHeight();
-        super(x, y, width, height);
+        setSize(width, height);
         setImage(image);
     }
 
     public Button(int x, int y, BufferedImage image, String text) {
+        super(x, y, 1, 1);
         int width = image.getWidth();
         int height = image.getHeight();
-        super(x, y, width, height);
+        setSize(width, height);
         setImage(image);
         updateLabel(text);
     }

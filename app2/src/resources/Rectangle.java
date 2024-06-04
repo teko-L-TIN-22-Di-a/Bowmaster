@@ -58,11 +58,11 @@ public class Rectangle {
 
     public Point getCorner(Corners corner) {
         switch (corner) {
-            case Corners.BOTTOM_LEFT:
+            case BOTTOM_LEFT:
                 return _bottomLeft;
-            case Corners.BOTTOM_RIGHT:
+            case BOTTOM_RIGHT:
                 return _bottomRight;
-            case Corners.TOP_RIGHT:
+            case TOP_RIGHT:
                 return _topRight;
             default:
                 return _topLeft;
