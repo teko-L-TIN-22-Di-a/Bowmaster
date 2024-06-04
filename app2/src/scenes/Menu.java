@@ -22,7 +22,7 @@ public class Menu extends Scene {
         exit.setAction(() -> {
             System.exit(0);
         });
-        bg = new Component("assets/Hunters House.png", 0, 0);
+        bg = new Component("Hunters House.png", 0, 0);
         Point newLocation = new Point(bg.getWidth()/2, bg.getHeight()/2);
         bg.setLocation(newLocation);
         registerComponent(bg);

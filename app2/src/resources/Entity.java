@@ -3,6 +3,8 @@ package app2.src.resources;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import app2.src.resources.assets.Loader;
+
 public class Entity {
     private BufferedImage _image;
     public Rectangle rect;
