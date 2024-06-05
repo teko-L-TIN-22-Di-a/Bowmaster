@@ -84,6 +84,15 @@ public class Renderer extends JFrame{
 
             for (Entity entity: _entities) {
                 offScreen.drawImage(entity.getImage(), entity.getDrawPosition().x, entity.getDrawPosition().y, null);
+                int x1 = entity.rect.getCorner(Corners.TOP_LEFT).x;
+                int x2 = entity.rect.getCorner(Corners.BOTTOM_RIGHT).x;
+                int y1 = entity.rect.getCorner(Corners.TOP_LEFT).y;
+                int y2 = entity.rect.getCorner(Corners.BOTTOM_RIGHT).y;
+                offScreen.setColor(Color.red);
+                offScreen.drawLine(x1, y1, x1, y2);
+                offScreen.drawLine(x1, y1, x2, y1);
+                offScreen.drawLine(x2, y2, x2, y1);
+                offScreen.drawLine(x2, y2, x1, y2);
             }
 
             onScreen.drawImage(offScreenImage, 0, 0, null);

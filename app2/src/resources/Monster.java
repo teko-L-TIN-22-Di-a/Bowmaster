@@ -10,8 +10,8 @@ public class Monster extends Entity {
     private Point _originalSize;
     private BufferedImage _originalImage;
 
-    public Monster(String imageName, int x, int y, int speed) {
-        super(imageName, x, y, speed);
+    public Monster(String imageName, int speed) {
+        super(imageName, StaticValues.CANVAS_WIDTH/2, StaticValues.SpawnY, speed);
         _originalImage = getImage();
         _speed = speed;
         _originalSize = new Point(_originalImage.getWidth(), _originalImage.getHeight());
@@ -20,30 +20,23 @@ public class Monster extends Entity {
     @Override
     public void update() {
         int dist = getDistance();
-        if (dist - _speed <= 0) {
-            dist = 0;
+        if (dist + _speed >= StaticValues.MAX_DISTANCE) {
+            dist = StaticValues.MAX_DISTANCE;
         }
         else {
             updateDistance();
         }
-        scale();
+        double factor = scale();
 
-        double distanceScaler = 0.6;
-        int movementY = (int) (
-            (
-                getDistance()*distanceScaler*StaticValues.CANVAS_HEIGHT
-            )/(
-                StaticValues.MAX_DISTANCE*StaticValues.UPDATE_PERIOD
-            ));
-        updatePosition(movementY);
-        if (rect.position.y >= distanceScaler*StaticValues.CANVAS_HEIGHT) {
-            rect.position.y = (int) (distanceScaler*StaticValues.CANVAS_HEIGHT);
-        }
+        int newY = StaticValues.SpawnY - (int) (StaticValues.TRAVEL_DISTANCE_Y*factor);
+        Point pos = getDrawPosition();
+        pos.y = newY;
+        update();
     }
 
-    public void scale() {
+    public double scale() {
 
-        double factor = (double) getDistance() * ((double) 1 / (double) StaticValues.MAX_DISTANCE);
+        double factor = (double) getDistance()  / (double) StaticValues.MAX_DISTANCE;
         int newWidth = (int) (_originalSize.x * factor);
         int newHeight = (int) (_originalSize.y * factor);
 
@@ -56,9 +49,7 @@ public class Monster extends Entity {
         setImage(newImage);
 
         rect.setSize(newWidth, newHeight);
-    }
 
-    public void updateY(int value) {
-        rect.updateY(value);
-    } 
+        return factor;
+    }
 }

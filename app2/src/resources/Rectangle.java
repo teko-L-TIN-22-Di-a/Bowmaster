@@ -14,7 +14,6 @@ public class Rectangle {
         Point position = new Point(x, y);
         setPosition(position);
         setSize(width, height);
-        setCorners();
     }
 
     public static void main() {
@@ -70,7 +69,7 @@ public class Rectangle {
         }
     }
 
-    public void setCorners() {
+    private void setCorners() {
         _topLeft = new Point(_position.x - _width/2, _position.y - _height/2);
         _topRight = new Point(_position.x + _width/2, _position.y - _height/2);
         _bottomLeft = new Point(_position.x - _width/2, _position.y + _height/2);
@@ -115,10 +114,6 @@ public class Rectangle {
 
     public void updateX(int value) {
         _position.x += value;
-    }
-
-    public void updateY(int value) {
-        _position.y += value;
     }
 
     public int getY() {

@@ -3,6 +3,7 @@ package app2.src.resources;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import app2.src.resources.StaticValues.Corners;
 import app2.src.resources.assets.Loader;
 
 public class Entity {
@@ -15,7 +16,9 @@ public class Entity {
         _drawPosition = new Point(x, y);
         _image = Loader.loadImage(imagePath);
         rect = new Rectangle(_image.getWidth(), _image.getHeight(), x, y);
-        _drawPosition = new Point(rect.getCorner(null));
+        _drawPosition = new Point(rect.getCorner(Corners.TOP_LEFT));
+        _distance = 0;
+        _speed = 0;
         setHealth(health);
     }
 

@@ -1,5 +1,6 @@
 package app2.src.scenes;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,13 @@ public class Scene {
             }
         }
         return _buttonList;
+    }
+
+    public void setBG(String bgName) {
+        Component bg = new Component(bgName, 0, 0);
+        Point newLocation = new Point(bg.getWidth()/2, bg.getHeight()/2);
+        bg.setLocation(newLocation);
+        registerComponent(bg);
     }
 
     public void registerEntity(Entity entity) {
