@@ -11,15 +11,35 @@ import app2.src.resources.components.Component;
 public class Scene {
     private List<Entity> entities;
     private List<Component> components;
+    private String TAG;
+    private Scene newScene;
 
     public Scene() {
         entities = new ArrayList<>();
         components = new ArrayList<>();
+        setNewScene(this);
     }
 
     public Scene init() {
         Scene scene = new Scene();
+        System.out.println("start Scene " + TAG);
         return scene;
+    }
+
+    public void setNewScene(Scene scene) {
+        newScene = scene;
+    }
+
+    public Scene getNewScene() {
+        return newScene;
+    }
+
+    public void setTAG(String tag) {
+        TAG = tag;
+    }
+
+    public String getTAG() {
+        return TAG;
     }
 
     public List<Entity> getEnties() {

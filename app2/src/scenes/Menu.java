@@ -9,12 +9,13 @@ public class Menu extends Scene {
     private Button start, exit;
 
     public Menu() {
+        setTAG("menu");
         int width = StaticValues.CANVAS_WIDTH;
         int height = StaticValues.CANVAS_HEIGHT;
         start = new Button(width/2, height/2 - 100, 100, 50, "START", Color.GRAY);
         start.setAction(() -> {
             Level1 l = new Level1();
-            l.init();
+            setNewScene(l);
         });
         exit = new Button(width/2, height/2 + 100, 100, 50, "EXIT", Color.GRAY);
         exit.setAction(() -> {
@@ -23,10 +24,5 @@ public class Menu extends Scene {
         setBG("HuntersHouse.png");
         registerComponent(start);
         registerComponent(exit);
-    }
-
-    public Menu init() {
-        Menu menu = new Menu();
-        return menu;
     }
 }

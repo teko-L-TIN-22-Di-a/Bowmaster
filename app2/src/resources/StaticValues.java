@@ -14,4 +14,9 @@ public class StaticValues {
         BOTTOM_RIGHT,
         BOTTOM_LEFT,
     }
+    public static enum SceneTag {
+        ACTIVE,
+        PREVIOUS,
+        NEW,
+    }
 }

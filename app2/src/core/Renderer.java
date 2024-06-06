@@ -20,13 +20,15 @@ import app2.src.resources.components.Component;
 import app2.src.scenes.Scene;
 
 public class Renderer extends JFrame{
-    private Scene _activeScene, _previouScene;
+    private Scene _Scene;
     private List<Component> _components;
     private List<Entity> _entities;
     public Canvas canvas = new Canvas();
 
     public void setScene(Scene newScene) {
-        _activeScene = newScene;
+        _Scene = newScene;
+        System.out.println("start scene " + _Scene.getTAG());
+        startScene();
     }
 
     public List<Button> getButtons() {
@@ -39,16 +41,9 @@ public class Renderer extends JFrame{
         return buttonList;
     }
 
-    public void startActiveScene() {
-        _activeScene.init();
-        _entities = _activeScene.getEnties();
-        _components = _activeScene.getComponents();
-    }
-
-    public void startPreviousScene() {
-        _previouScene.init();
-        _entities = _activeScene.getEnties();
-        _components = _activeScene.getComponents();
+    public void startScene() {
+        _entities = _Scene.getEnties();
+        _components = _Scene.getComponents();
     }
 
     public class Canvas extends JPanel {
