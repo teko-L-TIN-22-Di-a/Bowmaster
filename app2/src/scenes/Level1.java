@@ -6,7 +6,7 @@ public class Level1 extends Scene {
     
     public Level1() {
         setTAG("level1");
-        Monster gobclops = new Monster("gobclops.png", 1);
+        Monster gobclops = new Monster("gobclops.png", 100, 1);
         registerEntity(gobclops);
     }
 }

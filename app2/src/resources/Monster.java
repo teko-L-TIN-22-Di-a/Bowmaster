@@ -6,21 +6,20 @@ import java.awt.image.BufferedImage;
 
 public class Monster extends Entity {
 
-    private int _speed;
     private Point _originalSize;
     private BufferedImage _originalImage;
 
-    public Monster(String imageName, int speed) {
-        super(imageName, StaticValues.CANVAS_WIDTH/2, StaticValues.SpawnY, speed);
+    public Monster(String imageName, int health, int speed) {
+        super(imageName, StaticValues.CANVAS_WIDTH/2, StaticValues.SpawnY, health);
+        setSpeed(speed);
         _originalImage = getImage();
-        _speed = speed;
         _originalSize = new Point(_originalImage.getWidth(), _originalImage.getHeight());
     }
 
     @Override
     public void update() {
         int dist = getDistance();
-        if (dist + _speed >= StaticValues.MAX_DISTANCE) {
+        if (dist + getSpeed() >= StaticValues.MAX_DISTANCE) {
             dist = StaticValues.MAX_DISTANCE;
         }
         else {
@@ -28,10 +27,11 @@ public class Monster extends Entity {
         }
         double factor = scale();
 
-        int newY = StaticValues.SpawnY - (int) (StaticValues.TRAVEL_DISTANCE_Y*factor);
-        Point pos = getDrawPosition();
+        int newY = StaticValues.SpawnY + (int) (StaticValues.TRAVEL_DISTANCE_Y*factor);
+        Point pos = rect.getPosition();
         pos.y = newY;
-        update();
+        pos.x += rect.getWidth()/2; // horizontal correction based on scaling
+        updateDrawPosition(pos);
     }
 
     public double scale() {
@@ -39,6 +39,8 @@ public class Monster extends Entity {
         double factor = (double) getDistance()  / (double) StaticValues.MAX_DISTANCE;
         int newWidth = (int) (_originalSize.x * factor);
         int newHeight = (int) (_originalSize.y * factor);
+        if (newWidth < 1) {newWidth = 1;}
+        if (newHeight < 1) {newHeight = 1;}
 
         BufferedImage newImage = new BufferedImage(newWidth, newHeight, _originalImage.getType());
         

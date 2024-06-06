@@ -15,7 +15,9 @@ public class Entity {
     public Entity(String imagePath, int x, int y, int health) {
         _drawPosition = new Point(x, y);
         _image = Loader.loadImage(imagePath);
-        rect = new Rectangle(_image.getWidth(), _image.getHeight(), x, y);
+        int imageWidth = _image.getWidth();
+        int imageHeight = _image.getHeight();
+        rect = new Rectangle(imageWidth, imageHeight, x, y);
         _drawPosition = new Point(rect.getCorner(Corners.TOP_LEFT));
         _distance = 0;
         _speed = 0;
@@ -24,6 +26,13 @@ public class Entity {
 
     public void update() {
         // to overide per entity
+    }
+
+    public void updateDrawPosition(Point newPosition) {
+        newPosition.x -= rect.getWidth()/2;
+        newPosition.y -= rect.getHeight()/2;
+        rect.setPosition(newPosition);
+        _drawPosition = new Point(rect.getCorner(Corners.TOP_LEFT));
     }
 
     public BufferedImage getImage() {
@@ -42,6 +51,10 @@ public class Entity {
         return _speed;
     }
 
+    public void setSpeed(int speed) {
+        _speed = speed;
+    }
+
     public int getDistance() {
         return _distance;
     }
@@ -51,7 +64,7 @@ public class Entity {
     }
 
     public void updateDistance() {
-        int newDistance = getDistance() - getSpeed();
+        int newDistance = getDistance() + getSpeed();
         setDistance(newDistance);
     }
 

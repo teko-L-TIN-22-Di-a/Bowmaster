@@ -21,7 +21,7 @@ public class Menu extends Scene {
         exit.setAction(() -> {
             System.exit(0);
         });
-        setBG("HuntersHouse.png");
+        //setBG("HuntersHouse.png");
         registerComponent(start);
         registerComponent(exit);
     }

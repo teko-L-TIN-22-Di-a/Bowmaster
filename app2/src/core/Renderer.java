@@ -63,6 +63,9 @@ public class Renderer extends JFrame{
         public void paintComponent(Graphics g) {
             offScreen.setColor(Color.black);
             offScreen.fillRect(0, 0, width, height);
+            offScreen.setColor(Color.blue);
+            offScreen.drawLine(0, StaticValues.CANVAS_HEIGHT/2, StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT/2);
+            offScreen.drawLine(StaticValues.CANVAS_WIDTH/2, 0, StaticValues.CANVAS_WIDTH/2, StaticValues.CANVAS_HEIGHT);
             
             for (Component component: _components) {
                 offScreen.drawImage(component.getImage(), component.getLocation().x, component.getLocation().y, null);
@@ -78,6 +81,7 @@ public class Renderer extends JFrame{
             }
 
             for (Entity entity: _entities) {
+                entity.update();
                 offScreen.drawImage(entity.getImage(), entity.getDrawPosition().x, entity.getDrawPosition().y, null);
                 int x1 = entity.rect.getCorner(Corners.TOP_LEFT).x;
                 int x2 = entity.rect.getCorner(Corners.BOTTOM_RIGHT).x;
