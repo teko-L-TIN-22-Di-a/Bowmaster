@@ -12,6 +12,7 @@ public class Level1 extends Scene {
         setTAG("level1");
         Monster gobclops = new Monster("gobclops.png", 100, 1);
         registerEntity(gobclops);
+        gobclops.setMainHitbox(20, 20, 0, 0);
 
         _bow = new Bow();
         registerEntity(_bow);

@@ -2,6 +2,7 @@ package app.src.resources;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import app.src.resources.StaticValues.Corners;
 import app.src.resources.assets.Loader;
@@ -11,6 +12,8 @@ public class Entity {
     public Rectangle rect;
     private Point _drawPosition;
     private int _health, _distance, _speed;
+    private Rectangle _mainHitbox;
+    private List<Rectangle> _critBoxes;
 
     public Entity(String imagePath, int x, int y, int health) {
         _drawPosition = new Point(x, y);
@@ -26,6 +29,35 @@ public class Entity {
 
     public void update() {
         // to overide per entity
+    }
+
+    public void setMainHitbox(int width, int height, int offsetX, int offsetY) {
+        _mainHitbox = createHitbox(width, height, offsetX, offsetY);
+    }
+
+    public void registerCritBox(int width, int height, int offsetX, int offsetY) {
+        _critBoxes.add(createHitbox(width, height, offsetX, offsetY));
+    }
+
+    public Rectangle createHitbox(int width, int height, int offsetX, int offsetY) {
+        Point rectPosition = rect.getPosition();
+        Rectangle hitBox = new Rectangle(width, height, rectPosition.x, rectPosition.y);
+        return hitBox;
+    }
+
+    public void updateHitBox(Point newPoint) {
+        Rectangle box = getMainHitbox();
+        if (box instanceof Rectangle) {
+            box.setPosition(newPoint);
+        }
+    }
+
+    public Rectangle getMainHitbox() {
+        return _mainHitbox;
+    }
+
+    public List<Rectangle> getCritBoxes() {
+        return _critBoxes;
     }
 
     public void updateDrawPosition(Point newPosition) {

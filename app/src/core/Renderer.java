@@ -13,8 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import app.src.resources.Entity;
+import app.src.resources.Rectangle;
 import app.src.resources.StaticValues;
-import app.src.resources.StaticValues.Corners;
 import app.src.resources.components.Button;
 import app.src.resources.components.Component;
 import app.src.scenes.Scene;
@@ -69,29 +69,16 @@ public class Renderer extends JFrame{
             
             for (Component component: _components) {
                 offScreen.drawImage(component.getImage(), component.getLocation().x, component.getLocation().y, null);
-                int x1 = component.rect.getCorner(Corners.TOP_LEFT).x;
-                int x2 = component.rect.getCorner(Corners.BOTTOM_RIGHT).x;
-                int y1 = component.rect.getCorner(Corners.TOP_LEFT).y;
-                int y2 = component.rect.getCorner(Corners.BOTTOM_RIGHT).y;
-                offScreen.setColor(Color.red);
-                offScreen.drawLine(x1, y1, x1, y2);
-                offScreen.drawLine(x1, y1, x2, y1);
-                offScreen.drawLine(x2, y2, x2, y1);
-                offScreen.drawLine(x2, y2, x1, y2);
+                component.rect.draw(offScreen, Color.red);
             }
 
             for (Entity entity: _entities) {
                 entity.update();
                 offScreen.drawImage(entity.getImage(), entity.getDrawPosition().x, entity.getDrawPosition().y, null);
-                int x1 = entity.rect.getCorner(Corners.TOP_LEFT).x;
-                int x2 = entity.rect.getCorner(Corners.BOTTOM_RIGHT).x;
-                int y1 = entity.rect.getCorner(Corners.TOP_LEFT).y;
-                int y2 = entity.rect.getCorner(Corners.BOTTOM_RIGHT).y;
-                offScreen.setColor(Color.red);
-                offScreen.drawLine(x1, y1, x1, y2);
-                offScreen.drawLine(x1, y1, x2, y1);
-                offScreen.drawLine(x2, y2, x2, y1);
-                offScreen.drawLine(x2, y2, x1, y2);
+                entity.rect.draw(offScreen, Color.red);
+                if (entity.getMainHitbox() instanceof Rectangle) {
+                    entity.getMainHitbox().draw(offScreen, Color.green);
+                }
             }
 
             onScreen.drawImage(offScreenImage, 0, 0, null);

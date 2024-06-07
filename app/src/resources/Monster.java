@@ -32,6 +32,7 @@ public class Monster extends Entity {
         pos.y = newY;
         pos.x += rect.getWidth()/2; // horizontal correction based on scaling
         updateDrawPosition(pos);
+        updateHitBox(pos);
     }
 
     public double scale() {

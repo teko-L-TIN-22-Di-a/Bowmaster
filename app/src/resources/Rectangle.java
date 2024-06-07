@@ -1,5 +1,7 @@
 package app.src.resources;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,19 @@ public class Rectangle {
         System.out.println(rect1.collidePoint(P2));
         System.out.println(rect1.collideRect(rect2));
         System.out.println(rect1.collideRect(rect3));
+    }
+
+    public Graphics2D draw(Graphics2D surface, Color color) {
+        int x1 = getCorner(Corners.TOP_LEFT).x;
+        int x2 = getCorner(Corners.BOTTOM_RIGHT).x;
+        int y1 = getCorner(Corners.TOP_LEFT).y;
+        int y2 = getCorner(Corners.BOTTOM_RIGHT).y;
+        surface.setColor(color);
+        surface.drawLine(x1, y1, x1, y2);
+        surface.drawLine(x1, y1, x2, y1);
+        surface.drawLine(x2, y2, x2, y1);
+        surface.drawLine(x2, y2, x1, y2);
+        return surface;
     }
 
     public boolean collidePoint(Point point) {
