@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Main",
             "request": "launch",
-            "mainClass": "app2.Main",
+            "mainClass": "app.Main",
             "projectName": "BOWMASTER_669bddba"
         }
     ]
