@@ -13,6 +13,7 @@ public class Scene {
     private List<Component> components;
     private String TAG;
     private Scene newScene;
+    private Point _mousepoint;
 
     public Scene() {
         entities = new ArrayList<>();
@@ -24,6 +25,14 @@ public class Scene {
         Scene scene = new Scene();
         System.out.println("start Scene " + TAG);
         return scene;
+    }
+
+    public void updateMousePosition(Point mousePoint) {
+        _mousepoint = mousePoint;
+    }
+
+    public Point getMousePoint() {
+        return _mousepoint;
     }
 
     public void setNewScene(Scene scene) {

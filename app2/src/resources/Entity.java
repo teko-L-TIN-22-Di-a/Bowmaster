@@ -47,6 +47,10 @@ public class Entity {
         return _drawPosition;
     }
 
+    public void setDrawPosition(Point position) {
+        _drawPosition = position;
+    }
+
     public int getSpeed() {
         return _speed;
     }

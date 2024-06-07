@@ -33,6 +33,7 @@ public class Gameloop {
                 sceneHandler.startNew();
                 bobRoss.setScene(sceneHandler.getActive());
             }
+            activeScene.updateMousePosition(controller.getMousePos());
             bobRoss.repaint();
             controller.update();
         };
