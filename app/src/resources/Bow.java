@@ -11,9 +11,11 @@ public class Bow extends Entity {
     private BufferedImage _originalImage;
 
     public Bow() {
+        super("Bow1.png", 0, 0, 100);
         int x = StaticValues.CANVAS_WIDTH/2;
         int y = StaticValues.CANVAS_HEIGHT-200;
-        super("Bow1.png", x, y, 100);
+        Point pos = new Point(x, y);
+        rect.setPosition(pos);;
         _base = new Point(x, y);
         _originalImage = getImage();
     }
