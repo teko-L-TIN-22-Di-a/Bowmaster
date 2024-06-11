@@ -1,5 +1,8 @@
 package app.src.resources;
 
+/**
+ * Dataclass to store fixed values
+ */
 public class StaticValues {
     public static String GAMENAME = "BOWMASTER";
     public static int CANVAS_WIDTH = 1920;
@@ -8,6 +11,7 @@ public class StaticValues {
     public static int SpawnY = 100;
     public static int TRAVEL_DISTANCE_Y = CANVAS_HEIGHT - 300;
     public static int UPDATE_PERIOD = 60;
+    public static int BASEDAMAGE = 10;
     public static enum Corners {
         TOP_RIGHT,
         TOP_LEFT,

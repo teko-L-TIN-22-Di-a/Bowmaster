@@ -2,31 +2,57 @@ package app.src.resources;
 
 import java.awt.Point;
 
+/**
+ * Extends the Rectangle class to add offsets for an entity location
+ * and a damage multiplier to create different hitbox types like cirtical hitbox.
+ */
 public class Hitbox extends Rectangle {
-    private int _offsetX, _offsetY, _damageMultiplier;
+    private int damageMultiplier;
+    private Point offset;
     
-    public Hitbox(Rectangle imageBox, int width, int height, int offsetX, int offsetY, int damageMultiplier) {
-        super(width, height, imageBox.getPosition().x + offsetX, imageBox.getPosition().y + offsetY);
-        _offsetX = offsetX;
-        _offsetY = offsetY;
-        _damageMultiplier = damageMultiplier;
+    /**
+     * Constructor. Creates a Rectangle and adds offsets for x and y and a damage multiplier. 
+     * @param width             width of the hitbox
+     * @param height            height of the hitbox
+     * @param offset            stores the offset values for x and y
+     * @param damageMultiplier  allows differentiation between standard and cirtical hitboxes
+     */
+    public Hitbox(int width, int height, int offsetX, int offsetY, int newDamageMultiplier) {
+        super(width, height, offsetX, offsetY);
+        offset = new Point(offsetX, offsetY);
+        damageMultiplier = newDamageMultiplier;
     }
 
+    /**
+     * Takes a new location and adds the offsets to it to store the reult in the location variable.
+     * @param newLocation   new location point
+     */
     @Override
-    public void setPosition(Point newPosition) {
-        Point pos = new Point(newPosition.x + _offsetX, newPosition.y + _offsetY);
-        super.setPosition(pos);
+    public void setLocation(int newX, int newY) {
+        super.setLocation(newX + offset.x, newY + offset.y);
     }
 
+    /**
+     * Returns the x offset value
+     * @return x offset value
+     */
     public int getOffsetX() {
-        return _offsetX;
+        return offset.x;
     }
 
+    /**
+     * Returns the y offset value
+     * @return y offset value
+     */
     public int getOffsetY() {
-        return _offsetY;
+        return offset.y;
     }
 
+    /**
+     * Returns the damage multiplier value
+     * @return damage multiplier value
+     */
     public int getDamageMutiplier() {
-        return _damageMultiplier;
+        return damageMultiplier;
     }
 }

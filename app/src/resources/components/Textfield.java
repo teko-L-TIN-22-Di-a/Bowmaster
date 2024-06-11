@@ -5,28 +5,41 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/**
+ * Extends the Compnent class by adding text, that can be drawn on a surface.
+ */
 public class Textfield extends Component{
 
-    private String _text;
+    private String text;
 
-    public Textfield(int x, int y, String text) {
+    /**
+     * Constructor. Takes x and y coordinate and a String to create a Component with text.
+     * @param x             location x
+     * @param y             location y
+     * @param buttonText    displayed text
+     */
+    public Textfield(int x, int y, String buttonText) {
         super(x, y, 1, 1);
-        _text = text;
-        BufferedImage image = _createImage();
+        text = buttonText;
+        BufferedImage image = createImage();
         setImage(image);
         setSize(image.getWidth(), image.getHeight());
     }
 
-    private BufferedImage _createImage() {
+    /**
+     * Creates an image with the display text
+     * @return  image with display text
+     */
+    private BufferedImage createImage() {
         BufferedImage ImageTMP = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics gTMP = ImageTMP.getGraphics();
-        gTMP.drawString(_text, 0, 0);
+        gTMP.drawString(text, 0, 0);
         FontMetrics fm = gTMP.getFontMetrics();
         gTMP.dispose();
-        BufferedImage image = new BufferedImage(fm.stringWidth(_text), fm.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(fm.stringWidth(text), fm.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         g.setColor(Color.BLACK);
-        g.drawString(_text, 0, g.getFontMetrics().getAscent());
+        g.drawString(text, 0, g.getFontMetrics().getAscent());
         g.dispose();
         return image;
     }

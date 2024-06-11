@@ -5,9 +5,22 @@ import java.awt.Color;
 import app.src.resources.StaticValues;
 import app.src.resources.components.Button;
 
+/**
+ * Creates the menu screen.
+ * Extends the Scene class.
+ * 
+ * @param start     Button object to start the game
+ * @param exit      Button obkect to exit the game
+ * @see             Button
+ * @see             Scene
+ */
 public class Menu extends Scene {
     private Button start, exit;
 
+    /**
+     * Constructor.
+     * Sets up the Menu scene.
+     */
     public Menu() {
         setTAG("menu");
         int width = StaticValues.CANVAS_WIDTH;
@@ -22,7 +35,7 @@ public class Menu extends Scene {
             System.exit(0);
         });
         //setBG("HuntersHouse.png");
-        registerComponent(start);
-        registerComponent(exit);
+        registerButton(start);
+        registerButton(exit);
     }
 }

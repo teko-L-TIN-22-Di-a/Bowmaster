@@ -22,6 +22,7 @@ public class Gameloop {
     public void start() {
         bobRoss.setScene(menu);
         sceneHandler.setScene(menu, SceneTag.ACTIVE);
+        sceneHandler.setScene(menu, SceneTag.NEW);
         controller.setupListeners(bobRoss.canvas);
         controller.setButtonList(menu.getButtons());
 

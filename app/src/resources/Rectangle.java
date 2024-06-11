@@ -8,28 +8,40 @@ import java.util.List;
 
 import app.src.resources.StaticValues.Corners;
 
+/**
+ * Provides functionalities to create and calculate with rectangles.
+ * 
+ * @param size          stores the size of the rectangle as x and y
+ * @param location      stores the location of the rectangle center
+ * @param topLeft       stores the coordinate of the top left corner
+ * @param topRight      stores the coordinate of the top right corner
+ * @param bottomLeft    stores the coordinate of the bottom left corner
+ * @param bottomRight   stores the coordinate of the bottom right corner
+ */
 public class Rectangle {
-    private int _width, _height;
-    private Point _position, _topLeft, _topRight, _bottomLeft, _bottomRight;
+    private Point size, location, topLeft, topRight, bottomLeft, bottomRight;
 
+    /**
+     * Constructor. Creates a Rectangle object.
+     * 
+     * @param width     width of the rectangle
+     * @param height    height of the rectangle
+     * @param x         x value of the centerpoint
+     * @param y         y value of the centerpoint
+     */
     public Rectangle(int width, int height, int x, int y) {
-        Point position = new Point(x, y);
-        setPosition(position);
+        setLocation(x, y);
         setSize(width, height);
     }
 
-    public static void main() {
-        Rectangle rect1 = new Rectangle(10, 8, 0, 0);
-        Rectangle rect2 = new Rectangle(5, 2, 1, 1);
-        Rectangle rect3 = new Rectangle(3, 4, 11, 9);
-        Point P1 = new Point(5,4);
-        Point P2 = new Point(10,8);
-        System.out.println(rect1.collidePoint(P1));
-        System.out.println(rect1.collidePoint(P2));
-        System.out.println(rect1.collideRect(rect2));
-        System.out.println(rect1.collideRect(rect3));
-    }
-
+    /**
+     * Draws the Rectangle object on surface.
+     * 
+     * @param surface   surface to draw on
+     * @param color     color of the drawing
+     * @return          the surface with the drawn rectangle
+     * @see             Graphics2D
+     */
     public Graphics2D draw(Graphics2D surface, Color color) {
         int x1 = getCorner(Corners.TOP_LEFT).x;
         int x2 = getCorner(Corners.BOTTOM_RIGHT).x;
@@ -43,22 +55,34 @@ public class Rectangle {
         return surface;
     }
 
+    /**
+     * Takes a Point object and determines, if it's inside the rectangle or not.
+     * 
+     * @param point point to be checked
+     * @return      true, if the point is inside the Rectangle object
+     */
     public boolean collidePoint(Point point) {
-        if (_topLeft.x > point.x) {
+        if  (topLeft.x > point.x) {
             return false;
         }
-        else if (_topRight.y > point.y) {
+        else if  (topRight.y > point.y) {
             return false;
         }
-        else if (_bottomRight.x < point.x) {
+        else if  (bottomRight.x < point.x) {
             return false;
         }
-        else if (_bottomLeft.y < point.y) {
+        else if  (bottomLeft.y < point.y) {
             return false;
         }
         else {return true;}
     }
 
+    /**
+     * Takes a Rectangle object and determines if it collides with the rectangle or not.
+     * 
+     * @param rectangle rectangle to be checked
+     * @return          true, if the rectangles intersect
+     */
     public boolean collideRect(Rectangle rectangle) {
         List<Point> points = rectangle.getCorners();
         for (Point point : points) {
@@ -70,68 +94,133 @@ public class Rectangle {
         return false;
     }
 
+    /**
+     * Returns a corner determined by the input
+     * 
+     * @param corner    corner to be returned
+     * @return          dtermined corner
+     * @see             Corners
+     */
     public Point getCorner(Corners corner) {
         switch (corner) {
             case BOTTOM_LEFT:
-                return _bottomLeft;
+                return bottomLeft;
             case BOTTOM_RIGHT:
-                return _bottomRight;
+                return bottomRight;
             case TOP_RIGHT:
-                return _topRight;
+                return topRight;
             default:
-                return _topLeft;
+                return topLeft;
 
         }
     }
 
+    /**
+     * Sets the corner coordinates based on the location and the size of the Rectangle object.
+     */
     private void setCorners() {
-        _topLeft = new Point(_position.x - _width/2, _position.y - _height/2);
-        _topRight = new Point(_position.x + _width/2, _position.y - _height/2);
-        _bottomLeft = new Point(_position.x - _width/2, _position.y + _height/2);
-        _bottomRight = new Point(_position.x + _width/2, _position.y + _height/2);
+        topLeft = new Point (location.x - size.x/2, location.y - size.y/2);
+        topRight = new Point (location.x + size.x/2, location.y - size.y/2);
+        bottomLeft = new Point (location.x - size.x/2, location.y + size.y/2);
+        bottomRight = new Point (location.x + size.x/2, location.y + size.y/2);
     }
 
+    /**
+     * Returns a list with all corner points
+     * @return  list of cornerpoints
+     */
     public List<Point> getCorners() {
         List<Point> points = new ArrayList<>();
-        points.add(_topLeft);
-        points.add(_topRight);
-        points.add(_bottomLeft);
-        points.add(_bottomRight);
+        points.add (topLeft);
+        points.add (topRight);
+        points.add (bottomLeft);
+        points.add (bottomRight);
         return points;
     }
 
+    /**
+     * Sets the size of the rectangle and recalculates the corner coordinates.
+     * 
+     * @param width     new width for the rectangle
+     * @param height    new height for the rectangle
+     * @see             setCorners
+     */
     public void setSize(int width, int height) {
-        _width = width;
-        _height = height;
+        size = new Point(width, height);
         setCorners();
     }
 
-    public void setPosition(Point newPosition) {
-        _position = newPosition;
+    /**
+     * Sets a new location for the rectangle and recalculates the corner coordinates.
+     * 
+     * @param newLocation new location for the rectangle.
+     * @see   setCorners
+     */
+    public void setLocation(int x, int y) {
+        location = new Point(x, y);
         setCorners();
     }
 
+    /**
+     * Returns the width of the Rectangle object.
+     * 
+     * @return width of the rectangle
+     */
     public int getWidth() {
-        return _width;
+        return size.x;
     }
 
+    /**
+     * Returns the height of the Rectangle object.
+     * 
+     * @return height of the rectangle
+     */
     public int getHeight() {
-        return _height;
+        return size.y;
     }
 
-    public Point getPosition() {
-        return _position;
+    /**
+     * Returns the location of the Rectangle object.
+     * 
+     * @return location of the rectangle
+     */
+    public Point getLocation() {
+        return location;
     }
 
+    /**
+     * Returns the x value of the Rectangle objects location.
+     * 
+     * @return x value of the location
+     */
     public int getX() {
-        return _position.x;
+        return location.x;
     }
 
+    /**
+     * Updates the x value of the Rectangle objects location.
+     * 
+     * @param value new value for location.x
+     */
     public void updateX(int value) {
-        _position.x += value;
+        location.x += value;
     }
 
+    /**
+     * Returns the y value of the Rectangle objects location.
+     * 
+     * @return y value of the location
+     */
     public int getY() {
-        return _position.y;
+        return location.y;
+    }
+
+    /**
+     * Updates the y value of the Rectangle objects location.
+     * 
+     * @param value new value for location.y
+     */
+    public void updateY(int value) {
+        location.y += value;
     }
 }

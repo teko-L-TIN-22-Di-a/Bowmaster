@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -19,31 +19,40 @@ import app.src.resources.components.Button;
 import app.src.resources.components.Component;
 import app.src.scenes.Scene;
 
+/**
+ * Renders the game view to the screen
+ * @see Scene
+ * @see Canvas
+ * @see Component
+ * @see Entity
+ * @see Button
+ */
 public class Renderer extends JFrame{
-    private Scene _Scene;
-    private List<Component> _components;
-    private List<Entity> _entities;
+    private Scene Scene;
+    private List<Component> components;
+    private List<Entity> entities;
+    private List<Button> buttons;
     public Canvas canvas = new Canvas();
 
+    /**
+     * Takes a Scene for rendering.
+     * @param newScene Scene to render
+     */
     public void setScene(Scene newScene) {
-        _Scene = newScene;
-        System.out.println("start scene " + _Scene.getTAG());
+        Scene = newScene;
+        System.out.println("start scene " + Scene.getTAG());
         startScene();
     }
 
+    
     public List<Button> getButtons() {
-        List<Button> buttonList = new ArrayList<Button>();
-        for (Component c : _components) {
-            if (c instanceof Button) {
-                buttonList.add((Button) c);
-            }
-        }
-        return buttonList;
+        return buttons;
     }
 
     public void startScene() {
-        _entities = _Scene.getEnties();
-        _components = _Scene.getComponents();
+        entities = Scene.getEnties();
+        components = Scene.getComponents();
+        buttons = Scene.getButtons();
     }
 
     public class Canvas extends JPanel {
@@ -67,18 +76,24 @@ public class Renderer extends JFrame{
             offScreen.drawLine(0, StaticValues.CANVAS_HEIGHT/2, StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT/2);
             offScreen.drawLine(StaticValues.CANVAS_WIDTH/2, 0, StaticValues.CANVAS_WIDTH/2, StaticValues.CANVAS_HEIGHT);
             
-            for (Component component: _components) {
+            for (Component component: components) {
                 offScreen.drawImage(component.getImage(), component.getLocation().x, component.getLocation().y, null);
                 component.rect.draw(offScreen, Color.red);
             }
 
-            for (Entity entity: _entities) {
+            for (Entity entity: entities) {
                 entity.update();
-                offScreen.drawImage(entity.getImage(), entity.getDrawPosition().x, entity.getDrawPosition().y, null);
+                Point entityLocation = entity.getLocation();
+                offScreen.drawImage(entity.getImage(), entityLocation.x, entityLocation.y, null);
                 entity.rect.draw(offScreen, Color.red);
                 if (entity.getMainHitbox() instanceof Rectangle) {
                     entity.getMainHitbox().draw(offScreen, Color.green);
                 }
+            }
+
+            for (Button button: buttons) {
+                offScreen.drawImage(button.getImage(), button.getLocation().x, button.getLocation().y, null);
+                button.rect.draw(offScreen, Color.red);
             }
 
             onScreen.drawImage(offScreenImage, 0, 0, null);

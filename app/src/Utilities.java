@@ -4,7 +4,22 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+/**
+ * Provides functionalitites like
+ * - image rotation,
+ * - angle calculation between two points.
+ */
 public class Utilities {
+
+    /**
+     * Takes a BufferedImage, rotates it and returns the rotated image.
+     * 
+     * @param image the BufferedImage to be rotated
+     * @param angle the rotation angle
+     * @return      the rotated BufferedImage
+     * @see         BufferedImage
+     * @see         calcAngle
+     */
     public static BufferedImage rotate(BufferedImage image, double angle) {
         int oWidth = image.getWidth();
         int oHeight = image.getHeight();
@@ -32,6 +47,15 @@ public class Utilities {
         return newImage;
     }
 
+    /**
+     * Calculates the angle between two points in radiants,
+     * the angle is calculated above the base with the value 0 pointing north.
+     * 
+     * @param P1    basepoint for calculation
+     * @param P2    point to which the angle points
+     * @return      calculated angle in radians
+     * @see         Point
+     */
     public static double calcAngle(Point P1, Point P2) {
         double lenX = P1.x - P2.x;
         double lenY = P1.y - P2.y;
