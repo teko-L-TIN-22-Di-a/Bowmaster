@@ -19,8 +19,8 @@ import app.src.resources.components.Button;
 public class Controller extends JPanel{
     public final MouseHandler handler;
     private final MouseTracker tracker;
-    private List<Button> _buttonlist;
-    private Point _mousePosition;
+    private List<Button> buttonlist;
+    private Point mousePosition;
 
     /**
      * Updates and returns the mouse position.
@@ -28,7 +28,7 @@ public class Controller extends JPanel{
      */
     public Point getMousePos() {
         update();
-        return _mousePosition;
+        return mousePosition;
     }
 
     /**
@@ -36,7 +36,7 @@ public class Controller extends JPanel{
      * @param buttonList
      */
     public void setButtonList(List<Button> buttonList) {
-        _buttonlist = buttonList;
+        buttonlist = buttonList;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Controller extends JPanel{
      * Updates the mouse position.
      */
     public void update() {
-        _mousePosition = tracker.getLocation();
+        mousePosition = tracker.getLocation();
     }
 
     /**
@@ -64,8 +64,8 @@ public class Controller extends JPanel{
 
         @Override
         public void mousePressed(MouseEvent e) {
-            for (Button b:_buttonlist) {
-                b.actionCheck(_mousePosition);
+            for (Button b: buttonlist) {
+                b.actionCheck(mousePosition);
             };
         }
     }
@@ -76,18 +76,18 @@ public class Controller extends JPanel{
      */
     private class MouseTracker extends MouseMotionAdapter {
 
-        private Point _location = new Point(0, 0);
+        private Point location = new Point(0, 0);
 
         @Override
         public void mouseMoved(final MouseEvent e) {
-            _location = e.getPoint();
-            if (_location == null) {
-                _location = new Point(0, 0);
+            location = e.getPoint();
+            if (location == null) {
+                location = new Point(0, 0);
             }
         }
 
         public Point getLocation() {
-            return _location;
+            return location;
         }
     }
 

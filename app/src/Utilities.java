@@ -18,7 +18,6 @@ public class Utilities {
      * @param angle the rotation angle
      * @return      the rotated BufferedImage
      * @see         BufferedImage
-     * @see         calcAngle
      */
     public static BufferedImage rotate(BufferedImage image, double angle) {
         int oWidth = image.getWidth();
