@@ -24,6 +24,9 @@ public class Bow extends Entity {
         originalImage = getImage();
     }
 
+    /**
+     * Rotates the image based on the mouseposition.
+     */
     @Override
     public void update() {
         double mouseAngle = Utilities.calcAngle(rect.getLocation(),  mousePoint);
@@ -33,6 +36,10 @@ public class Bow extends Entity {
         setLocation(rect.getX(), rect.getY());
     }
 
+    /**
+     * Takes a point to store as mousePosition
+     * @param newMousePoint point to be stored
+     */
     public void updateMousePosition(Point newMousePoint) {
          mousePoint = newMousePoint;
     }

@@ -11,31 +11,55 @@ import javax.swing.JPanel;
 import app.src.resources.StaticValues;
 import app.src.resources.components.Button;
 
+/**
+ * Handles Player input
+ * @see MouseHandler
+ * @see MouseTracker
+ */
 public class Controller extends JPanel{
-    // handles Player input
     public final MouseHandler handler;
     private final MouseTracker tracker;
     private List<Button> _buttonlist;
     private Point _mousePosition;
 
+    /**
+     * Updates and returns the mouse position.
+     * @return mouse position
+     */
     public Point getMousePos() {
         update();
         return _mousePosition;
     }
 
+    /**
+     * Takes a list of Buttons and stores it in the buttonList.
+     * @param buttonList
+     */
     public void setButtonList(List<Button> buttonList) {
         _buttonlist = buttonList;
     }
 
+    /**
+     * Adds the required listeners to a JPanel
+     * @param panel panel to add listeners
+     */
     public void setupListeners(JPanel panel) {
         panel.addMouseListener(handler);
         panel.addMouseMotionListener(tracker);
     }
 
+    /**
+     * Updates the mouse position.
+     */
     public void update() {
         _mousePosition = tracker.getLocation();
     }
 
+    /**
+     * Extends the MouseAdapter to add the actioncheck for the buttons.
+     * @see MouseAdapter
+     * @see Button
+     */
     private class MouseHandler extends MouseAdapter {
 
         @Override
@@ -46,6 +70,10 @@ public class Controller extends JPanel{
         }
     }
 
+    /**
+     * Extends the MouseMotionAdapter class to extract the current mouse location
+     * @see MouseMotionAdapter
+     */
     private class MouseTracker extends MouseMotionAdapter {
 
         private Point _location = new Point(0, 0);
@@ -63,7 +91,10 @@ public class Controller extends JPanel{
         }
     }
 
-    // Constructor
+    /**
+     * Constructor. Creates a Controller object.
+     * Sets up a mouse handler and tracker.
+     */
     public Controller() {
         setSize(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT);
         handler = new MouseHandler();

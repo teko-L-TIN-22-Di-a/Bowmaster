@@ -44,17 +44,27 @@ public class Renderer extends JFrame{
         startScene();
     }
 
-    
+    /**
+     * Returns a list with the registered Buttons
+     * @return buttons
+     */
     public List<Button> getButtons() {
         return buttons;
     }
 
+    /**
+     * Gets the entities, components and buttons to draw them.
+     */
     public void startScene() {
         entities = Scene.getEnties();
         components = Scene.getComponents();
         buttons = Scene.getButtons();
     }
 
+    /**
+     * Extends the JPanel class to create a canvas to draw onto.
+     * @see JPanel
+     */
     public class Canvas extends JPanel {
         int width = StaticValues.CANVAS_WIDTH;
         int height = StaticValues.CANVAS_HEIGHT;
@@ -63,11 +73,18 @@ public class Renderer extends JFrame{
         Graphics2D onScreen = onScreenImage.createGraphics();
         Graphics2D offScreen = offScreenImage.createGraphics();
 
+        /**
+         * Constructor. Creates a Canvas object to draw onto.
+         */
         public Canvas() {
             onScreen.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             offScreen.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
         
+        /**
+         * Takes Graphics and to draw.
+         * Draws the defined components on the screen.
+         */
         @Override
         public void paintComponent(Graphics g) {
             offScreen.setColor(Color.black);
@@ -101,6 +118,9 @@ public class Renderer extends JFrame{
         }
     }
 
+    /**
+     * Constructor. Creates a Renderer Object.
+     */
     public Renderer() {
         canvas.setPreferredSize(new Dimension(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT));
         this.setContentPane(canvas);

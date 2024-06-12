@@ -83,6 +83,11 @@ public class Entity {
         return hitBox;
     }
 
+    /**
+     * Updates the location of all registered hitboxes.
+     * @param newX
+     * @param newY
+     */
     public void updateHitBoxes(int newX, int newY) {
         List<Hitbox> boxes = critBoxes;
         boxes.add(getMainHitbox());
@@ -91,14 +96,27 @@ public class Entity {
         }
     }
 
+    /**
+     * Returns the standard hitbox
+     * @return standard hitbox
+     */
     public Hitbox getMainHitbox() {
         return mainHitbox;
     }
 
+    /**
+     * Returns a list of the critical hitboxes.
+     * @return critical hitboxes
+     */
     public List<Hitbox> getCritBoxes() {
         return critBoxes;
     }
 
+    /**
+     * Takes x and y coordinates to set a new location for the Entity.
+     * @param newX  new x coordinate for the Entity
+     * @param newY  new y coordinate for the Entity
+     */
     public void setLocation(int newX, int newY) {
         newX -= rect.getWidth()/2;
         newY -= rect.getHeight()/2;
@@ -106,47 +124,89 @@ public class Entity {
         location = new Point(rect.getCorner(Corners.TOP_LEFT));
     }
 
+    /**
+     * Returns the Entity's image.
+     * @return Entity's image
+     */
     public BufferedImage getImage() {
         return image;
     }
 
+    /**
+     * Takes an image and stores it.
+     * @param newImage new image to be stored
+     */
     public void setImage(BufferedImage newImage) {
         image = newImage;
     }
 
+    /**
+     * Returns the Entity's location.
+     * @return Entity's location
+     */
     public Point getLocation() {
         return location;
     }
 
+    /**
+     * Returns the Entity's speed.
+     * @return Entity's speed
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Takes a int value and stores it in speed.
+     * @param newImage new value to be stored
+     */
     public void setSpeed(int newSpeed) {
         speed = newSpeed;
     }
 
+    /**
+     * Returns the Entity's distance.
+     * @return Entity's distance
+     */
     public int getDistance() {
         return distance;
     }
 
+    /**
+     * Takes a int value and stores it in distance.
+     * @param newImage new value to be stored
+     */
     public void setDistance(int value) {
         distance = value;
     }
 
+    /**
+     * Gets distance and speed of the Entity to calculate the new distance.
+     */
     public void updateDistance() {
         int newDistance = getDistance() + getSpeed();
         setDistance(newDistance);
     }
 
+    /**
+     * Takes an image and stores it.
+     * @param newImage new image to be stored
+     */
     public void setHealth(int value) {
         health = value;
     }
 
+    /**
+     * Determines what happens when the Entity dies.
+     */
     public void death() {
-        // determine what happens for entity death
+        // determine what happens for Entity death
     }
 
+    /**
+     * Takes a int value and adds it to the Entity's health.
+     * @param value will be added to Entity health
+     */
     public void updateHealth(int value) {
         health += value;
         if (health <= 0) {
