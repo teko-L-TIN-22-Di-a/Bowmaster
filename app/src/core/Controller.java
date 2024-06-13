@@ -17,23 +17,35 @@ import app.src.resources.components.Button;
  * @see MouseTracker
  */
 public class Controller extends JPanel{
-    public final MouseHandler handler;
+    
+    /** handles mouse input */
+    private final MouseHandler handler;
+    /** tracks mouse position */
     private final MouseTracker tracker;
+    /** list of Buttons to check */
     private List<Button> buttonlist;
-    private Point mousePosition;
 
     /**
-     * Updates and returns the mouse position.
-     * @return mouse position
+     * Constructor. Creates a Controller object.
+     * Sets up a mouse handler and tracker.
+     */
+    public Controller() {
+        setSize(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT);
+        handler = new MouseHandler();
+        tracker = new MouseTracker();
+    }
+
+    /**
+     * Returns the mouse position.
+     * @return mouse location
      */
     public Point getMousePos() {
-        update();
-        return mousePosition;
+        return tracker.getLocation();
     }
 
     /**
      * Takes a list of Buttons and stores it in the buttonList.
-     * @param buttonList
+     * @param buttonList    list to store
      */
     public void setButtonList(List<Button> buttonList) {
         buttonlist = buttonList;
@@ -49,13 +61,6 @@ public class Controller extends JPanel{
     }
 
     /**
-     * Updates the mouse position.
-     */
-    public void update() {
-        mousePosition = tracker.getLocation();
-    }
-
-    /**
      * Extends the MouseAdapter to add the actioncheck for the buttons.
      * @see MouseAdapter
      * @see Button
@@ -65,6 +70,7 @@ public class Controller extends JPanel{
         @Override
         public void mousePressed(MouseEvent e) {
             for (Button b: buttonlist) {
+                Point mousePosition = tracker.getLocation();
                 b.actionCheck(mousePosition);
             };
         }
@@ -89,16 +95,5 @@ public class Controller extends JPanel{
         public Point getLocation() {
             return location;
         }
-    }
-
-    /**
-     * Constructor. Creates a Controller object.
-     * Sets up a mouse handler and tracker.
-     */
-    public Controller() {
-        setSize(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT);
-        handler = new MouseHandler();
-        tracker = new MouseTracker();
-        update();
     }
 }

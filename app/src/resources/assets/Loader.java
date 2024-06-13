@@ -5,8 +5,23 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/** Loads assets from the asset folder. */
 public class Loader {
     
+    /** 
+     * Default constructor for Loader.
+     * Initializes the Loader without any specific configuration.
+     */
+    public Loader() {
+        // Initialization code can go here if needed
+    }
+    
+    /**
+     * Takes the name of the image and loads it as Buffered image.
+     * @param name name like "image.png"
+     * @return the loaded image as BufferedImage
+     * @see BufferedImage
+     */
     public static BufferedImage loadImage(String name) {
     BufferedImage image = null;
         try {

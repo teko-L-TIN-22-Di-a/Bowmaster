@@ -8,10 +8,8 @@ import app.src.resources.Monster;
 /**
  * Creates the level1 screen.
  * Extends the Scene class.
- * 
- * @param _bow      Bow object to track the Playerinput
- * @see             Bow
- * @see             Scene
+ * @see Bow
+ * @see Scene
  */
 public class Level1 extends Scene {
     private Bow _bow;

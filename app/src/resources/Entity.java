@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import app.src.StaticValues;
-import app.src.StaticValues.Corners;
 import app.src.resources.assets.Loader;
 import app.src.resources.components.Hitbox;
 import app.src.resources.components.Rectangle;
@@ -17,10 +16,10 @@ import app.src.resources.components.Rectangle;
  */
 public class Entity {
     private BufferedImage image;
-    private Point location;
     private int health, distance, speed;
     private Hitbox mainHitbox;
     private List<Hitbox> critBoxes;
+    /** Rectangle to track size and location of the Entity */
     public Rectangle rect;
 
     /**
@@ -37,7 +36,6 @@ public class Entity {
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
         rect = new Rectangle(imageWidth, imageHeight, x, y);
-        location = new Point(rect.getCorner(Corners.TOP_LEFT));
         distance = 0;
         speed = 0;
         setHealth(health);
@@ -75,11 +73,12 @@ public class Entity {
 
     /**
      * Creates a Hitbox with size, offsets and damage multiplier.
-     * @param width
-     * @param height
-     * @param offsetX
-     * @param offsetY
-     * @return
+     * @param width         width of the Hitbox
+     * @param height        height of the Hitbox
+     * @param offsetX       x offset to Entity location
+     * @param offsetY       y offset to Entity location
+     * @param multiplier    multiplier for received damage of this Hitbox
+     * @return              the created Hitbox object
      */
     public Hitbox createHitbox(int width, int height, int offsetX, int offsetY, int multiplier) {
         Hitbox hitBox = new Hitbox(width, height, offsetX, offsetY, multiplier);
@@ -87,9 +86,9 @@ public class Entity {
     }
 
     /**
-     * Updates the location of all registered hitboxes.
-     * @param newX
-     * @param newY
+     * Takes new coordinates and updates the location of all registered hitboxes.
+     * @param newX  new x corrdinate
+     * @param newY  new y corrdinate
      */
     public void updateHitBoxes(int newX, int newY) {
         List<Hitbox> boxes = critBoxes;
@@ -124,7 +123,6 @@ public class Entity {
         newX -= rect.getWidth()/2;
         newY -= rect.getHeight()/2;
         rect.setLocation(newX, newY);
-        location = new Point(rect.getCorner(Corners.TOP_LEFT));
     }
 
     /**
@@ -148,7 +146,7 @@ public class Entity {
      * @return Entity's location
      */
     public Point getLocation() {
-        return location;
+        return rect.getLocation();
     }
 
     /**
@@ -161,7 +159,7 @@ public class Entity {
 
     /**
      * Takes a int value and stores it in speed.
-     * @param newImage new value to be stored
+     * @param newSpeed new value to be stored
      */
     public void setSpeed(int newSpeed) {
         speed = newSpeed;
@@ -177,7 +175,7 @@ public class Entity {
 
     /**
      * Takes a int value and stores it in distance.
-     * @param newImage new value to be stored
+     * @param value new value to be stored
      */
     public void setDistance(int value) {
         distance = value;
@@ -193,7 +191,7 @@ public class Entity {
 
     /**
      * Takes an image and stores it.
-     * @param newImage new image to be stored
+     * @param value new image to be stored
      */
     public void setHealth(int value) {
         health = value;

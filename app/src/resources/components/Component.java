@@ -10,9 +10,9 @@ import app.src.resources.assets.Loader;
  */
 public class Component {
 
-    private Point size, location;
-    public Rectangle rect;
     private BufferedImage image;
+    /**Rectangle to track size and location*/
+    public Rectangle rect;
 
     /**
      * Returns the iamge of the Component
@@ -35,14 +35,16 @@ public class Component {
      * @return location of the Component
      */
     public Point getLocation() {
-        return location;
+        return rect.getLocation();
     }
 
     /**
      * Takes coordinates for a new location and stores them 
-     * @param newLocation   new coordinates for the Component
+     * @param newX  new x coordinate for the Component
+     * @param newY  new y coordinate for the Component
      */
     public void setLocation(int newX, int newY) {
+        Point size = rect.getSize();
         rect.setLocation(newX - size.x/2, newY - size.y/2);
     }
 
@@ -51,6 +53,7 @@ public class Component {
      * @return width of the Component
      */
     public int getWidth() {
+        Point size = rect.getSize();
         return size.x;
     }
 
@@ -59,18 +62,18 @@ public class Component {
      * @return height of the Component
      */
     public int getHeight() {
+        Point size = rect.getSize();
         return size.y;
     }
 
     /**
      * Takes width and height to store in size.
      * Recalculates the Rectangle.
-     * @param width     new width of the Component
-     * @param height    new height of the Component
+     * @param newWidth  new width of the Component
+     * @param newHeight new height of the Component
      */
     public void setSize(int newWidth, int newHeight) {
-        size.x = newWidth;
-        size.y = newHeight;
+        Point location = rect.getLocation();
         rect.setSize(newWidth, newHeight);
         setLocation(location.x, location.y);
     }
@@ -83,8 +86,6 @@ public class Component {
      * @param y         y coordinate of the Component
      */
     public Component(int width, int height, int x, int y) {
-        size = new Point(width, height);
-        location = new Point(x - width/2, y - height/2);
         rect = new Rectangle(width, height, x, y);
     }
 
@@ -98,9 +99,8 @@ public class Component {
     public Component(String imageName, int x, int y) {
         BufferedImage image = Loader.loadImage(imageName);
         setImage(image);
-        size.x = image.getWidth();
-        size.y = image.getHeight();
-        location = new Point(x - size.x/2, y - size.y/2);
-        rect = new Rectangle(size.x, size.y, x, y);
+        int width = image.getWidth();
+        int height = image.getHeight();
+        rect = new Rectangle(width, height, x, y);
     }
 }

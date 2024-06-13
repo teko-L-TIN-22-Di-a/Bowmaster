@@ -19,7 +19,7 @@ public class Gameloop {
     private Renderer bobRoss = new Renderer();
     private Controller controller = new Controller();
     private Menu menu = new Menu();
-    private SceneHandler sceneHandler = new SceneHandler();
+    private SceneHandler sceneHandler = new SceneHandler(menu);
 
     /**
      * Constructor.
@@ -34,9 +34,7 @@ public class Gameloop {
      */
     public void start() {
         bobRoss.setScene(menu);
-        sceneHandler.setScene(menu, SceneTag.ACTIVE);
         sceneHandler.setScene(menu, SceneTag.NEW);
-        controller.setupListeners(bobRoss.canvas);
         controller.setButtonList(menu.getButtons());
 
         ActionListener updateTask = updateEvent -> {
@@ -49,7 +47,6 @@ public class Gameloop {
             }
             activeScene.updateMousePosition(controller.getMousePos());
             bobRoss.repaint();
-            controller.update();
         };
 
         new Timer(60, updateTask).start();

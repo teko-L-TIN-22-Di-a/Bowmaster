@@ -10,20 +10,12 @@ import app.src.StaticValues.Corners;
 
 /**
  * Provides functionalities to create and calculate with rectangles.
- * 
- * @param size          stores the size of the rectangle as x and y
- * @param location      stores the location of the rectangle center
- * @param topLeft       stores the coordinate of the top left corner
- * @param topRight      stores the coordinate of the top right corner
- * @param bottomLeft    stores the coordinate of the bottom left corner
- * @param bottomRight   stores the coordinate of the bottom right corner
  */
 public class Rectangle {
     private Point size, location, topLeft, topRight, bottomLeft, bottomRight;
 
     /**
      * Constructor. Creates a Rectangle object.
-     * 
      * @param width     width of the rectangle
      * @param height    height of the rectangle
      * @param x         x value of the centerpoint
@@ -36,7 +28,6 @@ public class Rectangle {
 
     /**
      * Draws the Rectangle object on surface.
-     * 
      * @param surface   surface to draw on
      * @param color     color of the drawing
      * @return          the surface with the drawn rectangle
@@ -57,7 +48,6 @@ public class Rectangle {
 
     /**
      * Takes a Point object and determines, if it's inside the rectangle or not.
-     * 
      * @param point point to be checked
      * @return      true, if the point is inside the Rectangle object
      */
@@ -79,7 +69,6 @@ public class Rectangle {
 
     /**
      * Takes a Rectangle object and determines if it collides with the rectangle or not.
-     * 
      * @param rectangle rectangle to be checked
      * @return          true, if the rectangles intersect
      */
@@ -96,7 +85,6 @@ public class Rectangle {
 
     /**
      * Returns a corner determined by the input
-     * 
      * @param corner    corner to be returned
      * @return          dtermined corner
      * @see             Corners
@@ -140,7 +128,6 @@ public class Rectangle {
 
     /**
      * Sets the size of the rectangle and recalculates the corner coordinates.
-     * 
      * @param width     new width for the rectangle
      * @param height    new height for the rectangle
      * @see             setCorners
@@ -152,18 +139,24 @@ public class Rectangle {
 
     /**
      * Sets a new location for the rectangle and recalculates the corner coordinates.
-     * 
-     * @param newLocation new location for the rectangle.
-     * @see   setCorners
+     * @param newX new x location for the rectangle.
+     * @param newY new y location for the rectangle.
      */
-    public void setLocation(int x, int y) {
-        location = new Point(x, y);
+    public void setLocation(int newX, int newY) {
+        location = new Point(newX, newY);
         setCorners();
     }
 
     /**
+     * Returns the size of the Rectangle object.
+     * @return size of the rectangle
+     */
+    public Point getSize() {
+        return size;
+    }
+
+    /**
      * Returns the width of the Rectangle object.
-     * 
      * @return width of the rectangle
      */
     public int getWidth() {
@@ -172,7 +165,6 @@ public class Rectangle {
 
     /**
      * Returns the height of the Rectangle object.
-     * 
      * @return height of the rectangle
      */
     public int getHeight() {
@@ -181,7 +173,6 @@ public class Rectangle {
 
     /**
      * Returns the location of the Rectangle object.
-     * 
      * @return location of the rectangle
      */
     public Point getLocation() {
@@ -190,7 +181,6 @@ public class Rectangle {
 
     /**
      * Returns the x value of the Rectangle objects location.
-     * 
      * @return x value of the location
      */
     public int getX() {
@@ -199,7 +189,6 @@ public class Rectangle {
 
     /**
      * Updates the x value of the Rectangle objects location.
-     * 
      * @param value new value for location.x
      */
     public void updateX(int value) {
@@ -208,7 +197,6 @@ public class Rectangle {
 
     /**
      * Returns the y value of the Rectangle objects location.
-     * 
      * @return y value of the location
      */
     public int getY() {
@@ -217,7 +205,6 @@ public class Rectangle {
 
     /**
      * Updates the y value of the Rectangle objects location.
-     * 
      * @param value new value for location.y
      */
     public void updateY(int value) {

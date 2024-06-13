@@ -10,16 +10,9 @@ import app.src.resources.components.Component;
 
 /**
  * Baseclass for any Scene.
- * 
- * @param _entites      List of registered Entities
- * @param _components   List of registeres Components
- * @param _buttons      List of registered Buttons
- * @param _newScene     Scene object for Scene changes
- * @param _mousepoint   Point object describing the mouselocation
- * @param TAG           String to identify Scene
- * @see                 Entity
- * @see                 Component
- * @see                 Button
+ * @see Entity
+ * @see Component
+ * @see Button
  */
 public class Scene {
     private List<Entity> _entities;
@@ -33,8 +26,6 @@ public class Scene {
      * Basic constructor, 
      * initialises the lists "entities", "components" and "buttons".
      * Properties from these lists will be drawn in "Renderer.java".
-     * 
-     * @see Renderer
      */
     public Scene() {
         _entities = new ArrayList<>();
@@ -48,10 +39,8 @@ public class Scene {
      * If not set the Background will be black.
      * Creates a new Component object to hold the image.
      * Registers the image to the components list of your scene.
-     * 
-     * @param bgName    the name like "image.png" of your image in src/resources/assets/
-     * @see             src/resources/assets/
-     * @see             Component
+     * @param bgName the name like "image.png" of your image in src/resources/assets/
+     * @see Component
      */
     public void setBG(String bgName) {
         Component bg = new Component(bgName, 0, 0);
@@ -60,7 +49,6 @@ public class Scene {
 
     /**
      * set the private mousepoint variable to a new point
-     * 
      * @param mousePoint    a Point object to set a new location
      * @see                 Point
      */
@@ -70,7 +58,6 @@ public class Scene {
 
     /**
      * returns the private mousepoint variable
-     * 
      * @return  the private Point object mousepoint
      * @see     Point
      */
@@ -80,7 +67,6 @@ public class Scene {
 
     /**
      * set the private newScene variable to a new scene
-     * 
      * @param scene     a Scene object to set a new scene
      * @see             Scene
      */
@@ -90,7 +76,6 @@ public class Scene {
 
     /**
      * returns the private newScene variable
-     * 
      * @return  the private Scene object newScene
      * @see     Scene
      */
@@ -100,9 +85,8 @@ public class Scene {
 
     /**
      * set the private TAG variable to a string
-     * 
-     * @param tag    a String object to set a new location
-     * @see          String
+     * @param tag a String object to set a new location
+     * @see String
      */
     public void setTAG(String tag) {
         TAG = tag;
@@ -110,9 +94,8 @@ public class Scene {
 
     /**
      * returns the private TAG variable
-     * 
      * @return  the private String object TAG
-     * @see     String
+     * @see String
      */
     public String getTAG() {
         return TAG;
@@ -120,9 +103,8 @@ public class Scene {
 
     /**
      * adds an Entity Object to the private list entities
-     * 
-     * @param entity    a Entity object to add to the List entities
-     * @see             Entity
+     * @param entity a Entity object to add to the List entities
+     * @see Entity
      */
     public void registerEntity(Entity entity) {
         _entities.add(entity);
@@ -130,9 +112,8 @@ public class Scene {
 
     /**
      * removes an Entity object from the private list entities
-     * 
-     * @param entity    a Entity object to remove from the List entities
-     * @see             Entity
+     * @param entity a Entity object to remove from the List entities
+     * @see Entity
      */
     public void unregisterEntity(Entity entity) {
         _entities.remove(entity);
@@ -140,9 +121,8 @@ public class Scene {
 
     /**
      * returns the private list of Entities
-     * 
-     * @return  the private List object entities
-     * @see     Entity
+     * @return the private List object entities
+     * @see Entity
      */
     public List<Entity> getEnties() {
         return _entities;
@@ -150,9 +130,8 @@ public class Scene {
 
     /**
      * adds an Component object to the private list components
-     * 
-     * @param component     a Component object to add to the List components
-     * @see                 Component
+     * @param component a Component object to add to the List components
+     * @see Component
      */
     public void registerComponent(Component component) {
         _components.add(component);
@@ -160,9 +139,8 @@ public class Scene {
 
     /**
      * removes an Component Object from the private list components
-     * 
-     * @param component     a Component object to remove from the List components
-     * @see                 Component
+     * @param component a Component object to remove from the List components
+     * @see Component
      */
     public void unregisterComponent(Component component) {
         _components.remove(component);
@@ -170,9 +148,8 @@ public class Scene {
 
     /**
      * returns the private list of Components
-     * 
-     * @return  the private List object components
-     * @see     Component
+     * @return the private List object components
+     * @see Component
      */
     public List<Component> getComponents() {
         return _components;
@@ -180,9 +157,8 @@ public class Scene {
 
     /**
      * adds an Button Object to the private list buttons
-     * 
-     * @param button    a Button object to add to the List buttons
-     * @see             Button
+     * @param button a Button object to add to the List buttons
+     * @see Button
      */
     public void registerButton(Button button) {
         _buttons.add(button);
@@ -190,9 +166,8 @@ public class Scene {
 
     /**
      * removes an Button Object from the private list buttons
-     * 
-     * @param button    a Button object to remove from the List buttons
-     * @see             Button
+     * @param button a Button object to remove from the List buttons
+     * @see Button
      */
     public void unregisterButton(Button button) {
         _buttons.remove(button);
@@ -200,9 +175,8 @@ public class Scene {
 
     /**
      * returns the private List of Buttons
-     * 
-     * @return  the private List object buttons
-     * @see     Button
+     * @return the private List object buttons
+     * @see Button
      */
     public List<Button> getButtons() {
         return _buttons;

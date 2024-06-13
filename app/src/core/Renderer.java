@@ -28,11 +28,16 @@ import app.src.scenes.Scene;
  * @see Button
  */
 public class Renderer extends JFrame{
+    /** Scene to render */
     private Scene Scene;
+    /** Components to render */
     private List<Component> components;
+    /** Entities to render */
     private List<Entity> entities;
+    /** Buttons to render */
     private List<Button> buttons;
-    public Canvas canvas = new Canvas();
+    /** Canvas to draw onto */
+    private Canvas canvas = new Canvas();
 
     /**
      * Takes a Scene for rendering.
@@ -66,11 +71,17 @@ public class Renderer extends JFrame{
      * @see JPanel
      */
     public class Canvas extends JPanel {
+        /** width of the canvas */
         int width = StaticValues.CANVAS_WIDTH;
+        /** height of the canvas */
         int height = StaticValues.CANVAS_HEIGHT;
+        /** image that is drawn on the screen */
         BufferedImage onScreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        /** pre rendered image */
         BufferedImage offScreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        /** graphics for the screen */
         Graphics2D onScreen = onScreenImage.createGraphics();
+        /** graphics for pre rendering */
         Graphics2D offScreen = offScreenImage.createGraphics();
 
         /**

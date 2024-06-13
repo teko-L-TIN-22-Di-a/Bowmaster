@@ -8,9 +8,6 @@ import app.src.resources.components.Button;
 /**
  * Creates the menu screen.
  * Extends the Scene class.
- * 
- * @param start     Button object to start the game
- * @param exit      Button obkect to exit the game
  * @see             Button
  * @see             Scene
  */

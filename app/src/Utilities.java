@@ -11,6 +11,11 @@ import java.awt.image.BufferedImage;
  */
 public class Utilities {
 
+    /** empty Constructor */
+    public Utilities() {
+        // empty
+    }
+
     /**
      * Takes a BufferedImage, rotates it and returns the rotated image.
      * 

@@ -12,10 +12,11 @@ public class Hitbox extends Rectangle {
     
     /**
      * Constructor. Creates a Rectangle and adds offsets for x and y and a damage multiplier. 
-     * @param width             width of the hitbox
-     * @param height            height of the hitbox
-     * @param offset            stores the offset values for x and y
-     * @param damageMultiplier  allows differentiation between standard and cirtical hitboxes
+     * @param width                 width of the hitbox
+     * @param height                height of the hitbox
+     * @param offsetX               offset value for x
+     * @param offsetY               offset value for y
+     * @param newDamageMultiplier   allows differentiation between standard and cirtical hitboxes
      */
     public Hitbox(int width, int height, int offsetX, int offsetY, int newDamageMultiplier) {
         super(width, height, offsetX, offsetY);
@@ -25,7 +26,8 @@ public class Hitbox extends Rectangle {
 
     /**
      * Takes a new location and adds the offsets to it to store the reult in the location variable.
-     * @param newLocation   new location point
+     * @param newX  new x location
+     * @param newY  new y location
      */
     @Override
     public void setLocation(int newX, int newY) {

@@ -9,15 +9,12 @@ import app.src.StaticValues;
 /**
  * Creates and handles Monster objects.
  * Extends the Entity class.
- * 
- * @param   _originalSize   stores the original imagesize as reference for scaling
- * @param   _originalImage  stores the original image as reference for scaling
  * @see     Entity
  */
 public class Monster extends Entity {
 
-    private Point _originalSize;
-    private BufferedImage _originalImage;
+    private Point originalSize;
+    private BufferedImage originalImage;
 
     /**
      * Constructor. Creates a Monster object.
@@ -29,8 +26,8 @@ public class Monster extends Entity {
     public Monster(String imageName, int health, int speed) {
         super(imageName, StaticValues.CANVAS_WIDTH/2, StaticValues.SpawnY, health);
         setSpeed(speed);
-        _originalImage = getImage();
-        _originalSize = new Point(_originalImage.getWidth(), _originalImage.getHeight());
+        originalImage = getImage();
+        originalSize = new Point(originalImage.getWidth(), originalImage.getHeight());
     }
 
     /**
@@ -64,15 +61,15 @@ public class Monster extends Entity {
     public double scale() {
 
         double factor = (double) getDistance()  / (double) StaticValues.MAX_DISTANCE;
-        int newWidth = (int) (_originalSize.x * factor);
-        int newHeight = (int) (_originalSize.y * factor);
+        int newWidth = (int) (originalSize.x * factor);
+        int newHeight = (int) (originalSize.y * factor);
         if (newWidth < 1) {newWidth = 1;}
         if (newHeight < 1) {newHeight = 1;}
 
-        BufferedImage newImage = new BufferedImage(newWidth, newHeight, _originalImage.getType());
+        BufferedImage newImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
         
         Graphics2D g2d = newImage.createGraphics();
-        g2d.drawImage(_originalImage, 0, 0, newWidth, newHeight, null);
+        g2d.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
         g2d.dispose();
         
         setImage(newImage);

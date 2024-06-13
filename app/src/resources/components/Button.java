@@ -21,7 +21,7 @@ public class Button extends Component{
 
     /**
      * Takes a Runnable and stores it as action variable
-     * @param action    new action to perform on button click
+     * @param newAction    new action to perform on button click
      */
     public void setAction(Runnable newAction) {
         action = newAction;
@@ -153,7 +153,7 @@ public class Button extends Component{
      * Size is taken from the image.
      * @param x         x coordinate for the location
      * @param y         y coordinate for the location
-     * @param image     image of the Button
+     * @param imageName     image of the Button
      */
     public Button(int x, int y, String imageName) {
         super(x, y, 1, 1);
@@ -170,7 +170,7 @@ public class Button extends Component{
      * Size is taken from the image.
      * @param x         x coordinate for the location
      * @param y         y coordinate for the location
-     * @param image     image of the Button
+     * @param imageName image of the Button
      * @param text      text displayed on the Button
      */
     public Button(int x, int y, String imageName, String text) {
