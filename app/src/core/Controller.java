@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import app.src.resources.StaticValues;
+import app.src.StaticValues;
 import app.src.resources.components.Button;
 
 /**

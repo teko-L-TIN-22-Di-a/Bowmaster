@@ -3,7 +3,6 @@ package app.src.resources.components;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import app.src.resources.Rectangle;
 import app.src.resources.assets.Loader;
 
 public class Component {

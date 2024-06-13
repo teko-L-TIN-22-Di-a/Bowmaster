@@ -1,4 +1,4 @@
-package app.src.resources;
+package app.src;
 
 /**
  * Dataclass to store fixed values

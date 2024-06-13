@@ -4,8 +4,11 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import app.src.resources.StaticValues.Corners;
+import app.src.StaticValues;
+import app.src.StaticValues.Corners;
 import app.src.resources.assets.Loader;
+import app.src.resources.components.Hitbox;
+import app.src.resources.components.Rectangle;
 
 /**
  * Creates a Entity that serves as a basis for Monsters and other actors.

@@ -3,6 +3,7 @@ package app.src.resources;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import app.src.StaticValues;
 import app.src.Utilities;
 
 /**

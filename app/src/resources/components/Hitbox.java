@@ -1,4 +1,4 @@
-package app.src.resources;
+package app.src.resources.components;
 
 import java.awt.Point;
 

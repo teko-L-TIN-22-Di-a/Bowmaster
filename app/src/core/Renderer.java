@@ -12,11 +12,11 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import app.src.StaticValues;
 import app.src.resources.Entity;
-import app.src.resources.Rectangle;
-import app.src.resources.StaticValues;
 import app.src.resources.components.Button;
 import app.src.resources.components.Component;
+import app.src.resources.components.Rectangle;
 import app.src.scenes.Scene;
 
 /**

@@ -2,7 +2,7 @@ package app.src.scenes;
 
 import java.awt.Color;
 
-import app.src.resources.StaticValues;
+import app.src.StaticValues;
 import app.src.resources.components.Button;
 
 /**

@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import app.src.StaticValues;
+
 /**
  * Creates and handles Monster objects.
  * Extends the Entity class.

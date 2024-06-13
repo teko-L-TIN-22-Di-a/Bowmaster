@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import app.src.resources.StaticValues.SceneTag;
+import app.src.StaticValues.SceneTag;
 import app.src.scenes.Menu;
 import app.src.scenes.Scene;
 import app.src.scenes.SceneHandler;
