@@ -15,8 +15,8 @@ public class Component {
     public Rectangle rect;
 
     /**
-     * Returns the iamge of the Component
-     * @return iamge of the Component
+     * Returns the image of the Component
+     * @return image of the Component
      */
     public BufferedImage getImage() {
         return image;
