@@ -47,7 +47,6 @@ public class Monster extends Entity {
         int newY = StaticValues.SpawnY + (int) (StaticValues.TRAVEL_DISTANCE_Y*factor);
         Point pos = rect.getLocation();
         pos.y = newY;
-        pos.x += rect.getWidth()/2; // horizontal correction based on scaling
         setLocation(pos.x, pos.y);
         updateHitBoxes(pos.x, pos.y);
     }

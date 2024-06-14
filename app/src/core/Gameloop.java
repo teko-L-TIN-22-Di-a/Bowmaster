@@ -36,6 +36,8 @@ public class Gameloop {
         bobRoss.setScene(menu);
         sceneHandler.setScene(menu, SceneTag.NEW);
         controller.setButtonList(menu.getButtons());
+        controller.setupListeners(bobRoss.canvas);
+        bobRoss.startScene();
 
         ActionListener updateTask = updateEvent -> {
             Scene activeScene = sceneHandler.getActive();

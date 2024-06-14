@@ -55,7 +55,7 @@ public class Button extends Component{
         if (text != "") {
             text = newText;
         }
-         label = new Textfield(getLocation().x, getLocation().y,  text);
+        label = new Textfield(getLocation().x, getLocation().y,  text);
         int labelWidth =  label.getWidth();
         int labelHeight =  label.getHeight();
         Graphics g = getImage().getGraphics();
@@ -72,10 +72,10 @@ public class Button extends Component{
      */
     public void actionCheck(Point mousePosition) {
         if (
-            mousePosition.x >= getLocation().x &&
-            mousePosition.x <= getLocation().x + getWidth() &&
-            mousePosition.y >= getLocation().y &&
-            mousePosition.y <= getLocation().y + getHeight()
+            mousePosition.x >= getDrawPosition().x &&
+            mousePosition.x <= getDrawPosition().x + getWidth() &&
+            mousePosition.y >= getDrawPosition().y &&
+            mousePosition.y <= getDrawPosition().y + getHeight()
         ) {
             action();
         }

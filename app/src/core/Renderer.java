@@ -37,7 +37,7 @@ public class Renderer extends JFrame{
     /** Buttons to render */
     private List<Button> buttons;
     /** Canvas to draw onto */
-    private Canvas canvas = new Canvas();
+    public Canvas canvas = new Canvas();
 
     /**
      * Takes a Scene for rendering.
@@ -105,13 +105,14 @@ public class Renderer extends JFrame{
             offScreen.drawLine(StaticValues.CANVAS_WIDTH/2, 0, StaticValues.CANVAS_WIDTH/2, StaticValues.CANVAS_HEIGHT);
             
             for (Component component: components) {
-                offScreen.drawImage(component.getImage(), component.getLocation().x, component.getLocation().y, null);
+                Point componentLocation = component.getDrawPosition();
+                offScreen.drawImage(component.getImage(), componentLocation.x, componentLocation.y, null);
                 component.rect.draw(offScreen, Color.red);
             }
 
             for (Entity entity: entities) {
                 entity.update();
-                Point entityLocation = entity.getLocation();
+                Point entityLocation = entity.getDrawPosition();
                 offScreen.drawImage(entity.getImage(), entityLocation.x, entityLocation.y, null);
                 entity.rect.draw(offScreen, Color.red);
                 if (entity.getMainHitbox() instanceof Rectangle) {
@@ -120,7 +121,8 @@ public class Renderer extends JFrame{
             }
 
             for (Button button: buttons) {
-                offScreen.drawImage(button.getImage(), button.getLocation().x, button.getLocation().y, null);
+                Point buttonLocation = button.getDrawPosition();
+                offScreen.drawImage(button.getImage(), buttonLocation.x, buttonLocation.y, null);
                 button.rect.draw(offScreen, Color.red);
             }
 

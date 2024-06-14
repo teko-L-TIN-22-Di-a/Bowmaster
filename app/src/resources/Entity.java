@@ -2,9 +2,11 @@ package app.src.resources;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import app.src.StaticValues;
+import app.src.StaticValues.Corners;
 import app.src.resources.assets.Loader;
 import app.src.resources.components.Hitbox;
 import app.src.resources.components.Rectangle;
@@ -32,6 +34,7 @@ public class Entity {
      * @param health    determines how much damage an entity can take before death
      */
     public Entity(String imageName, int x, int y, int health) {
+        critBoxes = new ArrayList<Hitbox>();
         image = Loader.loadImage(imageName);
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
@@ -120,8 +123,6 @@ public class Entity {
      * @param newY  new y coordinate for the Entity
      */
     public void setLocation(int newX, int newY) {
-        newX -= rect.getWidth()/2;
-        newY -= rect.getHeight()/2;
         rect.setLocation(newX, newY);
     }
 
@@ -147,6 +148,10 @@ public class Entity {
      */
     public Point getLocation() {
         return rect.getLocation();
+    }
+
+    public Point getDrawPosition() {
+        return rect.getCorner(Corners.TOP_LEFT);
     }
 
     /**
