@@ -111,8 +111,8 @@ public class Button extends Component{
      * @param height    height of the Button
      * @param text      text displayed on the Button
      */
-    public Button(int x, int y, int width, int height, String text) {
-        super(x, y, width, height);
+    public Button(int width, int height, int x, int y, String text) {
+        super(width, height, x, y);
         setUpStandardButton(width, height);
         updateLabel(text);
     }
@@ -125,8 +125,8 @@ public class Button extends Component{
      * @param height    height of the Button
      * @param color     color of the Button
      */
-    public Button(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height);
+    public Button(int width, int height, int x, int y, Color color) {
+        super(width, height, x, y);
         setUpStandardButton(width, height);
         fill(color);
     }
@@ -140,8 +140,8 @@ public class Button extends Component{
      * @param text      text displayed on the Button
      * @param color     color of the Button
      */
-    public Button(int x, int y, int width, int height, String text, Color color) {
-        super(x, y, width, height);
+    public Button(int width, int height, int x, int y, String text, Color color) {
+        super(width, height, x, y);
         setUpStandardButton(width, height);
         fill(color);
         updateLabel(text);
@@ -156,7 +156,7 @@ public class Button extends Component{
      * @param imageName     image of the Button
      */
     public Button(int x, int y, String imageName) {
-        super(x, y, 1, 1);
+        super(1, 1, x, y);
         image = Loader.loadImage(imageName);
         int width = image.getWidth();
         int height = image.getHeight();
@@ -174,7 +174,7 @@ public class Button extends Component{
      * @param text      text displayed on the Button
      */
     public Button(int x, int y, String imageName, String text) {
-        super(x, y, 1, 1);
+        super(1, 1, x, y);
         image = Loader.loadImage(imageName);
         int width = image.getWidth();
         int height = image.getHeight();

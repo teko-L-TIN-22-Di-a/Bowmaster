@@ -22,8 +22,9 @@ public class Rectangle {
      * @param y         y value of the centerpoint
      */
     public Rectangle(int width, int height, int x, int y) {
-        setLocation(x, y);
-        setSize(width, height);
+        location = new Point(x, y);
+        size = new Point(width, height);
+        setCorners();
     }
 
     /**

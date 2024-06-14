@@ -22,12 +22,12 @@ public class Menu extends Scene {
         setTAG("menu");
         int width = StaticValues.CANVAS_WIDTH;
         int height = StaticValues.CANVAS_HEIGHT;
-        start = new Button(width/2, height/2 - 100, 100, 50, "START", Color.GRAY);
+        start = new Button(100, 50, width/2, height/2 - 100, "START", Color.GRAY);
         start.setAction(() -> {
             Level1 l = new Level1();
             setNewScene(l);
         });
-        exit = new Button(width/2, height/2 + 100, 100, 50, "EXIT", Color.GRAY);
+        exit = new Button(100, 50, width/2, height/2 + 100, "EXIT", Color.GRAY);
         exit.setAction(() -> {
             System.exit(0);
         });
