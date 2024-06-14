@@ -94,7 +94,10 @@ public class Entity {
      * @param newY  new y corrdinate
      */
     public void updateHitBoxes(int newX, int newY) {
-        List<Hitbox> boxes = critBoxes;
+        List<Hitbox> boxes = new ArrayList<Hitbox>();
+        for (Hitbox hb: critBoxes) {
+            boxes.add(hb);
+        }
         boxes.add(getMainHitbox());
         for (Hitbox box: boxes) {
             box.setLocation(newX, newY);

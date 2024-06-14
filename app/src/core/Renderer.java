@@ -16,6 +16,7 @@ import app.src.StaticValues;
 import app.src.resources.Entity;
 import app.src.resources.components.Button;
 import app.src.resources.components.Component;
+import app.src.resources.components.Hitbox;
 import app.src.resources.components.Rectangle;
 import app.src.scenes.Scene;
 
@@ -117,6 +118,9 @@ public class Renderer extends JFrame{
                 entity.rect.draw(offScreen, Color.red);
                 if (entity.getMainHitbox() instanceof Rectangle) {
                     entity.getMainHitbox().draw(offScreen, Color.green);
+                }
+                for (Hitbox h: entity.getCritBoxes()) {
+                    h.draw(offScreen, Color.blue);
                 }
             }
 
