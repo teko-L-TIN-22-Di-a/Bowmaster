@@ -1,7 +1,10 @@
 package app.src.scenes;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
+import app.src.resources.Arrow;
 import app.src.resources.Bow;
 import app.src.resources.Monster;
 
@@ -12,7 +15,8 @@ import app.src.resources.Monster;
  * @see Scene
  */
 public class Level1 extends Scene {
-    private Bow _bow;
+    private Bow bow;
+    private List<Arrow> arrows;
     
     /**
      * Constructor.
@@ -29,8 +33,10 @@ public class Level1 extends Scene {
         gobclops.registerCritBox(45, 42, 0, -37, 2);
         gobclops.registerCritBox(80, 60, 0, 40, 2);
 
-        _bow = new Bow();
-        registerEntity(_bow);
+        bow = new Bow();
+        registerEntity(bow);
+
+        arrows = new ArrayList<Arrow>();
     }
 
     /**
@@ -41,6 +47,9 @@ public class Level1 extends Scene {
     @Override
     public void updateMousePosition(Point mousePoint) {
         super.updateMousePosition(mousePoint);
-        _bow.updateMousePosition(mousePoint);
+        bow.updateMousePosition(mousePoint);
+        for (Arrow arrow: arrows) {
+            arrow.updateMousePosition(mousePoint);
+        }
     }
 }
