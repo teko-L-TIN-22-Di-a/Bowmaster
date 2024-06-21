@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.src.StaticValues;
+import app.src.Utilities;
 import app.src.StaticValues.Corners;
 import app.src.resources.assets.Loader;
 import app.src.resources.components.Hitbox;
@@ -94,30 +95,56 @@ public class Entity {
      * @param newY  new y corrdinate
      */
     public void updateHitBoxes(int newX, int newY) {
-        List<Hitbox> boxes = new ArrayList<Hitbox>();
-        for (Hitbox hb: critBoxes) {
-            boxes.add(hb);
-        }
-        boxes.add(getMainHitbox());
+        List<Hitbox> boxes = getAllHitboxs();
         for (Hitbox box: boxes) {
             box.setLocation(newX, newY);
         }
     }
 
     /**
-     * Returns the standard hitbox
-     * @return standard hitbox
+     * Takes a factor value to scale all Hitboxes.
+     * @param factor scaling factor
+     */
+    public void scaleHitBoxes(double factor) {
+        List<Hitbox> boxes = getAllHitboxs();
+        for (Hitbox box: boxes) {
+            Point originalSize = box.getOriginalSize();
+            Point newSize = Utilities.scaleSize(originalSize.x, originalSize.y, factor);
+            box.setSize(newSize.x, newSize.y);
+            
+            Point originalOffsets = box.getOriginalOffsets();
+            Point newOffsets = Utilities.scaleSize(originalOffsets.x, originalOffsets.y, factor);
+            box.setOffsets(newOffsets.x, newOffsets.y);
+        }
+    }
+
+    /**
+     * Returns the standard Hitbox.
+     * @return standard Hitbox
      */
     public Hitbox getMainHitbox() {
         return mainHitbox;
     }
 
     /**
-     * Returns a list of the critical hitboxes.
-     * @return critical hitboxes
+     * Returns a list of the critical Hitboxes.
+     * @return critical Hitboxes
      */
     public List<Hitbox> getCritBoxes() {
         return critBoxes;
+    }
+
+    /**
+     * Returns a list of all Hitboxes.
+     * @return all Hitboxes
+     */
+    public List<Hitbox> getAllHitboxs() {
+        List<Hitbox> boxes = new ArrayList<Hitbox>();
+        for (Hitbox hb: critBoxes) {
+            boxes.add(hb);
+        }
+        boxes.add(getMainHitbox());
+        return boxes;
     }
 
     /**
@@ -153,6 +180,10 @@ public class Entity {
         return rect.getLocation();
     }
 
+    /**
+     * Returns the Entity's drawing location (top left corner).
+     * @return Entity's drawing location
+     */
     public Point getDrawPosition() {
         return rect.getCorner(Corners.TOP_LEFT);
     }

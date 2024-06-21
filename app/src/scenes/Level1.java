@@ -2,7 +2,6 @@ package app.src.scenes;
 
 import java.awt.Point;
 
-import app.src.StaticValues;
 import app.src.resources.Bow;
 import app.src.resources.Monster;
 
@@ -26,7 +25,6 @@ public class Level1 extends Scene {
         setTAG("level1");
         Monster gobclops = new Monster("gobclops.png", 100, 1);
         registerEntity(gobclops);
-        gobclops.setDistance(StaticValues.MAX_DISTANCE);
         gobclops.setMainHitbox(130, 170, 0, 0);
         gobclops.registerCritBox(45, 42, 0, -37, 2);
         gobclops.registerCritBox(80, 60, 0, 40, 2);

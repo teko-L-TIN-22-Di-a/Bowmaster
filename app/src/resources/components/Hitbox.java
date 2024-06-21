@@ -8,7 +8,7 @@ import java.awt.Point;
  */
 public class Hitbox extends Rectangle {
     private int damageMultiplier;
-    private Point offset;
+    private Point offset, originalOffsets, originalSize;
     
     /**
      * Constructor. Creates a Rectangle and adds offsets for x and y and a damage multiplier. 
@@ -21,11 +21,13 @@ public class Hitbox extends Rectangle {
     public Hitbox(int width, int height, int offsetX, int offsetY, int newDamageMultiplier) {
         super(width, height, offsetX, offsetY);
         offset = new Point(offsetX, offsetY);
+        originalOffsets = new Point(offsetX, offsetY);
+        originalSize = new Point(width, height);
         damageMultiplier = newDamageMultiplier;
     }
 
     /**
-     * Takes a new location and adds the offsets to it to store the reult in the location variable.
+     * Takes a new location and adds the offsets to it to store the result in the location variable.
      * @param newX  new x location
      * @param newY  new y location
      */
@@ -48,6 +50,32 @@ public class Hitbox extends Rectangle {
      */
     public int getOffsetY() {
         return offset.y;
+    }
+
+    /**
+     * Returns the original offset values as Point
+     * @return original offset values as Point
+     */
+    public Point getOriginalOffsets() {
+        return originalOffsets;
+    }
+
+    /**
+     * Takes new x and y Values for the offsets to store in the offset variable.
+     * @param newX  new x location
+     * @param newY  new y location
+     */
+    public void setOffsets(int newX, int newY) {
+        offset.x = newX;
+        offset.y = newY;
+    }
+
+    /**
+     * Returns the original size values as Point
+     * @return original offset size as Point
+     */
+    public Point getOriginalSize() {
+        return originalSize;
     }
 
     /**

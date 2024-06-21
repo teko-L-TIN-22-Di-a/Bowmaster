@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
  * Provides functionalitites like
  * - image rotation,
  * - angle calculation between two points.
+ * - scaling of 2D values and Images
  */
 public class Utilities {
 
@@ -18,7 +19,6 @@ public class Utilities {
 
     /**
      * Takes a BufferedImage, rotates it and returns the rotated image.
-     * 
      * @param image the BufferedImage to be rotated
      * @param angle the rotation angle
      * @return      the rotated BufferedImage
@@ -54,7 +54,6 @@ public class Utilities {
     /**
      * Calculates the angle between two points in radiants,
      * the angle is calculated above the base with the value 0 pointing north.
-     * 
      * @param P1    basepoint for calculation
      * @param P2    point to which the angle points
      * @return      calculated angle in radians
@@ -82,5 +81,43 @@ public class Utilities {
             }
         }
         return angle;
+    }
+
+    /**
+     * Takes x and y values before scaling and multiplies them with the factor.
+     * @param originalX x value before scaling
+     * @param originalY y value before scaling
+     * @param factor scaling factor
+     * @return scaled x and y values as a Point
+     */
+    public static Point scaleSize(int originalX, int originalY, double factor) {
+        Point newSize = new Point();
+        newSize.x = (int) (originalX * factor);
+        newSize.y = (int) (originalY * factor);
+        return newSize;
+    }
+
+    /**
+     * Takes an image and a factor to scale the image.
+     * @param originalImage image before scaling
+     * @param factor scaling factor
+     * @return scaled image
+     */
+    public static BufferedImage scaleImage(BufferedImage originalImage, double factor) {
+
+        int originalX = originalImage.getWidth();
+        int originalY = originalImage.getHeight();
+
+        Point newSize = scaleSize(originalX, originalY, factor);
+        if (newSize.x < 1) {newSize.x = 1;}
+        if (newSize.y < 1) {newSize.y = 1;}
+
+        BufferedImage newImage = new BufferedImage(newSize.x, newSize.y, originalImage.getType());
+        
+        Graphics2D g2d = newImage.createGraphics();
+        g2d.drawImage(originalImage, 0, 0, newSize.x, newSize.y, null);
+        g2d.dispose();
+
+        return newImage;
     }
 }
