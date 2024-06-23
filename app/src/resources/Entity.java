@@ -22,6 +22,7 @@ public class Entity {
     private int health, distance, speed;
     private Hitbox mainHitbox;
     private List<Hitbox> critBoxes;
+    private Boolean state;
     /** Rectangle to track size and location of the Entity */
     public Rectangle rect;
 
@@ -43,6 +44,14 @@ public class Entity {
         distance = 0;
         speed = 0;
         setHealth(health);
+    }
+
+    public void setState() {
+        state = false;
+    }
+
+    public Boolean getState() {
+        return state;
     }
 
     /**

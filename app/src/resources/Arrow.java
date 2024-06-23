@@ -10,31 +10,55 @@ public class Arrow extends Entity{
 
     private Point mousePoint;
     private BufferedImage originalImage;
+    private Boolean shot;
+    private Boolean hit;
     
     public Arrow(int angle) {
         super("arrow.png", StaticValues.CANVAS_WIDTH/2, StaticValues.CANVAS_HEIGHT-200, 10);
 
+        Point mousePoint = new Point(0, 0);
+        originalImage = getImage();
         double mouseAngle = Utilities.calcAngle(rect.getLocation(),  mousePoint);
         BufferedImage rotatedImage = Utilities.rotate(originalImage, mouseAngle);
+        shot = false;
+        hit = false;
         setImage(rotatedImage);
-        originalImage = getImage();
 
         rect.setSize(rotatedImage.getWidth(), rotatedImage.getHeight());
         setLocation(rect.getX(), rect.getY());
 
         setDistance(StaticValues.MAX_DISTANCE);
-        setSpeed(-2);
+        setSpeed(-20);
     }
+
+    public void setShot() {
+        shot = true;
+    }
+
+    public Boolean getShot() {
+        return shot;
+    }
+
+    public void setHit() {
+        hit = true;
+    }
+
+    public Boolean getHit() {
+        return hit;
+    }
+
     @Override
     public void update() {
-        int dist = getDistance();
-        if (dist + getSpeed() >= StaticValues.MAX_DISTANCE) {
-            dist = StaticValues.MAX_DISTANCE;
-        }
-        else {
-            updateDistance();
-        }
 
+        if (shot) {
+            int dist = getDistance();
+            if (dist + getSpeed() >= StaticValues.MAX_DISTANCE) {
+                dist = StaticValues.MAX_DISTANCE;
+            }
+            else {
+                updateDistance();
+            }
+        }
         double factor = (double) getDistance()  / (double) StaticValues.MAX_DISTANCE;
 
         BufferedImage newImage = Utilities.scaleImage(originalImage, factor);
@@ -48,6 +72,9 @@ public class Arrow extends Entity{
         pos.y = newY;
         setLocation(pos.x, pos.y);
         
+        if (hit = true) {
+            setState();
+        }
     }
 
     public void updateMousePosition(Point newMousePoint) {

@@ -4,9 +4,11 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.src.StaticValues;
 import app.src.resources.Arrow;
 import app.src.resources.Bow;
 import app.src.resources.Monster;
+import app.src.resources.components.Button;
 
 /**
  * Creates the level1 screen.
@@ -16,6 +18,7 @@ import app.src.resources.Monster;
  */
 public class Level1 extends Scene {
     private Bow bow;
+    private Arrow nextArrow;
     private List<Arrow> arrows;
     
     /**
@@ -33,10 +36,22 @@ public class Level1 extends Scene {
         gobclops.registerCritBox(45, 42, 0, -37, 2);
         gobclops.registerCritBox(80, 60, 0, 40, 2);
 
+        Button shooter = new Button(
+            StaticValues.CANVAS_WIDTH,
+            StaticValues.CANVAS_HEIGHT,
+            StaticValues.CANVAS_WIDTH/2,
+            StaticValues.CANVAS_HEIGHT/2
+        );
+        shooter.setAction(() -> {shoot();});
+        registerButton(shooter);
+
         bow = new Bow();
         registerEntity(bow);
 
         arrows = new ArrayList<Arrow>();
+
+        nextArrow = new Arrow(0);
+        registerEntity(nextArrow);
     }
 
     /**
@@ -51,5 +66,11 @@ public class Level1 extends Scene {
         for (Arrow arrow: arrows) {
             arrow.updateMousePosition(mousePoint);
         }
+    }
+
+    public void shoot() {
+        nextArrow.setShot();
+        arrows.add(nextArrow);
+        nextArrow = null;
     }
 }
