@@ -1,5 +1,6 @@
 package app.src.core;
 
+import java.awt.Point;
 import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
@@ -48,7 +49,9 @@ public class Gameloop {
                 bobRoss.setScene(sceneHandler.getActive());
                 controller.setButtonList(newScene.getButtons());
             }
-            activeScene.updateMousePosition(controller.getMousePos());
+            Point mouseLocation = controller.getMousePos();
+            activeScene.updateMouseLocation(mouseLocation.x, mouseLocation.y);
+            activeScene.update();
             bobRoss.repaint();
         };
 

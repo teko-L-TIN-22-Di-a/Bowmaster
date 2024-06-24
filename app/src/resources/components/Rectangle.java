@@ -120,10 +120,10 @@ public class Rectangle {
      */
     public List<Point> getCorners() {
         List<Point> points = new ArrayList<>();
-        points.add (topLeft);
-        points.add (topRight);
-        points.add (bottomLeft);
-        points.add (bottomRight);
+        points.add(topLeft);
+        points.add(topRight);
+        points.add(bottomLeft);
+        points.add(bottomRight);
         return points;
     }
 

@@ -112,7 +112,6 @@ public class Renderer extends JFrame{
             }
 
             for (Entity entity: entities) {
-                entity.update();
                 Point entityLocation = entity.getDrawPosition();
                 offScreen.drawImage(entity.getImage(), entityLocation.x, entityLocation.y, null);
                 entity.rect.draw(offScreen, Color.red);

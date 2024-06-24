@@ -1,10 +1,8 @@
 package app.src.resources;
 
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 
 import app.src.StaticValues;
-import app.src.Utilities;
 
 /**
  * Creates and handles Monster objects.
@@ -12,9 +10,6 @@ import app.src.Utilities;
  * @see     Entity
  */
 public class Monster extends Entity {
-
-    private BufferedImage originalImage;
-
     /**
      * Constructor. Creates a Monster object.
      * @param imageName image for the Monster in app/src/resources/assets
@@ -24,7 +19,6 @@ public class Monster extends Entity {
     public Monster(String imageName, int health, int speed) {
         super(imageName, StaticValues.CANVAS_WIDTH/2, StaticValues.SpawnY, health);
         setSpeed(speed);
-        originalImage = getImage();
     }
 
     /**
@@ -42,13 +36,9 @@ public class Monster extends Entity {
 
         double factor = (double) getDistance()  / (double) StaticValues.MAX_DISTANCE;
 
-        BufferedImage newImage = Utilities.scaleImage(originalImage, factor);
-        setImage(newImage);
-        int newWidth = newImage.getWidth();
-        int newHeight = newImage.getHeight();
-
-        rect.setSize(newWidth, newHeight);
+        scaleImage(factor);
         scaleHitBoxes(factor);
+
         int newY = StaticValues.SpawnY + (int) (StaticValues.TRAVEL_DISTANCE_Y*factor);
         Point pos = rect.getLocation();
         pos.y = newY;

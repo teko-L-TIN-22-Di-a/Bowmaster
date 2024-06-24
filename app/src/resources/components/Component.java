@@ -41,6 +41,10 @@ public class Component {
         rect = new Rectangle(width, height, x, y);
     }
 
+    public void update() {
+        // to overide per component
+    }
+
     /**
      * Returns the image of the Component
      * @return image of the Component

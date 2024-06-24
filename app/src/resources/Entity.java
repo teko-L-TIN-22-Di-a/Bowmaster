@@ -18,7 +18,7 @@ import app.src.resources.components.Rectangle;
  * @see Rectangle
  */
 public class Entity {
-    private BufferedImage image;
+    private BufferedImage image, originalImage;
     private int health, distance, speed;
     private Hitbox mainHitbox;
     private List<Hitbox> critBoxes;
@@ -37,7 +37,9 @@ public class Entity {
      */
     public Entity(String imageName, int x, int y, int health) {
         critBoxes = new ArrayList<Hitbox>();
-        image = Loader.loadImage(imageName);
+        BufferedImage loadedImage = Loader.loadImage(imageName);
+        originalImage = loadedImage;
+        image = loadedImage;
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
         rect = new Rectangle(imageWidth, imageHeight, x, y);
@@ -59,6 +61,42 @@ public class Entity {
      */
     public void update() {
         // to overide per entity
+    }
+
+    public void rotateImage(double angle) {
+        BufferedImage rotatedImage = Utilities.rotate(originalImage, angle);
+        setImage(rotatedImage);
+        rect.setSize(rotatedImage.getWidth(), rotatedImage.getHeight());
+        setLocation(rect.getX(), rect.getY());
+    }
+
+    public void scaleImage(double factor) {
+        BufferedImage newImage = Utilities.scaleImage(originalImage, factor);
+        setImage(newImage);
+
+        int newWidth = newImage.getWidth();
+        int newHeight = newImage.getHeight();
+        rect.setSize(newWidth, newHeight);
+    }
+
+    /**
+     * Returns the Entity's image.
+     * @return Entity's image
+     */
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    /**
+     * Takes an image and stores it.
+     * @param newImage new image to be stored
+     */
+    public void setImage(BufferedImage newImage) {
+        image = newImage;
+    }
+
+    public void setOriginalImage(BufferedImage newImage) {
+        originalImage = newImage;
     }
 
     /**
@@ -163,22 +201,6 @@ public class Entity {
      */
     public void setLocation(int newX, int newY) {
         rect.setLocation(newX, newY);
-    }
-
-    /**
-     * Returns the Entity's image.
-     * @return Entity's image
-     */
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    /**
-     * Takes an image and stores it.
-     * @param newImage new image to be stored
-     */
-    public void setImage(BufferedImage newImage) {
-        image = newImage;
     }
 
     /**

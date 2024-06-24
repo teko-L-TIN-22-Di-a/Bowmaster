@@ -24,7 +24,6 @@ public class Level1 extends Scene {
     /**
      * Constructor.
      * Sets up the Level1 scene.
-     * 
      * @see Monster
      * @see Bow
      */
@@ -47,30 +46,41 @@ public class Level1 extends Scene {
 
         bow = new Bow();
         registerEntity(bow);
+        Point bowLocation = bow.getLocation();
 
         arrows = new ArrayList<Arrow>();
 
-        nextArrow = new Arrow(0);
+        nextArrow = new Arrow(0, bowLocation.x, bowLocation.y);
+        nextArrow.updatePlayerLocation(bowLocation.x, bowLocation.y);
+        nextArrow.updateMouseLocation(0, 0);
         registerEntity(nextArrow);
     }
 
+    @Override
+    public void update() {
+        super.update();
+    }
+
     /**
-     * Includes mousePosition update for the Bow object.
-     * 
+     * Includes mouseLocation update for the Bow object.
      * @see Scene
      */
     @Override
-    public void updateMousePosition(Point mousePoint) {
-        super.updateMousePosition(mousePoint);
-        bow.updateMousePosition(mousePoint);
-        for (Arrow arrow: arrows) {
-            arrow.updateMousePosition(mousePoint);
-        }
+    public void updateMouseLocation(int x, int y) {
+        super.updateMouseLocation(x, y);
+        bow.updateMouseLocation(x, y);
+        nextArrow.updateMouseLocation(x, y);
+        Point playerLocation = bow.getLocation();
+        nextArrow.updatePlayerLocation(playerLocation.x, playerLocation.y);
     }
 
     public void shoot() {
         nextArrow.setShot();
+        nextArrow.setOriginalImage(nextArrow.getImage());
         arrows.add(nextArrow);
-        nextArrow = null;
+        Point bowLocation = bow.getLocation();
+        Arrow newArrow = new Arrow(0, bowLocation.x, bowLocation.y);
+        registerEntity(newArrow);
+        nextArrow = newArrow;
     }
 }

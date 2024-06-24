@@ -15,12 +15,12 @@ import app.src.resources.components.Component;
  * @see Button
  */
 public class Scene {
-    private List<Entity> _entities;
-    private List<Component> _components;
-    private List<Button> _buttons;
+    private List<Entity> entities;
+    private List<Component> components;
+    private List<Button> buttons;
     private String TAG;
-    private Scene _newScene;
-    private Point _mousepoint;
+    private Scene newScene;
+    private Point mousepoint;
 
     /**
      * Basic constructor, 
@@ -28,10 +28,19 @@ public class Scene {
      * Properties from these lists will be drawn in "Renderer.java".
      */
     public Scene() {
-        _entities = new ArrayList<>();
-        _components = new ArrayList<>();
-        _buttons = new ArrayList<>();
+        entities = new ArrayList<>();
+        components = new ArrayList<>();
+        buttons = new ArrayList<>();
         setNewScene(this);
+    }
+
+    public void update() {
+        for (Entity entity: entities) {
+            entity.update();
+        }
+        for (Component component: components) {
+            component.update();
+        }
     }
 
     /**
@@ -52,8 +61,8 @@ public class Scene {
      * @param mousePoint    a Point object to set a new location
      * @see                 Point
      */
-    public void updateMousePosition(Point mousePoint) {
-        _mousepoint = mousePoint;
+    public void updateMouseLocation(int x, int y) {
+        mousepoint = new Point(x, y);
     }
 
     /**
@@ -62,7 +71,7 @@ public class Scene {
      * @see     Point
      */
     public Point getMousePoint() {
-        return _mousepoint;
+        return mousepoint;
     }
 
     /**
@@ -71,7 +80,7 @@ public class Scene {
      * @see             Scene
      */
     public void setNewScene(Scene scene) {
-        _newScene = scene;
+        newScene = scene;
     }
 
     /**
@@ -80,7 +89,7 @@ public class Scene {
      * @see     Scene
      */
     public Scene getNewScene() {
-        return _newScene;
+        return newScene;
     }
 
     /**
@@ -107,7 +116,7 @@ public class Scene {
      * @see Entity
      */
     public void registerEntity(Entity entity) {
-        _entities.add(entity);
+        entities.add(entity);
     }
 
     /**
@@ -116,7 +125,7 @@ public class Scene {
      * @see Entity
      */
     public void unregisterEntity(Entity entity) {
-        _entities.remove(entity);
+        entities.remove(entity);
     }
 
     /**
@@ -125,7 +134,7 @@ public class Scene {
      * @see Entity
      */
     public List<Entity> getEnties() {
-        return _entities;
+        return entities;
     }
 
     /**
@@ -134,7 +143,7 @@ public class Scene {
      * @see Component
      */
     public void registerComponent(Component component) {
-        _components.add(component);
+        components.add(component);
     }
 
     /**
@@ -143,7 +152,7 @@ public class Scene {
      * @see Component
      */
     public void unregisterComponent(Component component) {
-        _components.remove(component);
+        components.remove(component);
     }
 
     /**
@@ -152,7 +161,7 @@ public class Scene {
      * @see Component
      */
     public List<Component> getComponents() {
-        return _components;
+        return components;
     }
 
     /**
@@ -161,7 +170,7 @@ public class Scene {
      * @see Button
      */
     public void registerButton(Button button) {
-        _buttons.add(button);
+        buttons.add(button);
     }
 
     /**
@@ -170,7 +179,7 @@ public class Scene {
      * @see Button
      */
     public void unregisterButton(Button button) {
-        _buttons.remove(button);
+        buttons.remove(button);
     }
 
     /**
@@ -179,6 +188,6 @@ public class Scene {
      * @see Button
      */
     public List<Button> getButtons() {
-        return _buttons;
+        return buttons;
     }
 }
