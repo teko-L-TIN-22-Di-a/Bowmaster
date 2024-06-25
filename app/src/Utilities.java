@@ -95,26 +95,26 @@ public class Utilities {
      * @see         BufferedImage
      */
     public static BufferedImage rotateImage(BufferedImage image, double angle) {
-        int oWidth = image.getWidth();
-        int oHeight = image.getHeight();
+        int oldWidth = image.getWidth();
+        int oldHeight = image.getHeight();
         double sin = Math.sin(Math.abs(angle));
         double cos = Math.cos(Math.abs(angle));
-        int nWidth = (int) (cos*oWidth + sin*oHeight);
-        int nheight = (int) (sin*oWidth + cos*oHeight);
+        int newWidth = (int) (cos*oldWidth + sin*oldHeight);
+        int newheight = (int) (sin*oldWidth + cos*oldHeight);
 
-        if (nWidth <= 0) {
-            nWidth = oWidth;
+        if (newWidth <= 0) {
+            newWidth = oldWidth;
             angle = 0;
         }
-        if (nheight <= 0) {
-            nheight = oHeight;
+        if (newheight <= 0) {
+            newheight = oldHeight;
             angle = 0;
         }
 
-        BufferedImage newImage = new BufferedImage(nWidth, nheight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage newImage = new BufferedImage(newWidth, newheight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = newImage.createGraphics();
-        g2d.translate((nWidth - oWidth)/2, (nheight - oHeight)/2);
-        g2d.rotate(angle, oWidth/2, oHeight/2);
+        g2d.translate((newWidth - oldWidth)/2, (newheight - oldHeight)/2);
+        g2d.rotate(angle, oldWidth/2, oldHeight/2);
         g2d.drawImage(image, 0, 0, null);
         g2d.dispose();
 
