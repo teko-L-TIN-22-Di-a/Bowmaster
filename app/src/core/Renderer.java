@@ -108,13 +108,13 @@ public class Renderer extends JFrame{
             for (Component component: components) {
                 Point componentLocation = component.getDrawPosition();
                 offScreen.drawImage(component.getImage(), componentLocation.x, componentLocation.y, null);
-                component.rect.draw(offScreen, Color.red);
+                //component.rect.draw(offScreen, Color.red);
             }
 
             for (Entity entity: entities) {
                 Point entityLocation = entity.getDrawPosition();
                 offScreen.drawImage(entity.getImage(), entityLocation.x, entityLocation.y, null);
-                entity.rect.draw(offScreen, Color.red);
+                //entity.rect.draw(offScreen, Color.red);
                 if (entity.getMainHitbox() instanceof Rectangle) {
                     entity.getMainHitbox().draw(offScreen, Color.green);
                 }

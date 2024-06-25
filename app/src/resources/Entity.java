@@ -64,7 +64,7 @@ public class Entity {
     }
 
     public void rotateImage(double angle) {
-        BufferedImage rotatedImage = Utilities.rotate(originalImage, angle);
+        BufferedImage rotatedImage = Utilities.rotateImage(originalImage, angle);
         setImage(rotatedImage);
         rect.setSize(rotatedImage.getWidth(), rotatedImage.getHeight());
         setLocation(rect.getX(), rect.getY());

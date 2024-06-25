@@ -18,40 +18,6 @@ public class Utilities {
     }
 
     /**
-     * Takes a BufferedImage, rotates it and returns the rotated image.
-     * @param image the BufferedImage to be rotated
-     * @param angle the rotation angle
-     * @return      the rotated BufferedImage
-     * @see         BufferedImage
-     */
-    public static BufferedImage rotate(BufferedImage image, double angle) {
-        int oWidth = image.getWidth();
-        int oHeight = image.getHeight();
-        double sin = Math.sin(Math.abs(angle));
-        double cos = Math.cos(Math.abs(angle));
-        int nWidth = (int) (cos*oWidth + sin*oHeight);
-        int nheight = (int) (sin*oWidth + cos*oHeight);
-
-        if (nWidth <= 0) {
-            nWidth = oWidth;
-            angle = 0;
-        }
-        if (nheight <= 0) {
-            nheight = oHeight;
-            angle = 0;
-        }
-
-        BufferedImage newImage = new BufferedImage(nWidth, nheight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = newImage.createGraphics();
-        g2d.translate((nWidth - oWidth)/2, (nheight - oHeight)/2);
-        g2d.rotate(angle, oWidth/2, oHeight/2);
-        g2d.drawImage(image, 0, 0, null);
-        g2d.dispose();
-
-        return newImage;
-    }
-
-    /**
      * Calculates the angle between two points in radiants,
      * the angle is calculated above the base with the value 0 pointing north.
      * @param P1    basepoint for calculation
@@ -116,6 +82,40 @@ public class Utilities {
         
         Graphics2D g2d = newImage.createGraphics();
         g2d.drawImage(originalImage, 0, 0, newSize.x, newSize.y, null);
+        g2d.dispose();
+
+        return newImage;
+    }
+
+    /**
+     * Takes a BufferedImage, rotates it and returns the rotated image.
+     * @param image the BufferedImage to be rotated
+     * @param angle the rotation angle
+     * @return      the rotated BufferedImage
+     * @see         BufferedImage
+     */
+    public static BufferedImage rotateImage(BufferedImage image, double angle) {
+        int oWidth = image.getWidth();
+        int oHeight = image.getHeight();
+        double sin = Math.sin(Math.abs(angle));
+        double cos = Math.cos(Math.abs(angle));
+        int nWidth = (int) (cos*oWidth + sin*oHeight);
+        int nheight = (int) (sin*oWidth + cos*oHeight);
+
+        if (nWidth <= 0) {
+            nWidth = oWidth;
+            angle = 0;
+        }
+        if (nheight <= 0) {
+            nheight = oHeight;
+            angle = 0;
+        }
+
+        BufferedImage newImage = new BufferedImage(nWidth, nheight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = newImage.createGraphics();
+        g2d.translate((nWidth - oWidth)/2, (nheight - oHeight)/2);
+        g2d.rotate(angle, oWidth/2, oHeight/2);
+        g2d.drawImage(image, 0, 0, null);
         g2d.dispose();
 
         return newImage;
