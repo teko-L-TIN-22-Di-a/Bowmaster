@@ -57,7 +57,8 @@ public class Arrow extends Entity {
             
             int newY = StaticValues.SpawnY + (int) (StaticValues.TRAVEL_DISTANCE_Y*factor);
             Point pos = rect.getLocation();
-            setLocation(pos.x, newY);
+            int newX = pos.x + (int) (Math.abs(getSpeed()) * Math.tan(direction));
+            setLocation(newX, newY);
         }
         else {
             direction = Utilities.calcAngle(playerLocation, mouseLocation);
