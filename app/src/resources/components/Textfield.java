@@ -13,7 +13,7 @@ public class Textfield extends Component{
     private String text;
 
     /**
-     * Constructor. Takes x and y coordinate and a String to create a Component with text.
+     * Takes x and y coordinate and a String to create a Component with text.
      * @param x             location x
      * @param y             location y
      * @param buttonText    displayed text

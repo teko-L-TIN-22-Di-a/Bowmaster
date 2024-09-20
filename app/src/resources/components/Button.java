@@ -20,6 +20,98 @@ public class Button extends Component{
     private BufferedImage image;
 
     /**
+     * Creates a Button with size and location.
+     * @param x         x coordinate for the location
+     * @param y         y coordinate for the location
+     * @param width     width of the Button
+     * @param height    height of the Button
+     */
+    public Button(int width, int height, int x, int y) {
+        super(width, height, x, y);
+        setUpStandardButton(width, height);
+    }
+
+    /**
+     * Creates a Button with size, location and text.
+     * @param x         x coordinate for the location
+     * @param y         y coordinate for the location
+     * @param width     width of the Button
+     * @param height    height of the Button
+     * @param text      text displayed on the Button
+     */
+    public Button(int width, int height, int x, int y, String text) {
+        super(width, height, x, y);
+        setUpStandardButton(width, height);
+        updateLabel(text);
+    }
+
+    /**
+     * Creates a Button with size, location and color.
+     * @param x         x coordinate for the location
+     * @param y         y coordinate for the location
+     * @param width     width of the Button
+     * @param height    height of the Button
+     * @param color     color of the Button
+     */
+    public Button(int width, int height, int x, int y, Color color) {
+        super(width, height, x, y);
+        setUpStandardButton(width, height);
+        fill(color);
+    }
+
+    /**
+     * Creates a Button with size, location, text and color.
+     * @param x         x coordinate for the location
+     * @param y         y coordinate for the location
+     * @param width     width of the Button
+     * @param height    height of the Button
+     * @param text      text displayed on the Button
+     * @param color     color of the Button
+     */
+    public Button(int width, int height, int x, int y, String text, Color color) {
+        super(width, height, x, y);
+        setUpStandardButton(width, height);
+        fill(color);
+        updateLabel(text);
+    }
+
+    /**
+     * Creates a Button with location and image.
+     * Loads the image from app/src/resources/assets.
+     * Size is taken from the image.
+     * @param x         x coordinate for the location
+     * @param y         y coordinate for the location
+     * @param imageName     image of the Button
+     */
+    public Button(int x, int y, String imageName) {
+        super(1, 1, x, y);
+        image = Loader.loadImage(imageName);
+        int width = image.getWidth();
+        int height = image.getHeight();
+        setSize(width, height);
+        setImage(image);
+    }
+
+    /**
+     * Creates a Button with location, text and image.
+     * Loads the image from app/src/resources/assets.
+     * Size is taken from the image.
+     * @param x         x coordinate for the location
+     * @param y         y coordinate for the location
+     * @param imageName image of the Button
+     * @param text      text displayed on the Button
+     */
+    public Button(int x, int y, String imageName, String text) {
+        super(1, 1, x, y);
+        image = Loader.loadImage(imageName);
+        int width = image.getWidth();
+        int height = image.getHeight();
+        setSize(width, height);
+        setImage(image);
+        updateLabel(text);
+    }
+
+    /**
      * Takes a Runnable and stores it as action variable
      * @param newAction    new action to perform on button click
      */
@@ -82,104 +174,12 @@ public class Button extends Component{
     }
 
     /**
-     * basic set up for the different Button constructors.
+     * Basic set up for the different Button constructors.
      * @param width     width of the Button
      * @param height    height of the Button
      */
     private void setUpStandardButton(int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         setImage(image);
-    }
-
-    /**
-     * Constructor. Creates a Button with size and location.
-     * @param x         x coordinate for the location
-     * @param y         y coordinate for the location
-     * @param width     width of the Button
-     * @param height    height of the Button
-     */
-    public Button(int width, int height, int x, int y) {
-        super(width, height, x, y);
-        setUpStandardButton(width, height);
-    }
-
-    /**
-     * Constructor. Creates a Button with size, location and text.
-     * @param x         x coordinate for the location
-     * @param y         y coordinate for the location
-     * @param width     width of the Button
-     * @param height    height of the Button
-     * @param text      text displayed on the Button
-     */
-    public Button(int width, int height, int x, int y, String text) {
-        super(width, height, x, y);
-        setUpStandardButton(width, height);
-        updateLabel(text);
-    }
-
-    /**
-     * Constructor. Creates a Button with size, location and color.
-     * @param x         x coordinate for the location
-     * @param y         y coordinate for the location
-     * @param width     width of the Button
-     * @param height    height of the Button
-     * @param color     color of the Button
-     */
-    public Button(int width, int height, int x, int y, Color color) {
-        super(width, height, x, y);
-        setUpStandardButton(width, height);
-        fill(color);
-    }
-
-    /**
-     * Constructor. Creates a Button with size, location, text and color.
-     * @param x         x coordinate for the location
-     * @param y         y coordinate for the location
-     * @param width     width of the Button
-     * @param height    height of the Button
-     * @param text      text displayed on the Button
-     * @param color     color of the Button
-     */
-    public Button(int width, int height, int x, int y, String text, Color color) {
-        super(width, height, x, y);
-        setUpStandardButton(width, height);
-        fill(color);
-        updateLabel(text);
-    }
-
-    /**
-     * Constructor. Creates a Button with location and image.
-     * Loads the image from app/src/resources/assets.
-     * Size is taken from the image.
-     * @param x         x coordinate for the location
-     * @param y         y coordinate for the location
-     * @param imageName     image of the Button
-     */
-    public Button(int x, int y, String imageName) {
-        super(1, 1, x, y);
-        image = Loader.loadImage(imageName);
-        int width = image.getWidth();
-        int height = image.getHeight();
-        setSize(width, height);
-        setImage(image);
-    }
-
-    /**
-     * Constructor. Creates a Button with location, text and image.
-     * Loads the image from app/src/resources/assets.
-     * Size is taken from the image.
-     * @param x         x coordinate for the location
-     * @param y         y coordinate for the location
-     * @param imageName image of the Button
-     * @param text      text displayed on the Button
-     */
-    public Button(int x, int y, String imageName, String text) {
-        super(1, 1, x, y);
-        image = Loader.loadImage(imageName);
-        int width = image.getWidth();
-        int height = image.getHeight();
-        setSize(width, height);
-        setImage(image);
-        updateLabel(text);
     }
 }

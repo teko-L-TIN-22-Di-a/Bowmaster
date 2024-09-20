@@ -15,7 +15,7 @@ public class Rectangle {
     private Point size, location, topLeft, topRight, bottomLeft, bottomRight;
 
     /**
-     * Constructor. Creates a Rectangle object.
+     * Creates a Rectangle object.
      * @param width     width of the rectangle
      * @param height    height of the rectangle
      * @param x         x value of the centerpoint
@@ -108,10 +108,10 @@ public class Rectangle {
      * Sets the corner coordinates based on the location and the size of the Rectangle object.
      */
     private void setCorners() {
-        topLeft = new Point (location.x - size.x/2, location.y - size.y/2);
-        topRight = new Point (location.x + size.x/2, location.y - size.y/2);
-        bottomLeft = new Point (location.x - size.x/2, location.y + size.y/2);
-        bottomRight = new Point (location.x + size.x/2, location.y + size.y/2);
+        topLeft = new Point (location.x - size.x/2, location.y - size.y);
+        topRight = new Point (location.x + size.x/2, location.y - size.y);
+        bottomLeft = new Point (location.x - size.x/2, location.y);
+        bottomRight = new Point (location.x + size.x/2, location.y);
     }
 
     /**

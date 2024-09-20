@@ -8,11 +8,11 @@ Die Gegner werden als Bild auf den Bildschirm gezeichnet und für die Treffer Be
 Das Spiel kann auch mit einer Mehrspieler Funktion erweitert werden, im ersten Schritt lokal und im letzten Schritt als Online Variante.
 Hier kann ein weiterer Spieler entweder als Gegner oder als Mitspieler agieren.
 
-Haupt-Repo: https://github.com/Floindil/BOWMASTER
-
-Technologie:
+Technologien:
 - java
 - java Swing
+- https://inkarnate.com
+- https://www.bing.com/images/create
 
 Ziele:
 - Point and Click Steuerung
@@ -23,3 +23,8 @@ Optional:
 - 2D Bewegungen für Spieler
 - Mehrspieler komponente
 - Online Komponente
+
+Code Dokumentation: https://floindil.github.io/BOWMASTER/
+
+Eine erste Testversion ist als ZIP verfügbar und kann getestet werden.
+(Für die Testversion muss Java auf dem Gerät installiert sein)

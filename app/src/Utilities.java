@@ -3,6 +3,12 @@ package app.src;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.List;
+
+import app.src.resources.Arrow;
+import app.src.resources.Entity;
+import app.src.resources.monsters.Monster;
+import app.src.scenes.Scene;
 
 /**
  * Provides functionalitites like
@@ -12,9 +18,45 @@ import java.awt.image.BufferedImage;
  */
 public class Utilities {
 
-    /** empty Constructor */
-    public Utilities() {
+    /** Empty constructor. */
+    private Utilities() {
         // empty
+    }
+
+    /**
+     * Takes the Lenght and Height of a circle segment
+     * to calculate and return the radius.
+     * @param segmentLenght lenght of the segment base line
+     * @param segmentHeight height of the segment
+     * @return radius
+     */
+    public static double calcArcRadius(int segmentLenght, int segmentHeight) {
+        int h = segmentHeight;
+        int s = segmentLenght;
+        int r = (int) ((4*h*h + s*s)/(8*h));
+        return r;
+    }
+
+    public static int calcSegmentPointHeight(int segmentLenght, int segmentHeight, int segmentDistance, double radius) {
+        int sl = segmentLenght;
+        int sh = segmentHeight;
+        double x = Math.abs(sl/2-segmentDistance);
+        double r = radius;
+        int h = (int) (Math.sqrt(r*r-x*x)-r+sh);
+        return h;
+    }
+
+    /**
+     * Takes 2 Points, calculates and returns the direct distance between them
+     * @param P1 first Point for calculation (basepoint)
+     * @param P2 second Point for calculation
+     * @return rect distance between the two Points
+     */
+    public static int calcDistance(Point P1, Point P2) {
+        double lenX = Math.abs(P1.x - P2.x);
+        double lenY = Math.abs(P1.y - P2.y);
+        int distance = (int) (Math.sqrt(lenX*lenX + lenY*lenY));
+        return distance;
     }
 
     /**
@@ -28,23 +70,9 @@ public class Utilities {
     public static double calcAngle(Point P1, Point P2) {
         double lenX = P1.x - P2.x;
         double lenY = P1.y - P2.y;
-        double angle = Math.atan(lenY/lenX);
-        if (lenX <= 0) {
-            if (lenY <= 0) {
-                angle = Math.PI/2;
-            } else {
-                angle = Math.PI/2 + angle;
-                if (angle == 0) {
-                }
-            }
-        } else {
-            if (lenY <= 0) {
-                angle = - Math.PI/2;
-            } else {
-                angle = - Math.PI/2 + angle;
-                if (angle == 0) {
-                }
-            }
+        double angle = Math.atan(Math.abs(lenX)/Math.abs(lenY));
+        if (lenX >= 0) {
+            angle = -angle;
         }
         return angle;
     }
@@ -119,5 +147,36 @@ public class Utilities {
         g2d.dispose();
 
         return newImage;
+    }
+
+    public static void hitCalculation(Scene scene) {
+        String tag = scene.getTAG();
+        if (tag == "level") {
+            List<Entity> monsters = scene.getEntitiesByTag("monster");
+            List<Entity> arrows = scene.getEntitiesByTag("arrow");
+
+            for (Entity monsterEntity: monsters) {
+                Monster monster = (Monster) monsterEntity;
+                int monsterDistance = monster.getDistance();
+
+                for (Entity entity: arrows) {
+                    Arrow arrow = (Arrow) entity;
+                    int arrowDistance1 = arrow.getDistance();
+                    int arrowDistance2 = arrowDistance1 - arrow.getSpeed();
+                    if (arrow.getShot()) {
+                        if (monsterDistance >= arrowDistance1 && monsterDistance <= arrowDistance2) {
+                            Point arrowhead = arrow.getHead();
+                            int multiplier = monster.getMultiplier(arrowhead);
+                            if (multiplier > 0) {
+                                monster.updateHealth(- multiplier * StaticValues.BASEDAMAGE);
+                                arrow.setState();
+                                scene.playHitNoise();
+                                System.out.println("Hit detected! Remaining health " + monster.getHealth());
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,0 +1,10 @@
+app
+app.src
+app.src.core
+app.src.resources
+app.src.resources.assets
+app.src.resources.assets.images
+app.src.resources.assets.sounds
+app.src.resources.components
+app.src.resources.monsters
+app.src.scenes

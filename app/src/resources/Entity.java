@@ -1,77 +1,237 @@
 package app.src.resources;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.src.StaticValues;
+import javax.sound.sampled.Clip;
+
 import app.src.Utilities;
 import app.src.StaticValues.Corners;
-import app.src.resources.assets.Loader;
 import app.src.resources.components.Hitbox;
 import app.src.resources.components.Rectangle;
 
 /**
- * Creates a Entity that serves as a basis for Monsters and other actors.
+ * Creates an Entity that serves as a base for Monsters and other actors.
  * @see BufferedImage
  * @see Rectangle
  */
 public class Entity {
     private BufferedImage image, originalImage;
-    private int health, distance, speed;
-    private Hitbox mainHitbox;
-    private List<Hitbox> critBoxes;
-    private Boolean state;
-    /** Rectangle to track size and location of the Entity */
-    public Rectangle rect;
+    private int maxHealth, health, distance, speed, cooldown;
+    private List<Hitbox> hitBoxes;
+    private Boolean state, healthbar, charging;
+    private String TAG;
+    private Clip noise;
+    private Point playerLocation;
+    private Rectangle rect;
+    
 
     /**
-     * Constructor. Takes an iamge name, coordinates and health value to create an Entity.
+     * Takes an image name, coordinates and health value to create an Entity.
      * Loads the image from app/src/resources/assets.
      * Takes width and Height from the image to create a Rectangle
-     * @param imageName name of the image in app/src/resources/assets
-     * @param x         x coodinate for the location
-     * @param y         y coodinate for the location
-     * @param health    determines how much damage an entity can take before death
+     * @param loadedImage previously loaded Image
+     * @param x x coodinate for the location
+     * @param y y coodinate for the location
+     * @param health determines how much damage an entity can take before death
      */
-    public Entity(String imageName, int x, int y, int health) {
-        critBoxes = new ArrayList<Hitbox>();
-        BufferedImage loadedImage = Loader.loadImage(imageName);
+    public Entity(BufferedImage loadedImage, int x, int y, int health) {
+        hitBoxes = new ArrayList<Hitbox>();
         originalImage = loadedImage;
         image = loadedImage;
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
+        int imageWidth = 1;
+        int imageHeight = 1;
+        if (image != null) {
+            imageWidth = image.getWidth();
+            imageHeight = image.getHeight();
+        }
         rect = new Rectangle(imageWidth, imageHeight, x, y);
         distance = 0;
         speed = 0;
+        cooldown = 0;
+        state = true;
+        healthbar = false;
+        maxHealth = health;
+        playerLocation = new Point(0,0);
+        charging = false;
         setHealth(health);
     }
 
+    /**
+     * Takes a Clip object to set as the noise of the Monster.
+     * @param noise noise that the Monster will make
+     */
+    public void setNoise(Clip noise) {
+        this.noise = noise;
+    }
+
+    /**
+     * Retunrs the Clip object stored in the noise value or null.
+     * @return Clip object or null
+     */
+    public Clip getNoise() {
+        return noise;
+    }
+
+    /**
+     * Plays the audio Clip stored in the noise variable.
+     */
+    public void makeNoise() {
+        noise.stop();
+        noise.setFramePosition(0);
+        noise.start();
+    }
+
+    /**
+     * Sets the state of the charging variable to either true of false.
+     * @param state indicates, if the charge variable should be increased or not
+     */
+    public void setCharging(boolean state) {
+        charging = state;
+    }
+
+    /**
+     * Indicates, if the charge variable should be increased or not.
+     * @return true, if the charge variable is currently beeing increased
+     */
+    public boolean getCharging() {
+        return charging;
+    }
+
+    /**
+     * Sets the Healthbar variable to true and inidcates
+     * that a healthbar should be drawn for the Entity.
+     */
+    public void setHealthbar() {
+        healthbar = true;
+    }
+
+    /**
+     * Takes x and y coordinates to store in the playerLocation Point.
+     * @param playerX new x coordinate
+     * @param playerY new y coordinate
+     */
+    public void setPlayerLocation(int playerX, int playerY) {
+        playerLocation = new Point(playerX, playerY);
+    }
+
+    /**
+     * Returns the playerLocation variable.
+     * @return playerLocation
+     */
+    public Point getPlayerLocation() {
+        return playerLocation;
+    }
+
+    /**
+     * Sets the state of the Entity to false.
+     * Entities with state false will be removed.
+     */
     public void setState() {
         state = false;
     }
 
+    /**
+     * Returns the state of an Entity.
+     * @return state of Entity
+     */
     public Boolean getState() {
         return state;
     }
 
     /**
+     * Takes a String to set as a TAG.
+     * TAGs are used as a identifier.
+     * @param newTAG TAG to be set
+     */
+    public void setTAG(String newTAG) {
+        TAG = newTAG;
+    }
+
+    /**
+     * Returns the TAG of an Entity.
+     * @return TAG of Entity
+     */
+    public String getTAG() {
+        return TAG;
+    }
+
+    /**
+     * Takes an int Value and stores it in the cooldwon variable.
+     * @param newCooldown Value for the new cooldown
+     */
+    public void setCooldown(int newCooldown) {
+        cooldown = newCooldown;
+    }
+
+    /**
+     * Returns the cooldown of an Entity.
+     * @return cooldown of Entity
+     */
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    /**
+     * Decreases the Entity cooldown by 1.
+     */
+    public void decreaseCooldown() {
+        --cooldown;
+    }
+
+    /**
      * Base Method for extended classes.
+     * Reduces the cooldown, if it is set.
+     * Initiates death when Entity health is below zero.
      */
     public void update() {
-        // to overide per entity
+        if (cooldown > 0) {cooldown -= 1;}
+        if (health < 0) {death();}
     }
 
+    /**
+     * Takes an angle and rotates the Image of the Entity.
+     * The original Image is used as base for the rotation.
+     * @param angle rotation angle
+     */
     public void rotateImage(double angle) {
+        int oldHeight = image.getHeight();
         BufferedImage rotatedImage = Utilities.rotateImage(originalImage, angle);
         setImage(rotatedImage);
-        rect.setSize(rotatedImage.getWidth(), rotatedImage.getHeight());
-        setLocation(rect.getX(), rect.getY());
+        int newHeight = rotatedImage.getHeight();
+        rect.setSize(rotatedImage.getWidth(), newHeight);
+        int newY = getLocation().y + (newHeight-oldHeight)/2;
+        setLocation(rect.getX(), newY);
     }
 
+    /**
+     * Takes a factor and scales the Image of the Entity.
+     * The original Image is used as base for the scaling.
+     * If the healthbar option is set, a healthbar will be drawn.
+     * @param factor scaling factor
+     */
     public void scaleImage(double factor) {
-        BufferedImage newImage = Utilities.scaleImage(originalImage, factor);
+        BufferedImage newImage = new BufferedImage(
+                originalImage.getWidth(),
+                originalImage.getHeight(),
+                originalImage.getType()
+            );
+        if (healthbar) {
+            Graphics2D g = newImage.createGraphics();
+            g.drawImage(originalImage, null, 0, 0);
+            int imgWidth = originalImage.getWidth();
+            int hbWidth = (int) (imgWidth * health / maxHealth);
+            g.setColor(Color.RED);
+            g.fillRect((imgWidth - hbWidth) /2, 0, hbWidth, 16);
+            newImage = Utilities.scaleImage(newImage, factor);
+        }
+        else {
+            newImage = Utilities.scaleImage(originalImage, factor);
+        }
         setImage(newImage);
 
         int newWidth = newImage.getWidth();
@@ -93,33 +253,35 @@ public class Entity {
      */
     public void setImage(BufferedImage newImage) {
         image = newImage;
+        rect.setSize(image.getWidth(), image.getHeight());
     }
 
+    /**
+     * Takes a BufferedImage and stores it as originalImage.
+     * @param newImage Image to be stored as originalImage
+     */
     public void setOriginalImage(BufferedImage newImage) {
         originalImage = newImage;
     }
 
     /**
-     * Creates a Hitbox for basic damage.
-     * @param width     width of the Hitbox
-     * @param height    height of the Hitbox
-     * @param offsetX   x offset to Entity location
-     * @param offsetY   y offset to Entity location
+     * Takes a point and checks, if it collides with any of the Entities Hitbox.
+     * Returns the highest multiplier value of collided Hitboxes.
+     * @param point Point for collision detection
+     * @return multiplier value
      */
-    public void setMainHitbox(int width, int height, int offsetX, int offsetY) {
-        mainHitbox = createHitbox(width, height, offsetX, offsetY, StaticValues.BASEDAMAGE);
-    }
-
-    /**
-     * Creates a Hitbox for adjusted damage and adds it to the critBoxes list.
-     * @param width         width of the Hitbox
-     * @param height        height of the Hitbox
-     * @param offsetX       x offset to Entity location
-     * @param offsetY       y offset to Entity location
-     * @param multiplier    damage multiplier
-     */
-    public void registerCritBox(int width, int height, int offsetX, int offsetY, int multiplier) {
-        critBoxes.add(createHitbox(width, height, offsetX, offsetY, multiplier));
+    public int getMultiplier(Point point) {
+        int multiplier = 0;
+        for (Hitbox hitBox: hitBoxes) {
+            Boolean boxHit = hitBox.collidePoint(point);
+            if (boxHit) {
+                int boxMultiplier = hitBox.getDamageMutiplier();
+                if (boxMultiplier > multiplier) {
+                    multiplier = boxMultiplier;
+                }
+            }
+        }
+        return multiplier;
     }
 
     /**
@@ -129,11 +291,10 @@ public class Entity {
      * @param offsetX       x offset to Entity location
      * @param offsetY       y offset to Entity location
      * @param multiplier    multiplier for received damage of this Hitbox
-     * @return              the created Hitbox object
      */
-    public Hitbox createHitbox(int width, int height, int offsetX, int offsetY, int multiplier) {
+    public void addHitBox(int width, int height, int offsetX, int offsetY, int multiplier) {
         Hitbox hitBox = new Hitbox(width, height, offsetX, offsetY, multiplier);
-        return hitBox;
+        hitBoxes.add(hitBox);
     }
 
     /**
@@ -142,7 +303,7 @@ public class Entity {
      * @param newY  new y corrdinate
      */
     public void updateHitBoxes(int newX, int newY) {
-        List<Hitbox> boxes = getAllHitboxs();
+        List<Hitbox> boxes = getHitBoxes();
         for (Hitbox box: boxes) {
             box.setLocation(newX, newY);
         }
@@ -153,7 +314,7 @@ public class Entity {
      * @param factor scaling factor
      */
     public void scaleHitBoxes(double factor) {
-        List<Hitbox> boxes = getAllHitboxs();
+        List<Hitbox> boxes = getHitBoxes();
         for (Hitbox box: boxes) {
             Point originalSize = box.getOriginalSize();
             Point newSize = Utilities.scaleSize(originalSize.x, originalSize.y, factor);
@@ -166,32 +327,23 @@ public class Entity {
     }
 
     /**
-     * Returns the standard Hitbox.
-     * @return standard Hitbox
-     */
-    public Hitbox getMainHitbox() {
-        return mainHitbox;
-    }
-
-    /**
-     * Returns a list of the critical Hitboxes.
-     * @return critical Hitboxes
-     */
-    public List<Hitbox> getCritBoxes() {
-        return critBoxes;
-    }
-
-    /**
      * Returns a list of all Hitboxes.
      * @return all Hitboxes
      */
-    public List<Hitbox> getAllHitboxs() {
-        List<Hitbox> boxes = new ArrayList<Hitbox>();
-        for (Hitbox hb: critBoxes) {
-            boxes.add(hb);
-        }
-        boxes.add(getMainHitbox());
-        return boxes;
+    public List<Hitbox> getHitBoxes() {
+        return hitBoxes;
+    }
+
+    public Point getSize() {
+        return rect.getSize();
+    }
+
+    public Point getCorner(Corners corner) {
+        return rect.getCorner(corner);
+    }
+
+    public Rectangle getRect() {
+        return rect;
     }
 
     /**
@@ -268,10 +420,11 @@ public class Entity {
     }
 
     /**
-     * Determines what happens when the Entity dies.
+     * Returns the health value of the Entity.
+     * @return health of Entity
      */
-    public void death() {
-        // determine what happens for Entity death
+    public int getHealth() {
+        return health;
     }
 
     /**
@@ -283,5 +436,14 @@ public class Entity {
         if (health <= 0) {
             death();
         }
+    }
+
+    /**
+     * Determines what happens when the Entity dies.
+     */
+    public void death() {
+        setState();
+        noise.stop();
+        noise.setFramePosition(cooldown);
     }
 }

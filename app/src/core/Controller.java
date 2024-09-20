@@ -24,15 +24,35 @@ public class Controller extends JPanel{
     private final MouseTracker tracker;
     /** list of Buttons to check */
     private List<Button> buttonlist;
+    /** tracks player location */
+    private Point playerLocation;
 
     /**
-     * Constructor. Creates a Controller object.
+     * Creates a Controller object.
      * Sets up a mouse handler and tracker.
      */
     public Controller() {
         setSize(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT);
         handler = new MouseHandler();
         tracker = new MouseTracker();
+        playerLocation = new Point(StaticValues.PLAYERSPAWNX, StaticValues.PLAYERSPAWNY);
+    }
+
+    /**
+     * Takes x and y coordinates to store in the playerLocation Point.
+     * @param playerX new x coordinate
+     * @param playerY new y coordinate
+     */
+    public void setPlayerLocation(int playerX, int playerY) {
+        playerLocation = new Point(playerX, playerY);
+    }
+
+    /**
+     * Returns the playerLocation variable.
+     * @return playerLocation
+     */
+    public Point getPlayerLocation() {
+        return playerLocation;
     }
 
     /**
@@ -41,6 +61,14 @@ public class Controller extends JPanel{
      */
     public Point getMousePos() {
         return tracker.getLocation();
+    }
+
+    /**
+     * Indicates, if the Mouse Button 1 is currently beeing pressed or not.
+     * @return true, if the Button M1 is beeing pressed
+     */
+    public boolean getM1down() {
+        return handler.getM1down();
     }
 
     /**
@@ -67,12 +95,32 @@ public class Controller extends JPanel{
      */
     private class MouseHandler extends MouseAdapter {
 
+        boolean m1down;
+
         @Override
         public void mousePressed(MouseEvent e) {
-            for (Button b: buttonlist) {
-                Point mousePosition = tracker.getLocation();
-                b.actionCheck(mousePosition);
-            };
+            if (e.getButton() == 1) {
+                m1down = true;
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (e.getButton() == 1) {
+                for (Button b: buttonlist) {
+                    Point mousePosition = tracker.getLocation();
+                    b.actionCheck(mousePosition);
+                }
+                m1down = false;
+            }
+        }
+
+        /**
+         * Indicates, if the Mouse Button 1 is currently beeing pressed or not.
+         * @return true, if the Button M1 is beeing pressed
+         */
+        public boolean getM1down() {
+            return m1down;
         }
     }
 
@@ -90,6 +138,11 @@ public class Controller extends JPanel{
             if (location == null) {
                 location = new Point(0, 0);
             }
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            location = e.getPoint();
         }
 
         public Point getLocation() {

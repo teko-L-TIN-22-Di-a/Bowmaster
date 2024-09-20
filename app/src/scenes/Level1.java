@@ -4,11 +4,14 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.src.StaticValues;
-import app.src.resources.Arrow;
 import app.src.resources.Bow;
-import app.src.resources.Monster;
-import app.src.resources.components.Button;
+import app.src.resources.Entity;
+import app.src.resources.assets.images.ImageMapping;
+import app.src.resources.assets.sounds.SoundMapping;
+import app.src.resources.monsters.Monster;
+import app.src.resources.monsters.MonsterValues;
+import app.src.resources.monsters.Wave;
+import app.src.resources.monsters.WaveSpawner;
 
 /**
  * Creates the level1 screen.
@@ -17,70 +20,64 @@ import app.src.resources.components.Button;
  * @see Scene
  */
 public class Level1 extends Scene {
-    private Bow bow;
-    private Arrow nextArrow;
-    private List<Arrow> arrows;
+    private WaveSpawner spawner;
+    private int monsterLimit = 5;
+    private List<Wave> waves;
     
     /**
-     * Constructor.
      * Sets up the Level1 scene.
      * @see Monster
      * @see Bow
      */
     public Level1() {
-        setTAG("level1");
-        Monster gobclops = new Monster("gobclops.png", 100, 1);
-        registerEntity(gobclops);
-        gobclops.setMainHitbox(130, 170, 0, 0);
-        gobclops.registerCritBox(45, 42, 0, -37, 2);
-        gobclops.registerCritBox(80, 60, 0, 40, 2);
+        super(false);
+        setTAG("level");
 
-        Button shooter = new Button(
-            StaticValues.CANVAS_WIDTH,
-            StaticValues.CANVAS_HEIGHT,
-            StaticValues.CANVAS_WIDTH/2,
-            StaticValues.CANVAS_HEIGHT/2
-        );
-        shooter.setAction(() -> {shoot();});
-        registerButton(shooter);
+        MonsterValues GOBCLOPS = new MonsterValues().getGobclops();
+        MonsterValues TENTATHULU = new MonsterValues().getTentathulu();
+        MonsterValues FLOAKET = new MonsterValues().getFloaket();
+        MonsterValues NIGHTLOATER = new MonsterValues().getNighloater();
+        MonsterValues THOAT = new MonsterValues().getThoat();
 
-        bow = new Bow();
-        registerEntity(bow);
-        Point bowLocation = bow.getLocation();
+        setBG(ImageMapping.MAP1);
+        setBGM(SoundMapping.LEVEL1BGM);
 
-        arrows = new ArrayList<Arrow>();
+        Wave wave1 = new Wave();
+        wave1.registerMonsters(GOBCLOPS, 1);
+        wave1.registerMonsters(TENTATHULU, 1);
 
-        nextArrow = new Arrow(0, bowLocation.x, bowLocation.y);
-        nextArrow.updatePlayerLocation(bowLocation.x, bowLocation.y);
-        nextArrow.updateMouseLocation(0, 0);
-        registerEntity(nextArrow);
+        Wave wave2 = new Wave();
+        wave2.registerMonsters(FLOAKET, 1);
+        wave2.registerMonsters(NIGHTLOATER, 1);
+
+        Wave wave3 = new Wave();
+        wave3.registerMonsters(THOAT, 1);
+
+        waves = new ArrayList<>();
+        //waves.add(wave1);
+        //waves.add(wave2);
+        waves.add(wave3);
+
+        spawner = new WaveSpawner(waves, 25, 50, getPlayerLocation());
     }
 
     @Override
-    public void update() {
-        super.update();
-    }
-
-    /**
-     * Includes mouseLocation update for the Bow object.
-     * @see Scene
-     */
-    @Override
-    public void updateMouseLocation(int x, int y) {
-        super.updateMouseLocation(x, y);
-        bow.updateMouseLocation(x, y);
-        nextArrow.updateMouseLocation(x, y);
-        Point playerLocation = bow.getLocation();
-        nextArrow.updatePlayerLocation(playerLocation.x, playerLocation.y);
-    }
-
-    public void shoot() {
-        nextArrow.setShot();
-        nextArrow.setOriginalImage(nextArrow.getImage());
-        arrows.add(nextArrow);
-        Point bowLocation = bow.getLocation();
-        Arrow newArrow = new Arrow(0, bowLocation.x, bowLocation.y);
-        registerEntity(newArrow);
-        nextArrow = newArrow;
+    public void update(Point playerPoint) {
+        super.update(playerPoint);
+        List<Entity> monsters = getEntitiesByTag("monster");
+        if (spawner.emptyCheck() && monsters.size() <= 0) {
+            Scene menuScene = new Menu();
+            setNewScene(menuScene);
+        }
+        else if (spawner.waveCheck()) {
+            if (monsters.size() <= 0) {
+                spawner.nextWave();
+            }
+        }
+        else if (spawner.spawnCheck() && monsterLimit > monsters.size()) {
+            Monster newMonster = spawner.spawnMonster();
+            newMonster.update();
+            registerEntity(newMonster);
+        };
     }
 }

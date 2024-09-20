@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -17,7 +18,6 @@ import app.src.resources.Entity;
 import app.src.resources.components.Button;
 import app.src.resources.components.Component;
 import app.src.resources.components.Hitbox;
-import app.src.resources.components.Rectangle;
 import app.src.scenes.Scene;
 
 /**
@@ -30,41 +30,45 @@ import app.src.scenes.Scene;
  */
 public class Renderer extends JFrame{
     /** Scene to render */
-    private Scene Scene;
-    /** Components to render */
-    private List<Component> components;
-    /** Entities to render */
-    private List<Entity> entities;
-    /** Buttons to render */
-    private List<Button> buttons;
-    /** Canvas to draw onto */
+    private Scene scene;
+    /** Canvas to draw the Scene on */
     public Canvas canvas = new Canvas();
+    /** Used to set debug mode */
+    private boolean debug = false;
+
+    /**
+     * Creates a Renderer Object.
+     */
+    public Renderer() {
+        canvas.setPreferredSize(new Dimension(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT));
+        this.setContentPane(canvas);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.pack();
+        this.setTitle(StaticValues.GAMENAME);
+        this.setVisible(true);
+    }
+
+    /**
+     * Creates a Renderer Object.
+     * @param debug if true, Hitboxes and ImageBoxes will be drawn
+     */
+    public Renderer(boolean debug) {
+        canvas.setPreferredSize(new Dimension(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT));
+        this.setContentPane(canvas);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.pack();
+        this.setTitle(StaticValues.GAMENAME);
+        this.setVisible(true);
+        this.debug = debug;
+    }
 
     /**
      * Takes a Scene for rendering.
      * @param newScene Scene to render
      */
     public void setScene(Scene newScene) {
-        Scene = newScene;
-        System.out.println("start scene " + Scene.getTAG());
-        startScene();
-    }
-
-    /**
-     * Returns a list with the registered Buttons
-     * @return buttons
-     */
-    public List<Button> getButtons() {
-        return buttons;
-    }
-
-    /**
-     * Gets the entities, components and buttons to draw them.
-     */
-    public void startScene() {
-        entities = Scene.getEnties();
-        components = Scene.getComponents();
-        buttons = Scene.getButtons();
+        scene = newScene;
+        System.out.println("> start scene " + scene.getTAG());
     }
 
     /**
@@ -104,45 +108,64 @@ public class Renderer extends JFrame{
             offScreen.setColor(Color.blue);
             offScreen.drawLine(0, StaticValues.CANVAS_HEIGHT/2, StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT/2);
             offScreen.drawLine(StaticValues.CANVAS_WIDTH/2, 0, StaticValues.CANVAS_WIDTH/2, StaticValues.CANVAS_HEIGHT);
-            
+            List<Component> components = scene.getComponents();
             for (Component component: components) {
                 Point componentLocation = component.getDrawPosition();
                 offScreen.drawImage(component.getImage(), componentLocation.x, componentLocation.y, null);
-                //component.rect.draw(offScreen, Color.red);
+                if (debug) {
+                    component.rect.draw(offScreen, Color.red); // DEBUG VIEW
+                }
             }
-
+            List<Entity> entities = sortByDistance(scene.getEnties());
             for (Entity entity: entities) {
                 Point entityLocation = entity.getDrawPosition();
                 offScreen.drawImage(entity.getImage(), entityLocation.x, entityLocation.y, null);
-                //entity.rect.draw(offScreen, Color.red);
-                if (entity.getMainHitbox() instanceof Rectangle) {
-                    entity.getMainHitbox().draw(offScreen, Color.green);
-                }
-                for (Hitbox h: entity.getCritBoxes()) {
-                    h.draw(offScreen, Color.blue);
-                }
+                if (debug) { // DEBUG VIEW
+                    entity.getRect().draw(offScreen, Color.red);
+                    for (Hitbox h: entity.getHitBoxes()) {
+                        h.draw(offScreen, Color.blue);
+                    }
+                } // DEBUG VIEW
             }
-
+            List<Button> buttons = scene.getButtons();
             for (Button button: buttons) {
                 Point buttonLocation = button.getDrawPosition();
                 offScreen.drawImage(button.getImage(), buttonLocation.x, buttonLocation.y, null);
-                button.rect.draw(offScreen, Color.red);
+                if (debug) {
+                    button.rect.draw(offScreen, Color.red); // DEBUG VIEW
+                }
             }
-
             onScreen.drawImage(offScreenImage, 0, 0, null);
             g.drawImage(onScreenImage, 0, 0, null);
         }
-    }
 
-    /**
-     * Constructor. Creates a Renderer Object.
-     */
-    public Renderer() {
-        canvas.setPreferredSize(new Dimension(StaticValues.CANVAS_WIDTH, StaticValues.CANVAS_HEIGHT));
-        this.setContentPane(canvas);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.pack();
-        this.setTitle(StaticValues.GAMENAME);
-        this.setVisible(true);
+        /**
+         * Takes an Entity List and sorts it by the distance attribut, from lowest to highest.
+         * Used to determine the drawing sequence.
+         * @param unsortedList not sorted Entity List
+         * @return sorted Entity List
+         */
+        private List<Entity> sortByDistance(List<Entity> unsortedList) {
+            List<Entity> sortedList = new ArrayList<>();
+            int index = 0;
+            for (Entity e: unsortedList ) {
+                if (index == 0) {
+                    sortedList.add(e);
+                    ++index;
+                }
+                else {
+                    int dist = e.getDistance();
+                    int i = 0;
+                    for (Entity ent: sortedList) {
+                        if (dist > ent.getDistance()) {
+                            ++i;
+                        }
+                        else {break;}
+                    }
+                    sortedList.add(i, e);
+                }
+            }
+            return sortedList;
+        }
     }
 }

@@ -10,7 +10,6 @@ public class SceneHandler {
     private Scene activeScene, previousScene, newScene;
 
     /**
-     * Default constructor.
      * Takes a scene to set as active.
      * @param activeScene first scene to start
      */
@@ -38,12 +37,14 @@ public class SceneHandler {
      * @see setScene
      */
     public void startNew() {
+        activeScene.stop();
         setScene(activeScene, SceneTag.PREVIOUS);
+        newScene.start();
         setScene(newScene, SceneTag.ACTIVE);
     }
 
     /**
-     * Sets the previousScene  as newScene 
+     * Sets the previousScene  as newScene
      * and the activeScene  as previousScene,
      * then calls startNew() method.
      * @see setScene

@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"app"},{"l":"app.src"},{"l":"app.src.core"},{"l":"app.src.resources"},{"l":"app.src.resources.assets"},{"l":"app.src.resources.components"},{"l":"app.src.scenes"}];updateSearchResults();

@@ -11,7 +11,7 @@ public class Hitbox extends Rectangle {
     private Point offset, originalOffsets, originalSize;
     
     /**
-     * Constructor. Creates a Rectangle and adds offsets for x and y and a damage multiplier. 
+     * Creates a Rectangle and adds offsets for x and y and a damage multiplier. 
      * @param width                 width of the hitbox
      * @param height                height of the hitbox
      * @param offsetX               offset value for x

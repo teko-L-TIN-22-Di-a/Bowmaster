@@ -1,10 +1,21 @@
 package app.src.scenes;
 
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.Clip;
+
+import app.src.StaticValues;
+import app.src.resources.Arc;
+import app.src.resources.Arrow;
+import app.src.resources.Bow;
+import app.src.resources.Corosshair;
 import app.src.resources.Entity;
+import app.src.resources.assets.Loader;
+import app.src.resources.assets.images.ImageMapping;
+import app.src.resources.assets.sounds.SoundMapping;
 import app.src.resources.components.Button;
 import app.src.resources.components.Component;
 
@@ -18,29 +29,144 @@ public class Scene {
     private List<Entity> entities;
     private List<Component> components;
     private List<Button> buttons;
+    private boolean menu, m1down, active;
+    private Corosshair crosshair;
+    private Bow bow;
+    private Arrow nextArrow;
+    private BufferedImage imgArrow;
     private String TAG;
     private Scene newScene;
     private Point mousepoint;
+    private int counter;
+    private Clip bgm, hitNoise, shotSE;
+    public Runnable action1;
 
     /**
-     * Basic constructor, 
-     * initialises the lists "entities", "components" and "buttons".
-     * Properties from these lists will be drawn in "Renderer.java".
+     * Initialises the lists Entities, Components and Buttons.
+     * Properties from these lists will be drawn in the Renderer.
+     * @param isMenu determines, if the Scene is considered a Menu.
      */
-    public Scene() {
+    public Scene(boolean isMenu) {
+        bgm = null;
+        hitNoise = Loader.loadSound(SoundMapping.MONSTERHIT);
+        counter = 0;
         entities = new ArrayList<>();
         components = new ArrayList<>();
         buttons = new ArrayList<>();
+        menu = isMenu;
+
+        
+        shotSE = Loader.loadSound(SoundMapping.SHOT);
+        BufferedImage imgBow = Loader.loadImage(ImageMapping.BOW);
+        imgArrow = Loader.loadImage(ImageMapping.ARROW);
+
+        bow = new Bow(imgBow);
+        Point bowLocation = bow.getLocation();
+
+        int arrowY = bowLocation.y - (bow.getSize().y-imgArrow.getHeight())/2;
+        nextArrow = new Arrow(imgArrow, bowLocation.x, arrowY);
+        crosshair = new Corosshair();
+
+        if (!menu) {
+            registerEntity(crosshair);
+            registerEntity(nextArrow);
+            registerEntity(bow);
+            action1 = this::shoot;
+        }
+        // Fills the newScene Variable with itself to indicate, that the scene does not have to be changed
         setNewScene(this);
     }
 
-    public void update() {
+    /**
+     * Plays the hitNoise from the start.
+     */
+    public void playHitNoise() {
+        hitNoise.stop();
+        hitNoise.setFramePosition(0);
+        hitNoise.start();
+    }
+
+    /**
+     * Takes the name of a audio file, loads the resource and sets it as bgm.
+     * @param filename name of the audio file to be loaded.
+     */
+    public void setBGM(String filename) {
+        Clip audio = Loader.loadSound(filename);
+        bgm = audio;
+    }
+
+    /**
+     * Collects all operations to be done, when the Scene is started.
+     */
+    public void start() {
+        active = true;
+        if (bgm != null) {
+            bgm.loop(-1);
+        }
+    }
+
+    /**
+     * Collects all operations to be done, when the Scene is stoped.
+     */
+    public void stop() {
+        active = false;
+        if (bgm != null) {
+            bgm.stop();
+            bgm.setFramePosition(0);
+        }
+    }
+
+    /**
+     * Calls the update method of all Entities and Components.
+     * Takes the playerlocation and updates the Entity list with all active Entities.
+     * @param playerLocation to update all in all Entities.
+     */
+    public void update(Point playerLocation) {
+        counter += 1;
+        List<Entity> entitiesUpdate = new ArrayList<>();
+
+        bow.setCharging(m1down);
+        int charge = bow.getCharge();
+        crosshair.updateCharge(charge);
+        int overcharge = bow.getOvercharge();
+
+        if (!m1down) {
+            if (overcharge == StaticValues.OVERCHARGELIMIT) {
+                bow.resetOvercharge();
+            }
+            else if (charge > 0 && bow.getCooldown() == 0) {
+                shoot();
+            }
+        }
+
         for (Entity entity: entities) {
             entity.update();
+            entity.setPlayerLocation(playerLocation.x, playerLocation.y);
+            if (entity.getState()) {
+                entitiesUpdate.add(entity);
+            }
         }
+        entities = entitiesUpdate;
         for (Component component: components) {
             component.update();
         }
+    }
+
+    /**
+     * Indicates, if the Mouse Button 1 is currently beeing pressed or not.
+     * @param state true, if the Button M1 is beeing pressed
+     */
+    public void setM1down(boolean state) {
+        m1down = state;
+    }
+
+    /**
+     * Returns the counter of the Scene.
+     * The counter is used for time based events.
+     * @return Scene counter.
+     */
+    public int getCounter() {
+        return counter;
     }
 
     /**
@@ -53,16 +179,53 @@ public class Scene {
      */
     public void setBG(String bgName) {
         Component bg = new Component(bgName, 0, 0);
+        bg.setLocation(bg.getWidth()/2, bg.getHeight());
         registerComponent(bg);
     }
 
     /**
-     * set the private mousepoint variable to a new point
-     * @param mousePoint    a Point object to set a new location
-     * @see                 Point
+     * Returns true, if the Scene is currently active.
+     * @return true, if the Scene is currently active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the charge value of the crosshair to 0.
+     */
+    public void resetCharge() {
+        bow.resetCharge();
+    }
+
+    /**
+     * Returns the Crosshair Object of the Scene.
+     * @return Crosshair Object
+     */
+    public Corosshair getCrosshair() {
+        return crosshair;
+    }
+
+    public Arc getArc() {
+        return bow.getArc();
+    }
+
+    /**
+     * Takes x and y coordinates and stores them in the mousepoint variable
+     * @param x x coordinate a new location
+     * @param y y coordinate a new location
      */
     public void updateMouseLocation(int x, int y) {
         mousepoint = new Point(x, y);
+        crosshair.updateMouseLocation(x, y);
+        bow.updateMouseLocation(x, y);
+        nextArrow.updateMouseLocation(x, y);
+        Point playerLocation = bow.getLocation();
+        nextArrow.setPlayerLocation(playerLocation.x, playerLocation.y);
+    }
+
+    public Point getPlayerLocation() {
+        return bow.getLocation();
     }
 
     /**
@@ -138,6 +301,22 @@ public class Scene {
     }
 
     /**
+     * take a TAG  and returns all Entities with the provided TAG.
+     * @param TAG Name of the TAG
+     * @return all Entities with the provided TAG
+     */
+    public List<Entity> getEntitiesByTag(String TAG) {
+        List<Entity> taggedEntities = new ArrayList<>();
+        for (Entity entity: entities) {
+            String entitiyTAG = entity.getTAG();
+            if (entitiyTAG == TAG) {
+                taggedEntities.add(entity);
+            }
+        }
+        return taggedEntities;
+    }
+
+    /**
      * adds an Component object to the private list components
      * @param component a Component object to add to the List components
      * @see Component
@@ -189,5 +368,35 @@ public class Scene {
      */
     public List<Button> getButtons() {
         return buttons;
+    }
+
+    private void setNextArrow() {
+        Point bowLocation = bow.getLocation();
+        int arrowY = bowLocation.y - (bow.getSize().y-imgArrow.getHeight())/2;
+        Arrow newArrow = new Arrow(imgArrow, bowLocation.x, arrowY);
+        registerEntity(newArrow);
+        nextArrow = newArrow;
+    }
+
+    /**
+     * Sets the State of the prepared Arrow to shot and creates a new Arrow
+     * If the Bow is on cooldown, nothing happens.
+     */
+    public void shoot() {
+        if (bow.getCooldown() <= 0) {
+            Corosshair crosshair = getCrosshair();
+            Point crosshairLocation = crosshair.getLocation();
+            Point arcSize = bow.getArcSize();
+            Arc arc = new Arc(0, 0, arcSize.x, arcSize.y);
+            nextArrow.setShot(arc);
+            nextArrow.setOriginalImage(nextArrow.getImage());
+            nextArrow.setTarget(crosshairLocation.x, crosshairLocation.y);
+            setNextArrow();
+            bow.setCooldown(StaticValues.BOWCOOLDOWN);
+            resetCharge();
+            shotSE.stop();
+            shotSE.setFramePosition(0);
+            shotSE.start();
+        }
     }
 }

@@ -5,14 +5,12 @@ import javax.swing.SwingUtilities;
 import app.src.core.Gameloop;
 
 /**
- * Main class.
+ * Main class. Serves as the entry Point to the app.
  */
 public class Main {
     
     /**
-     * Constructor for main class,
-     * starts the gameloop.
-     * 
+     * Starts the gameloop.
      * @see Gameloop
      */
     public Main() {
@@ -22,7 +20,6 @@ public class Main {
 
     /**
      * Executabel for main class.
-     * 
      * @param args  None
      */
     public static void main(String args[]) {
