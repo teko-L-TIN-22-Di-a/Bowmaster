@@ -24,7 +24,7 @@ Optional:
 - Mehrspieler komponente
 - Online Komponente
 
-Code Dokumentation: https://floindil.github.io/BOWMASTER/
+Code Dokumentation: https://teko-l-tin-22-di-a.github.io/Bowmaster/
 
 Eine erste Testversion ist als ZIP verfügbar und kann getestet werden.
 (Für die Testversion muss Java auf dem Gerät installiert sein)

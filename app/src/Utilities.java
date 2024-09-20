@@ -161,12 +161,19 @@ public class Utilities {
 
                 for (Entity entity: arrows) {
                     Arrow arrow = (Arrow) entity;
-                    int arrowDistance1 = arrow.getDistance();
-                    int arrowDistance2 = arrowDistance1 - arrow.getSpeed();
+
+                    // only consider Arrows, that are shot
                     if (arrow.getShot()) {
+                        int arrowDistance1 = arrow.getDistance();
+                        int arrowDistance2 = arrowDistance1 - arrow.getSpeed();
+
+                        // only consider Arrows, that pass through the space the Monster is occupying
                         if (monsterDistance >= arrowDistance1 && monsterDistance <= arrowDistance2) {
-                            Point arrowhead = arrow.getHead();
-                            int multiplier = monster.getMultiplier(arrowhead);
+                            Point hitPoint2D = arrow.getHitPoint(monsterDistance);
+
+                            // add height of the Arrow to create 3D hit calculation
+                            Point hitPoint3D = new Point(hitPoint2D.x, hitPoint2D.y - arrow.getHeight());
+                            int multiplier = monster.getMultiplier(hitPoint3D);
                             if (multiplier > 0) {
                                 monster.updateHealth(- multiplier * StaticValues.BASEDAMAGE);
                                 arrow.setState();
