@@ -169,7 +169,8 @@ public class Utilities {
 
                         // only consider Arrows, that pass through the space the Monster is occupying
                         if (monsterDistance >= arrowDistance1 && monsterDistance <= arrowDistance2) {
-                            Point hitPoint2D = arrow.getHitPoint(monsterDistance);
+                            Point monsterLocation = monster.getLocation();
+                            Point hitPoint2D = arrow.getHitPoint(monsterLocation.y);
 
                             // add height of the Arrow to create 3D hit calculation
                             Point hitPoint3D = new Point(hitPoint2D.x, hitPoint2D.y - arrow.getHeight());

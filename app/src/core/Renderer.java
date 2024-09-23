@@ -113,7 +113,7 @@ public class Renderer extends JFrame{
                 Point componentLocation = component.getDrawPosition();
                 offScreen.drawImage(component.getImage(), componentLocation.x, componentLocation.y, null);
                 if (debug) {
-                    component.rect.draw(offScreen, Color.red); // DEBUG VIEW
+                    component.getRect().draw(offScreen, Color.red); // DEBUG VIEW
                 }
             }
             List<Entity> entities = sortByDistance(scene.getEnties());
@@ -132,7 +132,7 @@ public class Renderer extends JFrame{
                 Point buttonLocation = button.getDrawPosition();
                 offScreen.drawImage(button.getImage(), buttonLocation.x, buttonLocation.y, null);
                 if (debug) {
-                    button.rect.draw(offScreen, Color.red); // DEBUG VIEW
+                    button.getRect().draw(offScreen, Color.red); // DEBUG VIEW
                 }
             }
             onScreen.drawImage(offScreenImage, 0, 0, null);

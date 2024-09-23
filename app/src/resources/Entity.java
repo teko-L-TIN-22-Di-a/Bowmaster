@@ -216,10 +216,10 @@ public class Entity {
      */
     public void scaleImage(double factor) {
         BufferedImage newImage = new BufferedImage(
-                originalImage.getWidth(),
-                originalImage.getHeight(),
-                originalImage.getType()
-            );
+            originalImage.getWidth(),
+            originalImage.getHeight(),
+            originalImage.getType()
+        );
         if (healthbar) {
             Graphics2D g = newImage.createGraphics();
             g.drawImage(originalImage, null, 0, 0);

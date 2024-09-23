@@ -3,8 +3,8 @@ package app.src.resources.components;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import app.src.Utilities;
 import app.src.StaticValues.Corners;
-import app.src.resources.assets.Loader;
 
 /**
  * Baseclass for a Component
@@ -12,8 +12,10 @@ import app.src.resources.assets.Loader;
 public class Component {
 
     private BufferedImage image;
-    /** Rectangle to track size and location */
-    public Rectangle rect;
+    private BufferedImage originalImage;
+    private boolean state;
+    private Rectangle rect;
+    private String TAG;
 
     /**
      * Creates a Component with size, location and Rectangle
@@ -24,6 +26,8 @@ public class Component {
      */
     public Component(int width, int height, int x, int y) {
         rect = new Rectangle(width, height, x, y);
+        state = true;
+        TAG = "";
     }
 
     /**
@@ -33,12 +37,14 @@ public class Component {
      * @param x         x coordinate of the Component
      * @param y         y coordinate of the Component
      */
-    public Component(String imageName, int x, int y) {
-        BufferedImage image = Loader.loadImage(imageName);
+    public Component(BufferedImage image, int x, int y) {
         setImage(image);
+        originalImage = image;
         int width = image.getWidth();
         int height = image.getHeight();
         rect = new Rectangle(width, height, x, y);
+        state = true;
+        TAG = "";
     }
 
     /**
@@ -46,6 +52,18 @@ public class Component {
      */
     public void update() {
         // to overide per component
+    }
+
+    public Rectangle getRect() {
+        return rect;
+    }
+
+    public void setTAG(String TAG) {
+        this.TAG = TAG;
+    }
+
+    public String getTAG() {
+        return this.TAG;
     }
 
     /**
@@ -62,6 +80,14 @@ public class Component {
      */
     public void setImage(BufferedImage newImage) {
         image = newImage;
+    }
+
+    /**
+     * Takes an image and stores it as original image.
+     * @param newImage new image to store
+     */
+    public void setOriginalImage(BufferedImage newImage) {
+        originalImage = newImage;
     }
 
     /**
@@ -117,5 +143,34 @@ public class Component {
         Point location = rect.getLocation();
         rect.setSize(newWidth, newHeight);
         setLocation(location.x, location.y);
+    }
+
+    /**
+     * Takes a factor to create a scaled image of the original image.
+     * @param factor scalefactor
+     */
+    public void scaleImage(double factor) {
+        BufferedImage newImage = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+        newImage = Utilities.scaleImage(originalImage, factor);
+        setImage(newImage);
+        int newWidth = newImage.getWidth();
+        int newHeight = newImage.getHeight();
+        rect.setSize(newWidth, newHeight);
+    }
+
+    /**
+     * Sets the state of the Component to false.
+     * Indicates, that the Component is not needed anymore and all references can be removed.
+     */
+    public void setState() {
+        this.state = false;
+    }
+
+    /**
+     * Returns the state of the Component.
+     * @return
+     */
+    public boolean getState() {
+        return this.state;
     }
 }

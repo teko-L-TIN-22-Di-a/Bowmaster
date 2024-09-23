@@ -1,10 +1,14 @@
 package app.src.resources;
 
+import java.awt.BasicStroke;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 import app.src.StaticValues;
 import app.src.Utilities;
+import app.src.resources.components.Component;
 
 /**
  * Extends the Entity class to create Arrows
@@ -19,6 +23,7 @@ public class Arrow extends Entity {
     private int height;
     private int travelDistance;
     private double angle;
+    private Component shadow;
     
     /**
      * Takes and Image, x and y coordinates to create an Arrow object.
@@ -36,7 +41,7 @@ public class Arrow extends Entity {
         height = 0;
 
         setDistance(StaticValues.MONSTER_SPAWN_DISTANCE);
-        setSpeed(-40);
+        setSpeed(-30);
     }
 
     /**
@@ -50,9 +55,12 @@ public class Arrow extends Entity {
     /**
      * Sets the shot attribute to true.
      */
-    public void setShot(Arc arc) {
+    public void setShot(Arc arc, Point target) {
         shot = true;
         this.arc = arc;
+        this.setOriginalImage(this.getImage());
+        this.setTarget(target.x, target.y);
+        this.createShadow();
     }
 
     /**
@@ -74,15 +82,16 @@ public class Arrow extends Entity {
     }
 
     /**
-     * Takes a distance and returns a corresponding Point for the hitcalculation.
-     * The distance will usually be the distance of the Monster, that is supposed
-     * to be hit. Since the distance of the Arrow is not fixed in the hit detection,
+     * Takes a y coordinate and returns a corresponding Point for the hitcalculation.
+     * The y coordinate will usually be the y location of the Monster, that is supposed
+     * to be hit. Since the location of the Arrow is not fixed in the hit detection,
      * the exact location can be calculated with this method.
      * @return hit calculation Point
      */
-    public Point getHitPoint(int dist) {
-        int x = (int) (Math.tan(angle) * dist);
+    public Point getHitPoint(int y) {
         Point playerLocation = getPlayerLocation();
+        int dist = playerLocation.y - y;
+        int x = (int) (Math.tan(angle) * dist);
         return new Point(playerLocation.x + x, playerLocation.y - dist);
     }
 
@@ -106,6 +115,7 @@ public class Arrow extends Entity {
             double factor = (double) getDistance()  / (double) StaticValues.MONSTER_SPAWN_DISTANCE;
             scaleImage(factor);
             updateLocation();
+            updateShadow(factor);
             this.height = arc.getHeightOfArcPoint(travelDistance);
             int polarDistance = Utilities.calcDistance(getPlayerLocation(), getLocation());
             if (polarDistance > targetDistance) {
@@ -116,6 +126,12 @@ public class Arrow extends Entity {
             angle = Utilities.calcAngle(getLocation(), mouseLocation);
             rotateImage(angle);
         }
+    }
+
+    @Override
+    public void setState() {
+        super.setState();
+        shadow.setState();
     }
 
     /**
@@ -137,7 +153,7 @@ public class Arrow extends Entity {
     @Override
     public Point getDrawPosition() {
         Point drawLocation = super.getDrawPosition();
-        Point newDrawLocation = new Point(drawLocation.x, drawLocation.y - height);
+        Point newDrawLocation = new Point(drawLocation.x, drawLocation.y - height/2);
         return newDrawLocation;
     }
 
@@ -149,5 +165,46 @@ public class Arrow extends Entity {
      */
     public void updateMouseLocation(int x, int y) {
         mouseLocation = new Point(x, y);
+    }
+
+    public void createShadow() {
+        Point size = this.getSize();
+        
+        int topX;
+        int bottomX;
+        if (angle > 0) {
+            topX = size.x;
+            bottomX = 0;
+        }
+        else if (angle < 0) {
+            topX = 0;
+            bottomX = size.x;
+        }
+        else {
+            topX = size.x/2;
+            bottomX = size.x/2;
+        }
+        
+        BufferedImage shadowImage = new BufferedImage(size.x, size.y, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = shadowImage.createGraphics();
+        g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(5));
+        g.drawLine(topX, 0, bottomX, size.y);
+
+        Point location = this.getLocation();
+        shadow = new Component(shadowImage, location.x, location.y);
+        
+        g.dispose();
+        shadow.setTAG("shadow");
+    }
+
+    private void updateShadow(double factor) {
+        shadow.scaleImage(factor);
+        Point location = getLocation();
+        shadow.setLocation(location.x, location.y);
+    }
+
+    public Component getShadow() {
+        return shadow;
     }
 }

@@ -117,14 +117,44 @@ public class Scene {
     }
 
     /**
-     * Calls the update method of all Entities and Components.
-     * Takes the playerlocation and updates the Entity list with all active Entities.
-     * @param playerLocation to update all in all Entities.
+     * Calls the update method of all Entities and Components.  
+     * Takes the playerlocation and updates the Entity list with all active Entities.  
+     * Updates the charge feature on the Bow.
+     * @param playerLocation to update in all Entities.
      */
     public void update(Point playerLocation) {
+        // update the Scene counter to allow timed events
         counter += 1;
-        List<Entity> entitiesUpdate = new ArrayList<>();
+        this.updateCharge();
 
+        // update all Entities and keep only references to active Entities
+        List<Entity> entitiesUpdate = new ArrayList<>();
+        for (Entity entity: entities) {
+            entity.update();
+            entity.setPlayerLocation(playerLocation.x, playerLocation.y);
+            if (entity.getState()) {
+                entitiesUpdate.add(entity);
+            }
+        }
+        entities = entitiesUpdate;
+
+        // update all Components and keep only references to active Components
+        List<Component> componentsUpdate = new ArrayList<>();
+        for (Component component: components) {
+            component.update();
+            if (component.getState()) {
+                componentsUpdate.add(component);
+            }
+        }
+        components = componentsUpdate;
+    }
+
+    /**
+     * Updates all values of the charging feature.  
+     * Handels the phases of charging up, overcharging
+     * and shooting.
+     */
+    private void updateCharge() {
         bow.setCharging(m1down);
         int charge = bow.getCharge();
         crosshair.updateCharge(charge);
@@ -137,18 +167,6 @@ public class Scene {
             else if (charge > 0 && bow.getCooldown() == 0) {
                 shoot();
             }
-        }
-
-        for (Entity entity: entities) {
-            entity.update();
-            entity.setPlayerLocation(playerLocation.x, playerLocation.y);
-            if (entity.getState()) {
-                entitiesUpdate.add(entity);
-            }
-        }
-        entities = entitiesUpdate;
-        for (Component component: components) {
-            component.update();
         }
     }
 
@@ -178,7 +196,8 @@ public class Scene {
      * @see Component
      */
     public void setBG(String bgName) {
-        Component bg = new Component(bgName, 0, 0);
+        BufferedImage bgImage = Loader.loadImage(bgName);
+        Component bg = new Component(bgImage, 0, 0);
         bg.setLocation(bg.getWidth()/2, bg.getHeight());
         registerComponent(bg);
     }
@@ -388,9 +407,8 @@ public class Scene {
             Point crosshairLocation = crosshair.getLocation();
             Point arcSize = bow.getArcSize();
             Arc arc = new Arc(0, 0, arcSize.x, arcSize.y);
-            nextArrow.setShot(arc);
-            nextArrow.setOriginalImage(nextArrow.getImage());
-            nextArrow.setTarget(crosshairLocation.x, crosshairLocation.y);
+            nextArrow.setShot(arc, crosshairLocation);
+            registerComponent(nextArrow.getShadow());
             setNextArrow();
             bow.setCooldown(StaticValues.BOWCOOLDOWN);
             resetCharge();
