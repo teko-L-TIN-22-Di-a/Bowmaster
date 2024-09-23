@@ -25,6 +25,7 @@ Optional:
 - Online Komponente
 
 Code Dokumentation: https://teko-l-tin-22-di-a.github.io/Bowmaster/
+Demo: https://floindil.itch.io/bowmaster
 
 Eine erste Testversion ist als ZIP verfügbar und kann getestet werden.
-(Für die Testversion muss Java auf dem Gerät installiert sein)
+(Für die Testversion muss Java JDK22 auf dem Gerät installiert sein)
