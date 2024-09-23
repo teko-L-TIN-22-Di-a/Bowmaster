@@ -37,6 +37,15 @@ public class Utilities {
         return r;
     }
 
+    /**
+     * Takes a segment lenght, height, radius and a distance inside that segment, to  calculate and 
+     * retun the vertical height from the segment line to the Arc at the distance of the segment.
+     * @param segmentLenght baseline of the segment
+     * @param segmentHeight max height of the Arc over the baselinecenter
+     * @param segmentDistance distance inside the Arc
+     * @param radius radius of the resulting Arc of segment lenght and heigth
+     * @return vertical height from the baseline to the Arc at distance inside the Arc
+     */
     public static int calcSegmentPointHeight(int segmentLenght, int segmentHeight, int segmentDistance, double radius) {
         int sl = segmentLenght;
         int sh = segmentHeight;
@@ -62,10 +71,10 @@ public class Utilities {
     /**
      * Calculates the angle between two points in radiants,
      * the angle is calculated above the base with the value 0 pointing north.
-     * @param P1    basepoint for calculation
-     * @param P2    point to which the angle points
-     * @return      calculated angle in radians
-     * @see         Point
+     * @param P1 basepoint for calculation
+     * @param P2 point to which the angle points
+     * @return calculated angle in radians
+     * @see Point
      */
     public static double calcAngle(Point P1, Point P2) {
         double lenX = P1.x - P2.x;
@@ -149,6 +158,16 @@ public class Utilities {
         return newImage;
     }
 
+    /**
+     * Takes a Scene. From this Scene, the Monster and Arrow Entities are being checked, 
+     * if they collide with each other.  
+     * To determine possible hits, the Distance of the Monster and the Arrow are beeing 
+     * compared. If they match up, the x coordinate and height will be compared to the 
+     * Hitboxes boundries. If those match as well, the Monster will be considered hit and 
+     * the damage multiplier of the Monsters Hitbox will be used, to reduce the life of 
+     * that Monster.
+     * @param scene Scene to perform hit calculation on
+     */
     public static void hitCalculation(Scene scene) {
         String tag = scene.getTAG();
         if (tag == "level") {

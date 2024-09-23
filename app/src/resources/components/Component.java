@@ -19,10 +19,10 @@ public class Component {
 
     /**
      * Creates a Component with size, location and Rectangle
-     * @param width     width of the Component
-     * @param height    height of the Component
-     * @param x         x coordinate of the Component
-     * @param y         y coordinate of the Component
+     * @param width width of the Component
+     * @param height height of the Component
+     * @param x x coordinate of the Component
+     * @param y y coordinate of the Component
      */
     public Component(int width, int height, int x, int y) {
         rect = new Rectangle(width, height, x, y);
@@ -31,11 +31,11 @@ public class Component {
     }
 
     /**
-     * Creates a Component with image, size, location and Rectangle
-     * Loads an image from app/src/resources/assets.
-     * @param imageName image name like "image.png"
-     * @param x         x coordinate of the Component
-     * @param y         y coordinate of the Component
+     * Takes a previously loaded image, x and y coordinates to 
+     * create a Component with image, size, location and Rectangle
+     * @param image previously loaded image
+     * @param x x coordinate of the Component
+     * @param y y coordinate of the Component
      */
     public Component(BufferedImage image, int x, int y) {
         setImage(image);
@@ -54,14 +54,27 @@ public class Component {
         // to overide per component
     }
 
+    /**
+     * Returns the Rectangle Object of the Component.
+     * @return Rectangle Object of the Component
+     */
     public Rectangle getRect() {
         return rect;
     }
 
+    /**
+     * Takes a String to set as a TAG for the Component.
+     * Mainly used to indentify different types of Components.
+     * @param TAG Component identifier
+     */
     public void setTAG(String TAG) {
         this.TAG = TAG;
     }
 
+    /**
+     * Returns the TAG of the Component.
+     * @return TAG of the Component
+     */
     public String getTAG() {
         return this.TAG;
     }
@@ -168,7 +181,7 @@ public class Component {
 
     /**
      * Returns the state of the Component.
-     * @return
+     * @return state of the Component
      */
     public boolean getState() {
         return this.state;

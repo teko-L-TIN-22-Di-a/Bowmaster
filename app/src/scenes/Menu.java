@@ -37,11 +37,16 @@ public class Menu extends Scene {
         });
         registerButton(exit);
 
+        /*
+
+        // START ARCVIEWER SCENE FOR DEBUG PURPOSES
+        
         Button arcviewer = new Button(100, 50, width/2, height/2 + 300, "ARCVIEWER", Color.GRAY);
         arcviewer.setAction(() -> {
             ArcViewer av = new ArcViewer();
             setNewScene(av);
         });
         registerButton(arcviewer);
+        */
     }
 }

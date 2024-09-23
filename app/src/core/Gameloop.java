@@ -27,7 +27,7 @@ public class Gameloop {
      * Sets up a Gameloop Object, initializes Renderer, Controller and Scene.
      */
     public Gameloop() {
-        bobRoss = new Renderer(true);
+        bobRoss = new Renderer();
         controller = new Controller();
         menu = new Menu();
         sceneHandler = new SceneHandler(menu);

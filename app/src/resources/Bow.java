@@ -97,10 +97,18 @@ public class Bow extends Entity {
         arc.update();
     }
 
+    /**
+     * Returns the Arc an Arrow will have.
+     * @return Arc an Arrow will have
+     */
     public Arc getArc() {
         return arc;
     }
 
+    /**
+     * Returns the width and height of the Arc Object.
+     * @return width and height of the Arc Object
+     */
     public Point getArcSize() {
         Point arcSize = new Point(arc.getWidth(), arc.getHeight());
         return arcSize;

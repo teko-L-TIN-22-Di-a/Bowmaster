@@ -334,14 +334,28 @@ public class Entity {
         return hitBoxes;
     }
 
+    /**
+     * Returns the Size of the Entity.
+     * @return Size of the Entity
+     */
     public Point getSize() {
         return rect.getSize();
     }
 
+    /**
+     * Takes a Corner String and returns the corresponding 
+     * Corner of the Entities Rectangle.
+     * @param corner Corner to be returned
+     * @return Corner described by the paramter corner
+     */
     public Point getCorner(Corners corner) {
         return rect.getCorner(corner);
     }
 
+    /**
+     * Returns the Rectangle Object of the Entity.
+     * @return Rectangle Object of the Entity
+     */
     public Rectangle getRect() {
         return rect;
     }

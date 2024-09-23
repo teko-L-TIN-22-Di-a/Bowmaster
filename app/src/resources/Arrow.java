@@ -53,7 +53,13 @@ public class Arrow extends Entity {
     }
 
     /**
-     * Sets the shot attribute to true.
+     * Takes an Arc and a target to store. The shot attribute is set to true, 
+     * to indicate, that the Arrow has been shot. The image is stored as the original 
+     * Image to keep a reference for scaling. At the end, a shadow is created, to make the 
+     * actual location of the Arrow visible, since the Arrow will be displayed with an 
+     * offset based on the height, to show the trajectory of the Arrow.
+     * @param arc
+     * @param target
      */
     public void setShot(Arc arc, Point target) {
         shot = true;
@@ -86,6 +92,7 @@ public class Arrow extends Entity {
      * The y coordinate will usually be the y location of the Monster, that is supposed
      * to be hit. Since the location of the Arrow is not fixed in the hit detection,
      * the exact location can be calculated with this method.
+     * @param y y cooridnate to calculate the exact Arrow position from
      * @return hit calculation Point
      */
     public Point getHitPoint(int y) {
@@ -167,6 +174,10 @@ public class Arrow extends Entity {
         mouseLocation = new Point(x, y);
     }
 
+    /**
+     * Creates a shadow Component for the flying Arrow, to make the actual Location
+     * of the Arrow visible. The direction of the shadow is based on the current angle.
+     */
     public void createShadow() {
         Point size = this.getSize();
         
@@ -198,12 +209,23 @@ public class Arrow extends Entity {
         shadow.setTAG("shadow");
     }
 
+    /**
+     * Takes a factor to scale the image of the shadow and 
+     * updates the location of the Arrow to the shadow.
+     * @param factor
+     */
     private void updateShadow(double factor) {
         shadow.scaleImage(factor);
         Point location = getLocation();
         shadow.setLocation(location.x, location.y);
     }
 
+    /**
+     * Returns the shadow Component of the Arrow.  
+     * Mainly used to register the component in the
+     * Scene for displaying purposes.
+     * @return
+     */
     public Component getShadow() {
         return shadow;
     }

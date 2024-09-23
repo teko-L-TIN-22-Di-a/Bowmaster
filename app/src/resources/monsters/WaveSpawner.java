@@ -28,6 +28,7 @@ public class WaveSpawner extends MonsterSpawner {
      * @param newWaves Waves to be spawned
      * @param lowerSpawnTime lower Spawn time limit
      * @param upperSpawnTime upper Spawn time limit
+     * @param playerLocation playerLocation on which the spawn point is dependent on
      */
     public WaveSpawner(List<Wave> newWaves ,int lowerSpawnTime, int upperSpawnTime, Point playerLocation) {
         super(lowerSpawnTime, upperSpawnTime, playerLocation);

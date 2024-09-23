@@ -39,7 +39,6 @@ public class Scene {
     private Point mousepoint;
     private int counter;
     private Clip bgm, hitNoise, shotSE;
-    public Runnable action1;
 
     /**
      * Initialises the lists Entities, Components and Buttons.
@@ -55,7 +54,6 @@ public class Scene {
         buttons = new ArrayList<>();
         menu = isMenu;
 
-        
         shotSE = Loader.loadSound(SoundMapping.SHOT);
         BufferedImage imgBow = Loader.loadImage(ImageMapping.BOW);
         imgArrow = Loader.loadImage(ImageMapping.ARROW);
@@ -71,7 +69,6 @@ public class Scene {
             registerEntity(crosshair);
             registerEntity(nextArrow);
             registerEntity(bow);
-            action1 = this::shoot;
         }
         // Fills the newScene Variable with itself to indicate, that the scene does not have to be changed
         setNewScene(this);
@@ -157,7 +154,7 @@ public class Scene {
     private void updateCharge() {
         bow.setCharging(m1down);
         int charge = bow.getCharge();
-        crosshair.updateCharge(charge);
+        crosshair.setCharge(charge);
         int overcharge = bow.getOvercharge();
 
         if (!m1down) {
@@ -225,6 +222,10 @@ public class Scene {
         return crosshair;
     }
 
+    /**
+     * Return the Arc of the Scenes Bow Entity.
+     * @return Arc of the Scenes Bow Entity
+     */
     public Arc getArc() {
         return bow.getArc();
     }
@@ -243,6 +244,10 @@ public class Scene {
         nextArrow.setPlayerLocation(playerLocation.x, playerLocation.y);
     }
 
+    /**
+     * Return the location of the Scenes Bow Object.
+     * @return location of the Scenes Bow Object
+     */
     public Point getPlayerLocation() {
         return bow.getLocation();
     }

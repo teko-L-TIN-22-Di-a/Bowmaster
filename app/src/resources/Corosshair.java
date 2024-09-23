@@ -52,7 +52,11 @@ public class Corosshair extends Entity {
         setLocation(x, y);
     }
 
-    public void updateCharge(int value) {
+    /**
+     * Takes a value to set for the charge variable.
+     * @param value value to set for the charge variable
+     */
+    public void setCharge(int value) {
         charge = value;
     }
 
