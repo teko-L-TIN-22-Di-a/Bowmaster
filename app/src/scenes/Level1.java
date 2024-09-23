@@ -43,19 +43,19 @@ public class Level1 extends Scene {
         setBGM(SoundMapping.LEVEL1BGM);
 
         Wave wave1 = new Wave();
-        wave1.registerMonsters(GOBCLOPS, 1);
-        wave1.registerMonsters(TENTATHULU, 1);
+        wave1.registerMonsters(GOBCLOPS, 6);
+        wave1.registerMonsters(TENTATHULU, 2);
 
         Wave wave2 = new Wave();
-        wave2.registerMonsters(FLOAKET, 1);
-        wave2.registerMonsters(NIGHTLOATER, 1);
+        wave2.registerMonsters(FLOAKET, 4);
+        wave2.registerMonsters(NIGHTLOATER, 10);
 
         Wave wave3 = new Wave();
-        wave3.registerMonsters(THOAT, 1);
+        wave3.registerMonsters(THOAT, 6);
 
         waves = new ArrayList<>();
-        //waves.add(wave1);
-        //waves.add(wave2);
+        waves.add(wave1);
+        waves.add(wave2);
         waves.add(wave3);
 
         spawner = new WaveSpawner(waves, 25, 50, getPlayerLocation());
