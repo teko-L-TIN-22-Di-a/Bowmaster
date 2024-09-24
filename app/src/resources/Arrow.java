@@ -1,10 +1,7 @@
 package app.src.resources;
 
-import java.awt.BasicStroke;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.Color;
-import java.awt.Graphics2D;
 
 import app.src.StaticValues;
 import app.src.Utilities;
@@ -66,7 +63,6 @@ public class Arrow extends Entity {
         this.arc = arc;
         this.setOriginalImage(this.getImage());
         this.setTarget(target.x, target.y);
-        this.createShadow();
     }
 
     /**
@@ -178,34 +174,12 @@ public class Arrow extends Entity {
      * Creates a shadow Component for the flying Arrow, to make the actual Location
      * of the Arrow visible. The direction of the shadow is based on the current angle.
      */
-    public void createShadow() {
-        Point size = this.getSize();
-        
-        int topX;
-        int bottomX;
-        if (angle > 0) {
-            topX = size.x;
-            bottomX = 0;
-        }
-        else if (angle < 0) {
-            topX = 0;
-            bottomX = size.x;
-        }
-        else {
-            topX = size.x/2;
-            bottomX = size.x/2;
-        }
-        
-        BufferedImage shadowImage = new BufferedImage(size.x, size.y, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = shadowImage.createGraphics();
-        g.setColor(Color.BLACK);
-        g.setStroke(new BasicStroke(5));
-        g.drawLine(topX, 0, bottomX, size.y);
+    public void createShadow(BufferedImage image) {        
+        BufferedImage rotatedImage = Utilities.rotateImage(image, angle);
 
         Point location = this.getLocation();
-        shadow = new Component(shadowImage, location.x, location.y);
-        
-        g.dispose();
+        shadow = new Component(rotatedImage, location.x, location.y);
+
         shadow.setTAG("shadow");
     }
 

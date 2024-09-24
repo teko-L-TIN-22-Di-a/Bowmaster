@@ -34,6 +34,7 @@ public class Scene {
     private Bow bow;
     private Arrow nextArrow;
     private BufferedImage imgArrow;
+    private BufferedImage imgShadow;
     private String TAG;
     private Scene newScene;
     private Point mousepoint;
@@ -56,6 +57,7 @@ public class Scene {
 
         shotSE = Loader.loadSound(SoundMapping.SHOT);
         BufferedImage imgBow = Loader.loadImage(ImageMapping.BOW);
+        imgShadow = Loader.loadImage(ImageMapping.SHADOW);
         imgArrow = Loader.loadImage(ImageMapping.ARROW);
 
         bow = new Bow(imgBow);
@@ -412,6 +414,7 @@ public class Scene {
             Point crosshairLocation = crosshair.getLocation();
             Point arcSize = bow.getArcSize();
             Arc arc = new Arc(0, 0, arcSize.x, arcSize.y);
+            nextArrow.createShadow(imgShadow);
             nextArrow.setShot(arc, crosshairLocation);
             registerComponent(nextArrow.getShadow());
             setNextArrow();
