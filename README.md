@@ -24,7 +24,7 @@ Optional:
 - Mehrspieler komponente
 - Online Komponente
 
-Code Dokumentation: https://teko-l-tin-22-di-a.github.io/Bowmaster/
+Code Dokumentation: https://teko-l-tin-22-di-a.github.io/Bowmaster
 Demo: https://floindil.itch.io/bowmaster
 
 Eine erste Testversion ist als ZIP verfügbar und kann getestet werden.
